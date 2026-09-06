@@ -1,0 +1,265 @@
+{
+  "schema_version": "1.0.0",
+  "inventory_kind": "pilot_candidate_source_inventory",
+  "scope": "Oʻahu residential household disposal only",
+  "source_access_date": "2026-09-05",
+  "date_format": "YYYY-MM-DD",
+  "unknown_representation": "Use null for an unknown or unstated scalar; use an empty array only when the field was reviewed and no items were identified.",
+  "review_state_allowlist": [
+    "verified",
+    "verified_with_gaps",
+    "blocked_incomplete",
+    "blocked_conflict",
+    "rejected"
+  ],
+  "required_candidate_ids": [
+    "mattresses",
+    "propane-cylinders",
+    "televisions-electronics",
+    "household-batteries",
+    "paint"
+  ],
+  "records": [
+    {
+      "record_id": "srcinv-001",
+      "candidate_category_id": "mattresses",
+      "candidate_category_name": "Mattresses",
+      "candidate_status": "candidate_not_frozen",
+      "source": {
+        "organization": "City and County of Honolulu Department of Environmental Services",
+        "title": "Rules and Guidelines for Residents",
+        "url": "https://www.honolulu.gov/env/ref/waste-drop-off-rules-residents/",
+        "accessed_on": "2026-09-05",
+        "apparent_updated_or_effective_on": "2025-04-22",
+        "date_basis": "The official City WordPress metadata for this page reports a modified timestamp of 2025-04-22.",
+        "authority_level": "city_primary",
+        "government_domain": "honolulu.gov",
+        "authority_justification": null
+      },
+      "evidence": [
+        {
+          "evidence_type": "structured_summary",
+          "locator": "Rules and Guidelines for Residents > Regular Refuse",
+          "summary": "The regular-refuse section explicitly includes mattresses and directs regular refuse to a refuse roll-off container or transfer-station pit floor; it asks residents to place refuse in bags when possible.",
+          "claim_scope": "Mattresses delivered by Oʻahu residential households under the City's resident waste-drop-off rules."
+        }
+      ],
+      "supported_action": "Take the mattress to an applicable City resident waste-drop-off facility and follow the attendant's direction to the regular-refuse roll-off container or transfer-station pit floor; bag it when possible.",
+      "important_restrictions": [
+        "The page is for residents; commercial and government agency loads are not accepted.",
+        "Facility acceptance varies, and residents must follow posted signs and attendant directions.",
+        "General limits include no more than two loads per day and additional vehicle or large-load restrictions."
+      ],
+      "destination_or_program": {
+        "name": "City resident waste-drop-off system",
+        "type": "drop_off",
+        "details": "Regular-refuse roll-off container or transfer-station pit floor at an applicable City facility; this record does not select an individual site.",
+        "url": "https://www.honolulu.gov/env/ref/waste-drop-off-rules-residents/"
+      },
+      "known_gaps": [
+        "The inspected section does not establish mattress eligibility for curbside bulky pickup.",
+        "The source does not map mattress acceptance to individual sites or current hours."
+      ],
+      "known_conflicts": [],
+      "review_state": "verified_with_gaps",
+      "verification_notes": "The category-specific action and general drop-off qualifications were manually checked on the live official page. The claim is deliberately limited to drop-off.",
+      "duplicate_source_url_justification": "The same official resident drop-off page contains separate, explicitly headed evidence for mattresses, propane containers, and battery types; each record uses its own locator and bounded claim."
+    },
+    {
+      "record_id": "srcinv-002",
+      "candidate_category_id": "propane-cylinders",
+      "candidate_category_name": "Propane cylinders",
+      "candidate_status": "candidate_not_frozen",
+      "source": {
+        "organization": "City and County of Honolulu Department of Environmental Services",
+        "title": "Rules and Guidelines for Residents",
+        "url": "https://www.honolulu.gov/env/ref/waste-drop-off-rules-residents/",
+        "accessed_on": "2026-09-05",
+        "apparent_updated_or_effective_on": "2025-04-22",
+        "date_basis": "The official City WordPress metadata for this page reports a modified timestamp of 2025-04-22.",
+        "authority_level": "city_primary",
+        "government_domain": "honolulu.gov",
+        "authority_justification": null
+      },
+      "evidence": [
+        {
+          "evidence_type": "structured_summary",
+          "locator": "Rules and Guidelines for Residents > Compressed Gas",
+          "summary": "The compressed-gas section covers empty, partially full, or full containers and lists propane tanks in the source-stated 5- and 20-gallon sizes and propane cylinders in the source-stated 16-ounce size.",
+          "claim_scope": "Only the listed household propane container sizes delivered under the City's Oʻahu resident waste-drop-off rules."
+        }
+      ],
+      "supported_action": "Take a source-listed household propane tank or cylinder to an applicable City resident waste-drop-off facility and follow posted signs and attendant directions.",
+      "important_restrictions": [
+        "Supported tank sizes are limited to the source-stated 5 and 20 gallons; supported cylinders are limited to the source-stated 16 ounces.",
+        "Commercial-grade compressed gas, other industrial tanks, oxygen cylinders, and SCUBA tanks are prohibited.",
+        "Facility acceptance varies and the resident, vehicle, and daily-load rules apply."
+      ],
+      "destination_or_program": {
+        "name": "City resident waste-drop-off system",
+        "type": "drop_off",
+        "details": "An applicable City facility under the resident drop-off rules; this record does not select an individual site.",
+        "url": "https://www.honolulu.gov/env/ref/waste-drop-off-rules-residents/"
+      },
+      "known_gaps": [
+        "The source does not map each accepted propane size to a specific facility.",
+        "The inspected section provides no condition, valve, or transport-preparation instruction beyond distinguishing empty, partially full, and full containers."
+      ],
+      "known_conflicts": [],
+      "review_state": "verified_with_gaps",
+      "verification_notes": "The size wording is preserved as the City page states it and is not converted between gallons, pounds, or ounces.",
+      "duplicate_source_url_justification": "The same official resident drop-off page contains separate, explicitly headed evidence for mattresses, propane containers, and battery types; each record uses its own locator and bounded claim."
+    },
+    {
+      "record_id": "srcinv-003",
+      "candidate_category_id": "televisions-electronics",
+      "candidate_category_name": "Televisions/electronics",
+      "candidate_status": "candidate_not_frozen",
+      "source": {
+        "organization": "City and County of Honolulu Department of Environmental Services",
+        "title": "E-waste Recycling at City Disposal Sites",
+        "url": "https://www.honolulu.gov/env/city-ewaste-dropbins/",
+        "accessed_on": "2026-09-05",
+        "apparent_updated_or_effective_on": null,
+        "date_basis": "No publication, update, or claim-specific effective date was displayed on the inspected page.",
+        "authority_level": "city_primary",
+        "government_domain": "honolulu.gov",
+        "authority_justification": null
+      },
+      "evidence": [
+        {
+          "evidence_type": "structured_summary",
+          "locator": "E-waste Recycling at City Disposal Sites > Material / Disposal Method > Acceptable items",
+          "summary": "ENV states that e-waste bins are installed at its convenience centers and transfer stations and lists accepted devices including qualifying televisions, computers, monitors, printers, and other specifically named electronics; collected items will be recycled.",
+          "claim_scope": "Only devices explicitly included in the City's accepted-items list for e-waste bins at City disposal sites."
+        },
+        {
+          "evidence_type": "structured_summary",
+          "locator": "E-waste Recycling at City Disposal Sites > Unacceptable Items",
+          "summary": "The same page excludes electronics integrated into motor vehicles, industrial/commercial/medical equipment, listed household appliances, telephones, and GPS units, but its telephone exclusion conflicts with VOIP telephones on the accepted list.",
+          "claim_scope": "Exclusion and internal-conflict boundary for the broad televisions/electronics candidate."
+        }
+      ],
+      "supported_action": "Take an electronic device that is explicitly on the City's accepted list to an e-waste bin at a listed City transfer station or convenience center for recycling.",
+      "important_restrictions": [
+        "A television must meet the page's accepted television description, including a viewable screen of 9 inches or larger.",
+        "Devices integrated into motor vehicles or into the listed industrial, commercial, medical, or household equipment are not accepted.",
+        "No phone-specific action is supported because the source contradicts itself about VOIP telephones and telephones generally."
+      ],
+      "destination_or_program": {
+        "name": "City e-waste bins at disposal sites",
+        "type": "recycling_drop_off",
+        "details": "The page lists Kapaʻa, Kawailoa, and Keʻehi transfer stations and ʻEwa, Kapolei, Lāʻie, Wahiawā, Waiʻanae, Waimānalo, and Waipahu convenience centers.",
+        "url": "https://www.honolulu.gov/env/city-ewaste-dropbins/"
+      },
+      "known_gaps": [
+        "The broad electronics candidate needs device-level category boundaries before production use.",
+        "Hours, temporary closures, and condition or quantity limits are not established by this record."
+      ],
+      "known_conflicts": [
+        "The page lists VOIP telephones as acceptable but later lists a telephone of any type, including a mobile telephone, as unacceptable."
+      ],
+      "review_state": "verified_with_gaps",
+      "verification_notes": "The accepted and unacceptable lists and every named City destination were manually checked. The conflicting phone guidance is excluded from the supported action.",
+      "duplicate_source_url_justification": null
+    },
+    {
+      "record_id": "srcinv-004",
+      "candidate_category_id": "household-batteries",
+      "candidate_category_name": "Household batteries",
+      "candidate_status": "candidate_not_frozen",
+      "source": {
+        "organization": "City and County of Honolulu Department of Environmental Services",
+        "title": "Rules and Guidelines for Residents",
+        "url": "https://www.honolulu.gov/env/ref/waste-drop-off-rules-residents/",
+        "accessed_on": "2026-09-05",
+        "apparent_updated_or_effective_on": "2025-04-22",
+        "date_basis": "The official City WordPress metadata for this page reports a modified timestamp of 2025-04-22.",
+        "authority_level": "city_primary",
+        "government_domain": "honolulu.gov",
+        "authority_justification": null
+      },
+      "evidence": [
+        {
+          "evidence_type": "structured_summary",
+          "locator": "Rules and Guidelines for Residents > Battery",
+          "summary": "The battery section directs alkaline and other single-use batteries to regular refuse; limits lead-acid acceptance to car and motorcycle batteries; and lists standalone lithium, lithium-ion, nickel-metal-hydride, and nickel-cadmium rechargeable batteries with taped terminals in a clear plastic bag.",
+          "claim_scope": "Only the battery types, preparation, and Oʻahu resident disposal paths explicitly named by the City page."
+        }
+      ],
+      "supported_action": "Put alkaline and other single-use household batteries in regular refuse. For a listed standalone rechargeable battery, tape the terminals, place it in a clear plastic bag, and take it to an applicable City resident waste-drop-off facility. Only car and motorcycle lead-acid batteries are supported by this record.",
+      "important_restrictions": [
+        "Rechargeable drop-off guidance is limited to standalone lithium, lithium-ion, nickel-metal-hydride, and nickel-cadmium batteries.",
+        "Lead-acid acceptance is limited to car and motorcycle batteries.",
+        "Electric-vehicle batteries are prohibited under the resident drop-off rules."
+      ],
+      "destination_or_program": {
+        "name": "Regular refuse or City resident waste-drop-off system, depending on battery type",
+        "type": "type_dependent",
+        "details": "Alkaline and other single-use batteries go in regular refuse; the source-listed standalone rechargeables and qualifying lead-acid batteries use applicable City resident drop-off facilities.",
+        "url": "https://www.honolulu.gov/env/ref/waste-drop-off-rules-residents/"
+      },
+      "known_gaps": [
+        "The source does not give a disposal action for damaged, swollen, leaking, or unidentified batteries.",
+        "Embedded batteries are outside this record's supported action.",
+        "Facility-specific availability is not mapped."
+      ],
+      "known_conflicts": [],
+      "review_state": "verified_with_gaps",
+      "verification_notes": "The record preserves separate paths by battery type and does not treat the broad candidate label as one universal instruction.",
+      "duplicate_source_url_justification": "The same official resident drop-off page contains separate, explicitly headed evidence for mattresses, propane containers, and battery types; each record uses its own locator and bounded claim."
+    },
+    {
+      "record_id": "srcinv-005",
+      "candidate_category_id": "paint",
+      "candidate_category_name": "Paint",
+      "candidate_status": "candidate_not_frozen",
+      "source": {
+        "organization": "City and County of Honolulu Department of Environmental Services",
+        "title": "Household Hazardous Waste (HHW)",
+        "url": "https://www.honolulu.gov/env/ref/hhw-2/",
+        "accessed_on": "2026-09-05",
+        "apparent_updated_or_effective_on": null,
+        "date_basis": "The page displays current event dates but no publication, update, or stable claim-specific effective date.",
+        "authority_level": "city_primary",
+        "government_domain": "honolulu.gov",
+        "authority_justification": null
+      },
+      "evidence": [
+        {
+          "evidence_type": "structured_summary",
+          "locator": "Household Hazardous Waste > Disposal of HHW > Absorb and Put In Trash Can",
+          "summary": "For small residential quantities, the table includes paint and primer in the absorb-and-trash route: liquid can be absorbed in a bag, sealed, and put in the trash, and paint can be air-dried in its can before trash disposal.",
+          "claim_scope": "Small quantities of residential paint or primer covered by the page's absorb-and-trash row."
+        },
+        {
+          "evidence_type": "structured_summary",
+          "locator": "Household Hazardous Waste > Disposal of HHW > Schedule an Appointment to Drop-Off",
+          "summary": "The appointment list separately includes aluminum paint, lead paint, paint stripper, and paint thinner; the page says large quantities of any household hazardous waste require calling the City for instructions.",
+          "claim_scope": "Named hazardous paint-related materials and large-quantity escalation that must not be collapsed into the ordinary small-quantity action."
+        }
+      ],
+      "supported_action": "For a small residential quantity of paint or primer covered by the City's absorb-and-trash route, absorb the liquid in a plastic bag with absorbent material, seal the bag, and put it in the trash, or air-dry paint in the can before putting it in the trash. Use the City's HHW appointment process for the separately named hazardous paint-related materials.",
+      "important_restrictions": [
+        "Large quantities of any household hazardous waste require calling the City's Refuse Division for disposal instructions.",
+        "Aluminum paint, lead paint, paint stripper, and paint thinner are listed for appointment-only HHW drop-off.",
+        "Event dates, registration status, deadlines, capacity, and appointment details are time-sensitive and must be rechecked on the live page."
+      ],
+      "destination_or_program": {
+        "name": "Household trash after source-specified preparation, or City HHW appointment for separately named materials",
+        "type": "type_and_quantity_dependent",
+        "details": "The small-quantity paint/primer route ends in household trash after absorption or air drying; listed hazardous paint-related materials use a scheduled City HHW event.",
+        "url": "https://www.honolulu.gov/env/ref/hhw-2/"
+      },
+      "known_gaps": [
+        "The broad paint candidate requires type and quantity clarification before it can become a production category.",
+        "The page's event schedule is dynamic and cannot be treated as durable inventory data.",
+        "The record does not establish instructions for an unlabeled or otherwise unidentified coating."
+      ],
+      "known_conflicts": [],
+      "review_state": "verified_with_gaps",
+      "verification_notes": "The ordinary small-quantity route is kept separate from the named appointment-only materials and large-quantity escalation; no event date is encoded as a standing instruction.",
+      "duplicate_source_url_justification": null
+    }
+  ]
+}
