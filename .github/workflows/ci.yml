@@ -39,7 +39,7 @@ jobs:
       - name: Type-check
         run: npm run typecheck
 
-      - name: Run foundation tests
+      - name: Run Node tests
         run: npm test
 
       - name: Validate reviewed data
@@ -71,6 +71,15 @@ jobs:
         with:
           version: 2.116.0
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install exact locked dependencies
+        run: npm ci
+
       - name: Start local database services
         run: supabase start
 
@@ -82,6 +91,14 @@ jobs:
 
       - name: Run database, provenance, freshness, and access tests
         run: supabase test db --local
+
+      - name: Run lookup integration tests against local Data API
+        shell: bash
+        run: |
+          eval "$(supabase status -o env)"
+          SUPABASE_URL="$API_URL" \
+          SUPABASE_PUBLISHABLE_KEY="${PUBLISHABLE_KEY:-$ANON_KEY}" \
+          npm run test:integration
 
       - name: Verify declarative schema and migration history agree
         shell: bash

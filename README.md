@@ -1,6 +1,6 @@
 # Oʻahu Household Item Disposal Navigator
 
-Status: **Stage 1 and BL-001 through BL-003 are merged. BL-004's local Supabase schema/access candidate is in review; resident lookup functionality has not been implemented.**
+Status: **Stage 1 and BL-001 through BL-004 are merged. BL-005's deterministic server lookup slice is in review; the resident-facing four-state interface remains assigned to BL-006.**
 
 The Oʻahu Household Item Disposal Navigator is a small public-interest web project for residents who need to understand how to dispose of a common household item. Official guidance can require people to translate ordinary item names into government categories and combine information from several pages. V1 will provide a single plain-language lookup and return a structured, source-backed result or a clear clarification/unsupported state.
 
@@ -12,13 +12,13 @@ V1 excludes accounts, authentication, saved history, maps, geolocation, booking,
 
 ## Architecture
 
-The implementation is one TypeScript web application, using Next.js as the minimal full-stack framework, intended for Vercel and connected through server-side application routes to Supabase PostgreSQL. BL-004 keeps curated tables in a non-exposed `private` schema and exposes one read-only, freshness-filtered `api.disposal_lookup` view for future server use with a publishable key. Browser code will receive only validated response data. No application-specific Supabase or Vercel hosted project has been linked or verified.
+The implementation is one TypeScript web application, using Next.js as the minimal full-stack framework, intended for Vercel and connected through server-side application routes to Supabase PostgreSQL. BL-004 keeps curated tables in a non-exposed `private` schema and exposes one read-only, freshness-filtered `api.disposal_lookup` view. BL-005 adds the same-origin `POST /api/disposal-options` route, deterministic exact-alias matching, runtime database-response validation, and safe ambiguity/unsupported/error responses. Browser code receives only validated response data. No application-specific Supabase or Vercel hosted project has been linked or verified.
 
 The interface is a mobile-first, single-column public-service lookup with four states: initial, success, ambiguous, and unsupported/error. Semantic HTML, keyboard operation, visible focus, strong contrast, plain language, scalable text, and generous touch targets are normal acceptance requirements.
 
 ## Local foundation checks
 
-BL-003 pins Node.js 22.17.1, npm 10.9.2, Next.js 16.3.4, React 19.2.8, and the compatible TypeScript/ESLint toolchain in `package.json` and `package-lock.json`. No runtime environment value is required yet.
+BL-003 pins Node.js 22.17.1, npm 10.9.2, Next.js 16.3.4, React 19.2.8, and the compatible TypeScript/ESLint toolchain in `package.json` and `package-lock.json`. BL-005 activates the names-only server environment contract in `.env.example`: `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY`. Real values remain in an ignored local environment file and are required only to call the route against a running Supabase environment; tests and production builds use no live credentials.
 
 ~~~text
 npm ci
@@ -42,7 +42,7 @@ npm run db:test
 npm run db:stop
 ~~~
 
-The current page remains only an accessible, responsive application shell. BL-004 adds local schema/access/reference-data infrastructure, not an application lookup route or UI behavior. Those product behaviors remain assigned to BL-005 through BL-007. No Supabase/Vercel resource has been linked or deployed.
+The current page remains only an accessible, responsive application shell. BL-005 adds the tested server route and deterministic domain behavior but does not add the resident form or render result states. Those presentation and interaction behaviors remain assigned to BL-006, with complete provenance/freshness coverage in BL-007. No Supabase/Vercel resource has been linked or deployed.
 
 ## Engineering approach
 

@@ -72,23 +72,25 @@ AC-V1-01 belongs to BL-012 and BL-014; AC-V1-02 belongs to BL-014. Every row mus
 
 ## BL-004 — Supabase relational schema and access controls
 
-- Status/Priority/Complexity: In review; local checks and GitHub foundation/database CI pass / P0 / L
+- Status/Priority/Complexity: Complete; merged to `main` at `fb160b5` / P0 / L
 - Description: Implement reviewed declarative data model, generated migration, reference/test seeds, read projection, explicit grants/RLS, and policy tests.
 - Requirements: FR-005, FR-007, FR-013, NFR-002, NFR-008, NFR-012, NFR-014
 - Acceptance criteria: AC-FR-005-01, AC-FR-007-01, AC-FR-013-01, AC-NFR-008-01
 - Dependencies: BL-002 and BL-003 complete; OD-002 and OD-003 resolved
 - Testing: local reset/migration, constraints, provenance joins, active/fresh filter, anon/auth allow-and-deny operations.
-- Evidence: Declarative schema under `supabase/schemas`, generated and privilege-hardening migrations under `supabase/migrations`, deterministic reviewed seed generation, the `api.disposal_lookup` projection, passing pgTAP database/access checks, and passing GitHub foundation/database jobs. No hosted Supabase project is created or linked. Human PR review/merge remains required.
-- Completion: Implementation and automated acceptance evidence are complete on the BL-004 feature branch. The item remains In review until the focused PR receives human approval and is merged.
+- Evidence: Declarative schema under `supabase/schemas`, generated and privilege-hardening migrations under `supabase/migrations`, deterministic reviewed seed generation, the `api.disposal_lookup` projection, passing pgTAP database/access checks, and passing GitHub foundation/database jobs. No hosted Supabase project was created or linked.
+- Completion: Human review and squash merge are complete at `fb160b5`.
 
 ## BL-005 — Deterministic lookup vertical slice
 
-- Status/Priority/Complexity: Blocked by BL-004 / P0 / L
+- Status/Priority/Complexity: In review; local checks pass / P0 / L
 - Description: Implement input/route/normalization/alias lookup/response union for a small reviewed slice, including ambiguity, unsupported, missing evidence, and dependency failure.
 - Requirements: FR-001, FR-002, FR-003, FR-005, FR-009, FR-010, NFR-007, NFR-010, NFR-012
 - Acceptance criteria: all ACs for listed FRs; AC-NFR-010-01
 - Dependencies: BL-004
 - Testing: unit/contract/API/integration, zero-model-call assertion, failure injection, latency sample.
+- Evidence: The server-only deterministic modules and `POST /api/disposal-options` route validate a strict 4 KiB JSON body and 1–200-character item, normalize exactly as the approved alias dataset specifies, query `api.disposal_lookup` with a publishable-key `apikey` header, validate every untrusted row/provenance field, and return only the documented success/ambiguity/unsupported/error shapes. Node tests cover exact match with no model path, the three-way `battery` ambiguity, unmatched input, malformed/stale/inconsistent evidence, dependency failure, response sanitization, configuration safety, and a bounded local latency sample. No hosted resource or resident UI was added.
+- Completion: Implementation and local acceptance evidence are complete on the BL-005 feature branch. Production latency evidence remains assigned to BL-013; the item remains In review until CI and human PR approval/merge.
 
 ## BL-006 — Four-state accessible resident UX
 

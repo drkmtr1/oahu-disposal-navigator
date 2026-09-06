@@ -1,6 +1,6 @@
 # API contracts
 
-V1 needs one same-origin application boundary, not a separately marketed public REST API. The route is an internal UI contract and may change through documented version control.
+V1 needs one same-origin application boundary, not a separately marketed public REST API. BL-005 implements the route as an internal UI contract; it may change through documented version control.
 
 ## POST /api/disposal-options
 
@@ -16,7 +16,9 @@ V1 needs one same-origin application boundary, not a separately marketed public 
 }
 ~~~
 
-Content-Type application/json; exactly one item string; 1–200 meaningful characters after normalization; bounded body size; unexpected fields ignored or rejected consistently. No HTML, prompt, category ID, or source supplied by the client is trusted.
+Content-Type application/json; exactly one `item` field containing a string; 1–200 meaningful Unicode characters after normalization; maximum 4 KiB request body. Unexpected fields are rejected. No HTML, prompt, category ID, or source supplied by the client is trusted.
+
+Normalization is Unicode NFKC, Unicode-dash replacement with ASCII `-`, whitespace collapse/trim, and `en-US` lowercase. Invalid type, empty/control-only, punctuation-only, embedded disallowed control/format character, or over-limit input stops before database access.
 
 ### Response union
 
@@ -46,7 +48,7 @@ Other statuses:
 - unsupported: reasonCode and approved fallback {title,url}; no guidance.
 - error: reasonCode, retryable boolean, and user-safe message; no internal detail.
 
-The category ID is stable application data. The browser renders source text but does not infer claims. Unknown response properties do not control UI behavior.
+The category ID is stable application data. The browser renders source text but does not infer claims. Unknown response properties do not control UI behavior. BL-005 validates every untrusted projection row, including official HTTPS domain, evidence fields, source verification/review dates, and consistency across rows, before returning success. Missing, stale, malformed, or inconsistent evidence safely returns `EVIDENCE_UNAVAILABLE` without guidance.
 
 ### Status codes and errors
 
@@ -63,7 +65,7 @@ Errors use bounded reason codes such as INVALID_INPUT, UNSUPPORTED, EVIDENCE_UNA
 
 ### Timing, retry, and idempotency
 
-Target total time is 1.5 s p95 deterministic and 5 s p95 AI-assisted. Set explicit database/provider timeouts within the total budget during implementation. The read-only request is naturally idempotent. Client automatic retry is limited to one transient network/503 retry and must not loop; do not automatically repeat model calls unless a separately tested policy justifies cost and safety. A request ID supports diagnosis, not user tracking.
+Target total time is 1.5 s p95 deterministic and 5 s p95 AI-assisted. BL-005 gives the database request a 1.2-second timeout and records a bounded local deterministic sample; representative deployed p95 remains a later release gate. The read-only request is naturally idempotent. Client automatic retry is limited to one transient network/503 retry and must not loop; do not automatically repeat model calls unless a separately tested policy justifies cost and safety. A random request ID supports diagnosis, not user tracking.
 
 ### Abuse
 
@@ -73,7 +75,7 @@ Enforce body/input limits and rate controls at the server/platform boundary. Avo
 
 The server queries only active reviewed records through parameterized library calls or prepared SQL. It must retrieve the complete category → guidance → evidence → source/freshness projection atomically enough that incomplete provenance cannot pass. Anonymous writes are denied. Database result schemas are validated before response assembly.
 
-ADR-010 resolves the access mechanism: the server will use the Supabase Data API with a server-only publishable key acting as `anon` and query the dedicated `api.disposal_lookup` security-invoker view. The `api` schema is the only application schema exposed to the Data API; base tables and verification history stay in `private`. Explicit grants and RLS allow approved/fresh reads and deny anonymous/authenticated writes. Service-role access is not part of the lookup path.
+ADR-010 resolves the access mechanism: the server uses the Supabase Data API with a server-only publishable key acting as `anon` and queries the dedicated `api.disposal_lookup` security-invoker view. The native HTTP adapter sends the publishable key only in the `apikey` header and selects explicit columns under `Accept-Profile: api`; it has no service-role or write path. The `api` schema is the only application schema exposed to the Data API; base tables and verification history stay in `private`. Explicit grants and RLS allow approved/fresh reads and deny anonymous/authenticated writes.
 
 ## Optional model-provider interface
 
