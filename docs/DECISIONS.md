@@ -86,11 +86,22 @@
 - Tradeoffs/consequences: Some destination wording is duplicated and must be reviewed with its guidance. The design cannot independently update or query facilities, which is acceptable because V1 exposes only source-backed where/program text.
 - Revisit conditions: Reconsider in BL-004 only if the human-approved dataset reveals independently changing destination attributes, unsafe duplication, or a required many-to-many relationship that cannot be represented without inconsistency. Any expansion to maps, routing, or live facility data requires separate requirements and approval.
 
+## ADR-010 — Dedicated read-only Supabase API projection
+
+- Status: Accepted
+- Date: 2026-09-06
+- Context: V1 has no resident accounts or writes. The application server needs deterministic access to category aliases and a complete category → guidance → evidence → source/freshness join without using a credential that bypasses RLS. Directly exposing every curation/history table would enlarge the Data API surface, while a `SECURITY DEFINER` function would create unnecessary privilege-escalation risk.
+- Decision: Keep curated relational tables in a non-exposed `private` schema. Expose only a `security_invoker` view named `api.disposal_lookup` through a dedicated `api` Data API schema. The normal server path uses a server-only Supabase publishable key acting as `anon`; `anon` and `authenticated` receive explicit SELECT-only grants needed by the view, all base tables enforce RLS, source freshness is checked in both RLS/view filters, and neither role receives write access. Verification history remains inaccessible to those roles. No service-role key or security-definer lookup function is used.
+- Alternatives considered: public-schema base tables with direct Data API access; a public security-definer RPC; a custom login/read-only database role with a direct Postgres connection; service-role queries.
+- Rationale: The dedicated schema makes the HTTP surface explicit, the caller-privilege view preserves RLS, the atomic read shape prevents incomplete provenance, and the publishable-key path fits the no-auth server architecture with the smallest credential risk.
+- Tradeoffs/consequences: The view returns one row per approved alias/evidence relationship and the later server slice must group/validate rows. `anon`/`authenticated` need database-level SELECT and schema-usage grants on private dependencies for a security-invoker view, but those tables are not in an exposed Data API schema. BL-013 must explicitly configure hosted Data API exposure to `api` only and verify platform settings because local `config.toml` does not change a hosted project. Curation continues through reviewed migrations/seeds under owner privileges.
+- Revisit conditions: Reconsider only if hosted Data API behavior cannot preserve the dedicated-schema boundary, a measured query/performance limit appears, or an approved curation capability needs a separate write path. Any service-role, security-definer, direct-database, or browser-access change requires a new threat review, tests, and superseding ADR.
+
 ## Decision register
 
 - OD-001: Resolved 2026-09-05; the project owner approved the 15-category BL-002 set and the live-source second pass found no material discrepancy.
 - OD-002: Resolved 2026-09-05; ADR-009 was accepted through BL-002 review.
-- OD-003: Exact least-privilege Supabase access mechanism/private-schema split, during schema threat review.
+- OD-003: Resolved 2026-09-06 by ADR-010; use the dedicated `api` security-invoker view over non-exposed `private` tables with server-only publishable-key/anon access and no service-role lookup.
 - OD-004: Whether AI clears the need/value gate and, only then, provider/model/configuration.
 - OD-005: Final per-source review cadence and conflict handling, informed by source behavior.
 - OD-006: Final production budgets/rate limits and backup/recovery objectives, before deployment.

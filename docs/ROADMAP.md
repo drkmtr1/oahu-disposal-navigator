@@ -12,7 +12,7 @@ BL-001 pilot source inventory, then BL-002 freeze the 15–25-category set and r
 
 ## M2 — Deterministic foundation
 
-BL-003 reproducible app/CI scaffold, BL-004 Supabase schema/access/reference data, and BL-005 end-to-end deterministic lookup slice. Exit: exact aliases return reviewed evidence; unsupported/error paths are safe; anonymous writes fail. **BL-003 is in review; BL-004 and BL-005 have not started.**
+BL-003 reproducible app/CI scaffold, BL-004 Supabase schema/access/reference data, and BL-005 end-to-end deterministic lookup slice. Exit: exact aliases return reviewed evidence; unsupported/error paths are safe; anonymous writes fail. **BL-003 is complete on `main` at `137b432`; BL-004 is in review; BL-005 has not started.**
 
 ## M3 — Core UX and provenance
 

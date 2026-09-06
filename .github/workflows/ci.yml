@@ -45,6 +45,9 @@ jobs:
       - name: Validate reviewed data
         run: npm run validate:data
 
+      - name: Verify generated database seed
+        run: npm run db:verify-seed
+
       - name: Scan for committed secrets
         run: npm run check:secrets
 
@@ -53,3 +56,39 @@ jobs:
 
       - name: Audit dependencies
         run: npm run audit:dependencies
+
+  database:
+    name: Database checks
+    needs: foundation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up pinned Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: 2.116.0
+
+      - name: Start local database services
+        run: supabase start
+
+      - name: Recreate schema and reviewed seed from zero
+        run: supabase db reset --local
+
+      - name: Lint database objects
+        run: supabase db lint --local --schema private,api --level warning --fail-on error
+
+      - name: Run database, provenance, freshness, and access tests
+        run: supabase test db --local
+
+      - name: Verify declarative schema and migration history agree
+        shell: bash
+        run: |
+          supabase db schema declarative sync --name ci_schema_drift --no-apply --strict-coverage
+          test -z "$(git status --porcelain -- supabase/migrations)"
+
+      - name: Stop local database services
+        if: always()
+        run: supabase stop --no-backup

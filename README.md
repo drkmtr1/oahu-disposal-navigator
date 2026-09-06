@@ -1,6 +1,6 @@
 # Oʻahu Household Item Disposal Navigator
 
-Status: **Stage 1, BL-001, and BL-002 are merged. BL-003's reproducible application/CI foundation is in review; resident lookup functionality has not been implemented.**
+Status: **Stage 1 and BL-001 through BL-003 are merged. BL-004's local Supabase schema/access candidate is in review; resident lookup functionality has not been implemented.**
 
 The Oʻahu Household Item Disposal Navigator is a small public-interest web project for residents who need to understand how to dispose of a common household item. Official guidance can require people to translate ordinary item names into government categories and combine information from several pages. V1 will provide a single plain-language lookup and return a structured, source-backed result or a clear clarification/unsupported state.
 
@@ -10,9 +10,9 @@ V1 is limited to Oʻahu residential household disposal and approximately 15–25
 
 V1 excludes accounts, authentication, saved history, maps, geolocation, booking, commercial waste, image recognition, multilingual support, a general chatbot, autonomous agents, vector search, microservices, and other unproven complexity.
 
-## Planned architecture
+## Architecture
 
-The planned implementation is one TypeScript web application, using Next.js as the minimal full-stack framework, hosted by Vercel and connected through server-side application routes to Supabase PostgreSQL. Browser code will receive only validated response data. Privileged database and model-provider credentials remain server-side. No application-specific Supabase or Vercel project/configuration was detected in the local repository; external dashboard state has not been verified.
+The implementation is one TypeScript web application, using Next.js as the minimal full-stack framework, intended for Vercel and connected through server-side application routes to Supabase PostgreSQL. BL-004 keeps curated tables in a non-exposed `private` schema and exposes one read-only, freshness-filtered `api.disposal_lookup` view for future server use with a publishable key. Browser code will receive only validated response data. No application-specific Supabase or Vercel hosted project has been linked or verified.
 
 The interface is a mobile-first, single-column public-service lookup with four states: initial, success, ambiguous, and unsupported/error. Semantic HTML, keyboard operation, visible focus, strong contrast, plain language, scalable text, and generous touch targets are normal acceptance requirements.
 
@@ -26,12 +26,23 @@ npm run lint
 npm run typecheck
 npm test
 npm run validate:data
+npm run db:verify-seed
 npm run check:secrets
 npm run build
 npm run audit:dependencies
 ~~~
 
-The current page is deliberately only an accessible, responsive application shell. The lookup input, server route, Supabase schema/access, source-backed response behavior, and four-state UX remain assigned to BL-004 through BL-007. No Supabase/Vercel resource has been linked or deployed.
+The pinned Supabase CLI is a development-only dependency. On a machine with a running Docker-compatible container runtime, database verification is:
+
+~~~text
+npm run db:start
+npm run db:reset
+npm run db:lint
+npm run db:test
+npm run db:stop
+~~~
+
+The current page remains only an accessible, responsive application shell. BL-004 adds local schema/access/reference-data infrastructure, not an application lookup route or UI behavior. Those product behaviors remain assigned to BL-005 through BL-007. No Supabase/Vercel resource has been linked or deployed.
 
 ## Engineering approach
 

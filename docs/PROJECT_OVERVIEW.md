@@ -55,4 +55,4 @@ The portfolio evidence should demonstrate traceable product judgment: problem â†
 
 ## Current status
 
-Stage 1, BL-001, and the approved 15-category BL-002 dataset are merged to `main`. BL-003's minimal pinned Next.js/TypeScript application and CI foundation is in review. It adds only a static accessible shell, reproducible build/test scripts, a names-only environment example, secret scanning, and CI; no resident lookup behavior, API route, schema, migration, application-specific Supabase/Vercel project, deployment, production database dataset, AI integration, or user test has been created.
+Stage 1, BL-001, the approved 15-category BL-002 dataset, and BL-003's minimal Next.js/TypeScript application/CI foundation are merged to `main`; BL-003 merged at `137b432`. BL-004's version-controlled local Supabase schema, migrations, reviewed seed, read projection, and database tests are in review on a focused feature branch. No resident lookup behavior, API route, application-specific hosted Supabase/Vercel project, deployment, AI integration, or user test has been created.

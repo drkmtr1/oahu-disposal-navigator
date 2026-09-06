@@ -4,7 +4,7 @@
 
 BL-002 extends the five-record pilot into the approved minimum-size V1 taxonomy and canonical reference dataset. The machine-readable artifact is [`data/v1-canonical-dataset.json`](../data/v1-canonical-dataset.json), validated by [`scripts/validate-v1-dataset.mjs`](../scripts/validate-v1-dataset.mjs).
 
-The project owner approved all 15 categories and their guidance, aliases, sources, evidence, limitations, and intentional ambiguity on 2026-09-05. A same-day second-pass check against the three live City and County of Honolulu ENV pages found no material discrepancy. The artifact is now approved canonical reference data with 15 active, production-eligible records. This approval does not deploy the data or create application code, a database schema, a migration, or a production seed.
+The project owner approved all 15 categories and their guidance, aliases, sources, evidence, limitations, and intentional ambiguity on 2026-09-05. A same-day second-pass check against the three live City and County of Honolulu ENV pages found no material discrepancy. The artifact is approved canonical reference data with 15 active, production-eligible records. BL-004 deterministically generates a version-controlled local/reference seed from this artifact; neither approval nor that seed deploys data or creates a hosted database.
 
 ## Selection method
 
