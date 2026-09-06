@@ -12,11 +12,11 @@ BL-001 pilot source inventory, then BL-002 freeze the 15–25-category set and r
 
 ## M2 — Deterministic foundation
 
-BL-003 reproducible app/CI scaffold, BL-004 Supabase schema/access/reference data, and BL-005 end-to-end deterministic lookup slice. Exit: exact aliases return reviewed evidence; unsupported/error paths are safe; anonymous writes fail. **BL-003 and BL-004 are complete on `main`, with BL-004 merged at `fb160b5`; BL-005 is in review.**
+BL-003 reproducible app/CI scaffold, BL-004 Supabase schema/access/reference data, and BL-005 end-to-end deterministic lookup slice. Exit: exact aliases return reviewed evidence; unsupported/error paths are safe; anonymous writes fail. **Complete on `main`; BL-005 squash-merged at `c33c25d`.**
 
 ## M3 — Core UX and provenance
 
-BL-006 implements all four mobile/accessibility states; BL-007 completes inspectable evidence/freshness for frozen categories. Exit: a resident can complete/recover from every state and inspect an official source.
+BL-006 implements all four mobile/accessibility states; BL-007 completes inspectable evidence/freshness for frozen categories. Exit: a resident can complete/recover from every state and inspect an official source. **BL-006 is implemented on a focused feature branch and pending human review, including the remaining manual accessibility evidence.**
 
 ## M4 — Measured baseline and conditional AI
 

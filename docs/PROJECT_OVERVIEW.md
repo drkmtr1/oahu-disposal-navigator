@@ -55,4 +55,4 @@ The portfolio evidence should demonstrate traceable product judgment: problem â†
 
 ## Current status
 
-Stage 1 and BL-001 through BL-004 are merged to `main`; BL-004 merged at `fb160b5`. BL-005's deterministic same-origin lookup route, validation, exact-alias matching, canonical retrieval, response union, and safe failure behavior are in review on a focused feature branch. The resident-facing four-state UI, application-specific hosted Supabase/Vercel project, deployment, AI integration, and user test have not been created.
+Stage 1 and BL-001 through BL-005 are merged to `main`; BL-005 squash-merged at `c33c25d`. BL-006's resident-facing four-state UI, clarification selection, recovery behavior, and browser accessibility/responsive checks are implemented on a focused feature branch and pending human review. The application-specific hosted Supabase/Vercel project, deployment, AI integration, manual screen-reader review, and comparative user test have not been created or completed.

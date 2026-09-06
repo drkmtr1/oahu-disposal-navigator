@@ -58,6 +58,7 @@ export function createDisposalPostHandler(dependencies: HandlerDependencies = {}
       const outcome = await resolveDisposalLookup(body.item, lookupRows, {
         signal: request.signal,
         today: today(),
+        selectedCategoryId: body.selectedCategoryId,
       });
 
       if ("ok" in outcome) {
@@ -112,7 +113,9 @@ async function defaultLookupRows(normalizedAlias: string, signal?: AbortSignal) 
   return lookupRows(normalizedAlias, signal);
 }
 
-async function parseRequestBody(request: Request): Promise<{ item: unknown }> {
+async function parseRequestBody(
+  request: Request,
+): Promise<{ item: unknown; selectedCategoryId?: string }> {
   const mediaType = request.headers.get("content-type")?.split(";", 1)[0]?.trim().toLowerCase();
   if (mediaType !== "application/json") {
     throw new RequestBodyError(400, "Send one household item as JSON.");
@@ -134,11 +137,30 @@ async function parseRequestBody(request: Request): Promise<{ item: unknown }> {
     throw new RequestBodyError(400, "Send one household item as valid JSON.");
   }
 
-  if (!isRecord(body) || Object.keys(body).length !== 1 || !("item" in body)) {
-    throw new RequestBodyError(400, "Send exactly one item field.");
+  if (!isRecord(body) || !("item" in body)) {
+    throw new RequestBodyError(400, "Send one item field.");
   }
 
-  return { item: body.item };
+  const keys = Object.keys(body);
+  const hasOnlyAllowedKeys = keys.every(
+    (key) => key === "item" || key === "selectedCategoryId",
+  );
+  if (keys.length < 1 || keys.length > 2 || !hasOnlyAllowedKeys) {
+    throw new RequestBodyError(400, "Send one item and, only after clarification, one category choice.");
+  }
+
+  if (!("selectedCategoryId" in body)) {
+    return { item: body.item };
+  }
+
+  if (
+    typeof body.selectedCategoryId !== "string" ||
+    !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(body.selectedCategoryId)
+  ) {
+    throw new RequestBodyError(400, "Send a valid clarification choice.");
+  }
+
+  return { item: body.item, selectedCategoryId: body.selectedCategoryId };
 }
 
 async function readBoundedText(request: Request): Promise<string> {

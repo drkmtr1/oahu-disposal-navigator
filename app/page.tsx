@@ -1,12 +1,27 @@
+import { DisposalNavigator } from "./disposal-navigator";
+
 export default function Home() {
   return (
     <main className="page-shell">
-      <p className="eyebrow">Independent public-interest project</p>
-      <h1>Oʻahu Household Item Disposal Navigator</h1>
-      <p className="summary">
-        The reproducible application foundation is in place. The resident lookup
-        experience will be added in a later, separately reviewed backlog item.
-      </p>
+      <header className="page-header">
+        <p className="eyebrow">Oʻahu residential household disposal</p>
+        <h1>Find out how to dispose of a household item</h1>
+        <p className="summary">
+          Describe one item to get a reviewed disposal option from official government
+          guidance.
+        </p>
+      </header>
+
+      <DisposalNavigator />
+
+      <aside className="trust-note" aria-labelledby="trust-heading">
+        <h2 id="trust-heading">How this guidance works</h2>
+        <p>
+          Official sources define disposal rules. This version uses deterministic
+          matching. If AI is used later, it may only help interpret the item—it cannot
+          create or change guidance.
+        </p>
+      </aside>
     </main>
   );
 }

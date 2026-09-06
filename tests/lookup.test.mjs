@@ -47,6 +47,26 @@ function jsonRequest(body, headers = {}) {
   });
 }
 
+function batteryRows() {
+  const categories = [
+    ["alkaline-and-single-use-batteries", "Alkaline and single-use batteries"],
+    ["standalone-rechargeable-batteries", "Standalone rechargeable batteries"],
+    ["car-and-motorcycle-lead-acid-batteries", "Car and motorcycle lead-acid batteries"],
+  ];
+
+  return categories.map(([category_id, category_name], index) =>
+    lookupRow({
+      category_id,
+      category_name,
+      alias: "battery",
+      normalized_alias: "battery",
+      guidance_id: `00000000-0000-4000-8000-00000000000${index + 2}`,
+      source_id: `source-${index}`,
+      evidence_id: `evidence-${index}`,
+    }),
+  );
+}
+
 test("BL-005 / AC-FR-002-01 normalizes Unicode, dash variants, case, and whitespace", () => {
   assert.deepEqual(normalizeItemInput("  OLD\u2013MATTRESS\t "), {
     ok: true,
@@ -98,33 +118,39 @@ test("BL-005 / AC-FR-003-01 and AC-FR-005-01 return stored reviewed guidance wit
 });
 
 test("BL-005 / AC-FR-003-02 returns bounded ambiguity without guidance", async () => {
-  const categories = [
-    ["alkaline-and-single-use-batteries", "Alkaline and single-use batteries"],
-    ["standalone-rechargeable-batteries", "Standalone rechargeable batteries"],
-    ["car-and-motorcycle-lead-acid-batteries", "Car and motorcycle lead-acid batteries"],
-  ];
   const result = await resolveDisposalLookup(
     "battery",
-    async () =>
-      categories.map(([category_id, category_name], index) =>
-        lookupRow({
-          category_id,
-          category_name,
-          alias: "battery",
-          normalized_alias: "battery",
-          guidance_id: `00000000-0000-4000-8000-00000000000${index + 2}`,
-          source_id: `source-${index}`,
-          evidence_id: `evidence-${index}`,
-        }),
-      ),
+    async () => batteryRows(),
     { today: TODAY },
   );
 
   assert.equal(result.status, "ambiguous");
   assert.equal(result.candidates.length, 3);
   assert.equal(result.allowUnsure, true);
+  assert.match(result.fallback.url, /^https:\/\/www\.honolulu\.gov\//);
   assert.equal("guidance" in result, false);
   assert.equal("source" in result, false);
+});
+
+test("BL-006 / AC-FR-008-02 accepts only a clarification candidate from the original match", async () => {
+  const selected = await resolveDisposalLookup(
+    "battery",
+    async () => batteryRows(),
+    {
+      today: TODAY,
+      selectedCategoryId: "standalone-rechargeable-batteries",
+    },
+  );
+  assert.equal(selected.status, "success");
+  assert.equal(selected.category.id, "standalone-rechargeable-batteries");
+
+  const invented = await resolveDisposalLookup(
+    "battery",
+    async () => batteryRows(),
+    { today: TODAY, selectedCategoryId: "mattresses" },
+  );
+  assert.equal(invented.status, "unsupported");
+  assert.equal("guidance" in invented, false);
 });
 
 test("BL-005 / AC-FR-009-01 safely abstains on unmatched and over-broad ambiguity", async () => {
@@ -152,6 +178,25 @@ test("BL-005 / AC-FR-009-01 safely abstains on unmatched and over-broad ambiguit
   );
   assert.equal(tooMany.status, "unsupported");
   assert.equal("candidates" in tooMany, false);
+
+  const bypassAttempt = await resolveDisposalLookup(
+    "item",
+    async () =>
+      Array.from({ length: 5 }, (_, index) =>
+        lookupRow({
+          category_id: `category-${index}`,
+          category_name: `Category ${index}`,
+          alias: "item",
+          normalized_alias: "item",
+          guidance_id: `guidance-${index}`,
+          source_id: `source-${index}`,
+          evidence_id: `evidence-${index}`,
+        }),
+      ),
+    { today: TODAY, selectedCategoryId: "category-0" },
+  );
+  assert.equal(bypassAttempt.status, "unsupported");
+  assert.equal("guidance" in bypassAttempt, false);
 });
 
 test("BL-005 / AC-FR-010-01 and AC-NFR-010-01 reject missing, stale, or inconsistent evidence", async () => {
@@ -188,7 +233,7 @@ test("BL-005 / AC-FR-010-01 returns a retryable database error without leaked de
   assert.doesNotMatch(JSON.stringify(result), /secret|postgres|SQL/i);
 });
 
-test("BL-005 API contract accepts exactly one bounded JSON item", async () => {
+test("BL-005 API contract accepts one bounded JSON item", async () => {
   let repositoryCalls = 0;
   const handler = createDisposalPostHandler({
     lookupRows: async () => {
@@ -206,6 +251,25 @@ test("BL-005 API contract accepts exactly one bounded JSON item", async () => {
   assert.equal(body.requestId, "request-test-1");
   assert.equal(body.status, "success");
   assert.equal(repositoryCalls, 1);
+});
+
+test("BL-006 / AC-FR-008-02 API contract accepts one bounded clarification choice", async () => {
+  const handler = createDisposalPostHandler({
+    lookupRows: async () => batteryRows(),
+    requestIdFactory: () => "request-clarification",
+    today: () => TODAY,
+  });
+  const response = await handler(
+    jsonRequest({
+      item: "battery",
+      selectedCategoryId: "car-and-motorcycle-lead-acid-batteries",
+    }),
+  );
+  const body = await response.json();
+
+  assert.equal(response.status, 200);
+  assert.equal(body.status, "success");
+  assert.equal(body.category.id, "car-and-motorcycle-lead-acid-batteries");
 });
 
 test("BL-005 / AC-FR-002-01 accepts 200 meaningful characters even when JSON-escaped", async () => {
@@ -238,6 +302,7 @@ test("BL-005 API contract rejects malformed shape, media type, and invalid input
   const cases = [
     jsonRequest("{"),
     jsonRequest({ item: "mattress", category: "mattresses" }),
+    jsonRequest({ item: "battery", selectedCategoryId: "Not a canonical ID" }),
     jsonRequest({ category: "mattresses" }),
     jsonRequest({ item: "" }),
     new Request("http://localhost/api/disposal-options", {

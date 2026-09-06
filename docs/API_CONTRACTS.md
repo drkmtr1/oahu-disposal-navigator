@@ -16,7 +16,18 @@ V1 needs one same-origin application boundary, not a separately marketed public 
 }
 ~~~
 
-Content-Type application/json; exactly one `item` field containing a string; 1–200 meaningful Unicode characters after normalization; maximum 4 KiB request body. Unexpected fields are rejected. No HTML, prompt, category ID, or source supplied by the client is trusted.
+Content-Type application/json; the initial request has exactly one `item` field containing a string; 1–200 meaningful Unicode characters after normalization; maximum 4 KiB request body. Unexpected fields are rejected. No HTML, prompt, category ID, or source supplied by the client is trusted.
+
+After an ambiguous response only, the browser may repeat the original description with one returned candidate ID:
+
+~~~json
+{
+  "item": "battery",
+  "selectedCategoryId": "standalone-rechargeable-batteries"
+}
+~~~
+
+The server reruns the deterministic alias lookup and accepts the ID only when it is one of that result's one-to-four candidates. An invalid-format or unexpected field is rejected; a well-formed ID outside the original candidate set safely returns unsupported with no guidance. The ID is never a general client-controlled category lookup.
 
 Normalization is Unicode NFKC, Unicode-dash replacement with ASCII `-`, whitespace collapse/trim, and `en-US` lowercase. Invalid type, empty/control-only, punctuation-only, embedded disallowed control/format character, or over-limit input stops before database access.
 
@@ -44,7 +55,7 @@ Normalization is Unicode NFKC, Unicode-dash replacement with ASCII `-`, whitespa
 
 Other statuses:
 
-- ambiguous: question, one-to-four candidate {id,name} values, and allowUnsure true; no guidance/source.
+- ambiguous: question, one-to-four candidate {id,name} values, allowUnsure true, and the approved official fallback; no guidance/source.
 - unsupported: reasonCode and approved fallback {title,url}; no guidance.
 - error: reasonCode, retryable boolean, and user-safe message; no internal detail.
 
@@ -65,7 +76,7 @@ Errors use bounded reason codes such as INVALID_INPUT, UNSUPPORTED, EVIDENCE_UNA
 
 ### Timing, retry, and idempotency
 
-Target total time is 1.5 s p95 deterministic and 5 s p95 AI-assisted. BL-005 gives the database request a 1.2-second timeout and records a bounded local deterministic sample; representative deployed p95 remains a later release gate. The read-only request is naturally idempotent. Client automatic retry is limited to one transient network/503 retry and must not loop; do not automatically repeat model calls unless a separately tested policy justifies cost and safety. A random request ID supports diagnosis, not user tracking.
+Target total time is 1.5 s p95 deterministic and 5 s p95 AI-assisted. BL-005 gives the database request a 1.2-second timeout and records a bounded local deterministic sample; representative deployed p95 remains a later release gate. The read-only request is naturally idempotent. BL-006 offers at most one user-initiated retry for a retryable network/503 result and never loops; do not automatically repeat model calls unless a separately tested policy justifies cost and safety. A random request ID supports diagnosis, not user tracking.
 
 ### Abuse
 
