@@ -8,11 +8,11 @@ Problem, scope, requirements/ACs, UX, architecture, data/API/AI design, evaluati
 
 ## M1 — Authoritative data
 
-BL-001 pilot source inventory, then BL-002 freeze the 15–25-category set and reviewed canonical dataset. Exit: every proposed category has bounded primary-government evidence or is excluded; gaps/conflicts/freshness are explicit. **Exit satisfied on the BL-002 feature branch on 2026-09-05; pending human merge.**
+BL-001 pilot source inventory, then BL-002 freeze the 15–25-category set and reviewed canonical dataset. Exit: every proposed category has bounded primary-government evidence or is excluded; gaps/conflicts/freshness are explicit. **Complete on `main` at `cd7f2fa`.**
 
 ## M2 — Deterministic foundation
 
-BL-003 reproducible app/CI scaffold, BL-004 Supabase schema/access/reference data, and BL-005 end-to-end deterministic lookup slice. Exit: exact aliases return reviewed evidence; unsupported/error paths are safe; anonymous writes fail.
+BL-003 reproducible app/CI scaffold, BL-004 Supabase schema/access/reference data, and BL-005 end-to-end deterministic lookup slice. Exit: exact aliases return reviewed evidence; unsupported/error paths are safe; anonymous writes fail. **BL-003 is in review; BL-004 and BL-005 have not started.**
 
 ## M3 — Core UX and provenance
 
