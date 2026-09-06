@@ -40,12 +40,13 @@ AC-V1-01 belongs to BL-012 and BL-014; AC-V1-02 belongs to BL-014. Every row mus
 
 ## BL-001 — Pilot authoritative source inventory
 
-- Status/Priority/Complexity: Blocked by Stage 1 human approval, final commit, and push / P0 / M
+- Status/Priority/Complexity: Complete on feature branch; pending review and merge / P0 / M
 - Description: Define the source inventory format and capture reviewed evidence for exactly five diverse candidate categories from primary City/County sources (State/other primary government only with written necessity). Candidates are research subjects, not V1 promises.
 - Requirements: FR-005, FR-007, FR-013, NFR-001, NFR-002, NFR-003
 - Acceptance criteria: AC-FR-007-01, AC-FR-013-01, AC-NFR-002-01; item checks require organization/title/official URL/access date/apparent update date/evidence/locator/claim scope/category/restrictions/gaps/review state and an authority/inclusion rubric.
-- Dependencies: Stage 1 human approval, final foundation commit, and push
+- Dependencies: Satisfied by approved and pushed Stage 1 foundation commit `aa3a296`
 - Testing: parse/structure validation for machine-readable inventory; duplicate/stable ID and required-field checks; official-domain/HTTPS check; manual evidence-to-claim and live-link review.
+- Evidence: `docs/SOURCE_INVENTORY.md`, `data/source-inventory.json`, and `scripts/validate-source-inventory.mjs`; five live primary-government source relationships manually reviewed on 2026-09-05; validator passes on the feature branch.
 
 ## BL-002 — Freeze V1 categories and reviewed canonical dataset
 
