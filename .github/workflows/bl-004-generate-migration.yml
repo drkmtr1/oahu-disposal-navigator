@@ -1,0 +1,31 @@
+name: BL-004 migration generation
+
+on:
+  push:
+    branches:
+      - codex/BL-004-supabase-schema-access
+
+permissions:
+  contents: read
+
+jobs:
+  generate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 2.116.0
+
+      - name: Generate migration from declarative schema
+        run: supabase db schema declarative sync --name bl_004_reference_schema --no-apply --strict-coverage
+
+      - name: Upload generated migration
+        uses: actions/upload-artifact@v4
+        with:
+          name: bl-004-generated-migration
+          path: supabase/migrations/*.sql
+          if-no-files-found: error
+
