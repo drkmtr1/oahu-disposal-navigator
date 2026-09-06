@@ -2,7 +2,7 @@
 
 This file and approved documents in docs are authoritative after Stage 1. PROJECT_HANDOFF.md remains historical context. If guidance conflicts, use the newest approved requirement or ADR and report the conflict.
 
-Current lifecycle status: Stage 1 was approved, committed, and pushed; BL-001 through BL-004 are merged to `main`, with BL-004 merged at `fb160b5`. Stage 2 proceeds through one bounded backlog item at a time. BL-005's deterministic server lookup slice is in review on its feature branch; no hosted Supabase or Vercel resource exists for this application.
+Current lifecycle status: Stage 1 and BL-001 through BL-005 are merged to `main`, with BL-005 squash-merged at `c33c25d`. Stage 2 proceeds through one bounded backlog item at a time. BL-006's resident interface is ready for human approval and squash merge on its focused feature branch: automated checks and CI pass, and the project owner reported no blocking issue in the manual 200% zoom, keyboard/focus, or Windows Narrator review. The local live-data path was not exercised because this workstation has no Docker-compatible runtime for the local Supabase stack. No hosted Supabase or Vercel resource exists for this application.
 
 ## Objective and Level 1 boundary
 

@@ -16,6 +16,7 @@
     "typecheck": "next typegen && tsc --noEmit",
     "test": "node --experimental-strip-types --test tests/*.test.mjs",
     "test:integration": "node --experimental-strip-types --test tests/*.integration.mjs",
+    "test:e2e": "playwright test",
     "validate:data": "node scripts/validate-source-inventory.mjs && node scripts/validate-v1-dataset.mjs",
     "db:generate-seed": "node scripts/generate-supabase-seed.mjs",
     "db:verify-seed": "node scripts/generate-supabase-seed.mjs --check",
@@ -33,6 +34,8 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.63.0",
     "@types/node": "22.20.1",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.7",

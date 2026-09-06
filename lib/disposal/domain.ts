@@ -66,6 +66,7 @@ export type LookupOutcome =
       question: string;
       candidates: Array<{ id: string; name: string }>;
       allowUnsure: true;
+      fallback: typeof OFFICIAL_FALLBACK;
     }
   | {
       status: "unsupported";
@@ -107,7 +108,11 @@ export function normalizeItemInput(value: unknown): InputValidation {
 export async function resolveDisposalLookup(
   rawItem: unknown,
   lookupRows: LookupRows,
-  options: { signal?: AbortSignal; today?: string } = {},
+  options: {
+    signal?: AbortSignal;
+    today?: string;
+    selectedCategoryId?: string;
+  } = {},
 ): Promise<Extract<InputValidation, { ok: false }> | LookupOutcome> {
   const validation = normalizeItemInput(rawItem);
   if (!validation.ok) return validation;
@@ -146,6 +151,19 @@ export async function resolveDisposalLookup(
   } catch {
     return evidenceUnavailable();
   }
+
+  if (options.selectedCategoryId !== undefined) {
+    if (categories.length < 2 || categories.length > 4) return unsupported();
+
+    const isAllowedSelection = categories.some(
+      (category) => category.id === options.selectedCategoryId,
+    );
+    if (!isAllowedSelection) return unsupported();
+
+    rows = rows.filter((row) => row.category_id === options.selectedCategoryId);
+    categories = categories.filter((category) => category.id === options.selectedCategoryId);
+  }
+
   if (categories.length > 1) {
     if (categories.length > 4) return unsupported();
 
@@ -154,6 +172,7 @@ export async function resolveDisposalLookup(
       question: "Which type best matches your item?",
       candidates: categories,
       allowUnsure: true,
+      fallback: OFFICIAL_FALLBACK,
     };
   }
 

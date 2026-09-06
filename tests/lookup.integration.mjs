@@ -14,11 +14,14 @@ const handler = createDisposalPostHandler({
   today: () => "2026-09-06",
 });
 
-function request(item) {
+function request(item, selectedCategoryId) {
   return new Request("http://localhost/api/disposal-options", {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ item }),
+    body: JSON.stringify({
+      item,
+      ...(selectedCategoryId === undefined ? {} : { selectedCategoryId }),
+    }),
   });
 }
 
@@ -76,6 +79,17 @@ test("BL-005 / AC-FR-003-02 traverses the local Data API for the reviewed batter
   );
   assert.equal(body.candidates.length, 3);
   assert.equal("guidance" in body, false);
+});
+
+test("BL-006 / AC-FR-008-02 retrieves the selected reviewed battery category", async () => {
+  const categoryId = "standalone-rechargeable-batteries";
+  const response = await handler(request("battery", categoryId));
+  const body = await response.json();
+
+  assert.equal(response.status, 200);
+  assert.equal(body.status, "success");
+  assert.equal(body.category.id, categoryId);
+  assert.equal(body.source.organization.includes("City and County of Honolulu"), true);
 });
 
 test("BL-005 / AC-FR-009-01 traverses the local Data API and safely abstains for an excluded item", async () => {

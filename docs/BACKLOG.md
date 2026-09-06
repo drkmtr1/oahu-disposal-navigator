@@ -83,23 +83,25 @@ AC-V1-01 belongs to BL-012 and BL-014; AC-V1-02 belongs to BL-014. Every row mus
 
 ## BL-005 — Deterministic lookup vertical slice
 
-- Status/Priority/Complexity: In review; local and required CI checks pass / P0 / L
+- Status/Priority/Complexity: Complete; squash-merged to `main` at `c33c25d` / P0 / L
 - Description: Implement input/route/normalization/alias lookup/response union for a small reviewed slice, including ambiguity, unsupported, missing evidence, and dependency failure.
 - Requirements: FR-001, FR-002, FR-003, FR-005, FR-009, FR-010, NFR-007, NFR-010, NFR-012
 - Acceptance criteria: all ACs for listed FRs; AC-NFR-010-01
 - Dependencies: BL-004
 - Testing: unit/contract/API/integration, zero-model-call assertion, failure injection, latency sample.
 - Evidence: The server-only deterministic modules and `POST /api/disposal-options` route validate a strict 4 KiB JSON body and 1–200-character item, normalize exactly as the approved alias dataset specifies, query `api.disposal_lookup` with a publishable-key `apikey` header, validate every untrusted row/provenance field, and return only the documented success/ambiguity/unsupported/error shapes. Node tests cover exact match with no model path, the three-way `battery` ambiguity, unmatched input, malformed/stale/inconsistent evidence, dependency failure, response sanitization, configuration safety, and a bounded local latency sample. GitHub CI run `34059926827` rebuilt the local Supabase stack and passed five live Data API integration cases plus the foundation and database gates. No hosted resource or resident UI was added.
-- Completion: Implementation and automated acceptance evidence are complete on the BL-005 feature branch. Production latency evidence remains assigned to BL-013; the item remains In review until human PR approval and merge.
+- Completion: Human review and squash merge are complete at `c33c25d`. Production latency evidence remains assigned to BL-013.
 
 ## BL-006 — Four-state accessible resident UX
 
-- Status/Priority/Complexity: Blocked by BL-005 / P0 / L
+- Status/Priority/Complexity: Ready for human approval and squash merge; implementation, automated checks, CI, and the bounded manual accessibility review pass / P0 / L
 - Description: Implement initial, structured success, ambiguity clarification, unsupported/error, edit/search-again, and trust copy.
 - Requirements: FR-001, FR-006, FR-008, FR-009, FR-011, FR-012, NFR-004, NFR-005, NFR-006, NFR-009
 - Acceptance criteria: corresponding functional ACs and all AC-NFR-004/005/006/009 criteria
 - Dependencies: BL-005
 - Testing: component/E2E, keyboard/focus/status, automated accessibility, target sizes, responsive widths, zoom/manual screen reader.
+- Evidence: `app/disposal-navigator.tsx`, `app/page.tsx`, and `app/globals.css` implement one labeled item form plus initial, loading, structured success, bounded ambiguity, unsupported/evidence-unavailable, and retryable error behavior. A clarification choice is accepted only when the server confirms it belongs to the original deterministic match; “I’m not sure” shows no instruction and uses the approved fallback. Pinned Playwright/axe checks exercise keyboard entry and validation, focus and status behavior, semantic result sections, source/trust copy, edit/search-again, clarification selection/abstention, unsupported/error recovery, 44-pixel controls, empty browser storage, no serious/critical accessibility finding, and no page overflow at 320/375/768/1280 pixels or the 200%-zoom-equivalent width. Local production build and browser checks pass with no framework overlay or console error. GitHub CI run `34064497378` passed the Foundation and Database jobs for PR #4. The [manual review record](BL-006_ACCESSIBILITY_REVIEW.md) preserves the project owner's 2026-09-06 report that 200% zoom, keyboard/focus operation, and Windows Narrator worked without a blocking accessibility issue. The local live-data path was not exercised because the review workstation lacks the Docker-compatible runtime required by local Supabase; automated fixture-based browser checks cover all resident states, and later real browser → server → Supabase verification remains assigned to BL-013.
+- Completion: BL-006 implementation, automated evidence, CI, and its bounded manual accessibility evidence pass. The focused PR remains open pending explicit human approval and squash merge. AC-NFR-005-02 comparative moderated-user evidence remains owned by BL-012 and is not claimed here.
 
 ## BL-007 — Complete provenance and freshness behavior
 
