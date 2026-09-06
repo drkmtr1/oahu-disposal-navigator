@@ -1,16 +1,16 @@
-# V1 canonical dataset review candidate
+# V1 reviewed canonical dataset
 
 ## Status and purpose
 
-BL-002 extends the five-record pilot into a proposed minimum-size V1 taxonomy and canonical reference dataset. The machine-readable artifact is [`data/v1-canonical-dataset.json`](../data/v1-canonical-dataset.json), validated by [`scripts/validate-v1-dataset.mjs`](../scripts/validate-v1-dataset.mjs).
+BL-002 extends the five-record pilot into the approved minimum-size V1 taxonomy and canonical reference dataset. The machine-readable artifact is [`data/v1-canonical-dataset.json`](../data/v1-canonical-dataset.json), validated by [`scripts/validate-v1-dataset.mjs`](../scripts/validate-v1-dataset.mjs).
 
-The artifact is a **review candidate**, not active production data. All categories, aliases, guidance, sources, and evidence remain inactive or `pending_human_review`. The validator requires zero production-eligible categories until an independent human source audit approves every claim. No application, database schema, migration, or production seed is created by BL-002.
+The project owner approved all 15 categories and their guidance, aliases, sources, evidence, limitations, and intentional ambiguity on 2026-09-05. A same-day second-pass check against the three live City and County of Honolulu ENV pages found no material discrepancy. The artifact is now approved canonical reference data with 15 active, production-eligible records. This approval does not deploy the data or create application code, a database schema, a migration, or a production seed.
 
 ## Selection method
 
-The set uses the 15-category lower bound in NFR-001 to keep V1 small enough for one maintainer while covering ordinary refuse, yard waste, appliances, tires, batteries, compressed gas, electronics, sharps, and two distinct light-bulb routes. A candidate was included only when a current City and County of Honolulu ENV page directly supported a bounded residential action and its important qualifications.
+The set uses the 15-category lower bound in NFR-001 to keep V1 small enough for one maintainer while covering ordinary refuse, yard waste, appliances, tires, batteries, compressed gas, electronics, sharps, and two distinct light-bulb routes. A category was included only when a current City and County of Honolulu ENV page directly supported a bounded residential action and its important qualifications.
 
-Selection followed the authority and evidence rules in [SOURCE_INVENTORY.md](SOURCE_INVENTORY.md): City ENV first, no search snippet or secondary source as evidence, no inferred facility rule, and explicit exclusion when the available language was broad, conflicting, or unsafe. All three source pages and 15 category-to-evidence relationships were research-checked on 2026-09-05.
+Selection followed the authority and evidence rules in [SOURCE_INVENTORY.md](SOURCE_INVENTORY.md): City ENV first, no search snippet or secondary source as evidence, no inferred facility rule, and explicit exclusion when the available language was broad, conflicting, or unsafe. All three source pages and 15 category-to-evidence relationships were research-checked, independently reviewed, and second-pass verified on 2026-09-05.
 
 ## Selected category set
 
@@ -38,7 +38,7 @@ Selection followed the authority and evidence rules in [SOURCE_INVENTORY.md](SOU
 2. City and County of Honolulu ENV, [E-waste Recycling at City Disposal Sites](https://www.honolulu.gov/env/city-ewaste-dropbins/).
 3. City and County of Honolulu ENV, [Household Hazardous Waste](https://www.honolulu.gov/env/ref/hhw-2/).
 
-The resident drop-off page's official metadata reports a 2025-04-22 modification date. The other pages did not expose a stable apparent update date during research. The HHW page receives a proposed 30-day cadence because its event and registration information changes; the other sources retain the 90-day starting assumption from ADR-005. Review-by dates are deliberately `null` until human approval establishes the verification date.
+The resident drop-off page's official metadata reports a 2025-04-22 modification date. The other pages did not expose a stable apparent update date during review. The HHW page uses a 30-day cadence because its event and registration information changes; its next review is due 2026-10-05. The other two sources use the approved 90-day cadence from ADR-005 and are due for review on 2026-12-04.
 
 ## Canonical data and deterministic aliases
 
@@ -80,35 +80,32 @@ An alias eligibility-safety review also requires every exact-match alias to incl
 - **Commercial, construction, industrial, medical-facility, and agricultural waste:** outside the residential V1 scope.
 - **All unlisted household items:** unsupported until a separate evidence-backed scope change is approved.
 
-## Human approval gate
+## Human approval record
 
-Before this candidate can be called frozen, active, or reviewed canonical data, an independent human reviewer must:
+The independent review gate was completed as follows:
 
-1. open each official URL directly and confirm organization, title, HTTPS government domain, and current availability;
-2. compare every one of the 15 evidence summaries and locators to the live source;
-3. confirm each action, requirement, destination statement, limitation, and exclusion is supported and not overstated;
-4. review all 85 aliases for ordinary-language usefulness, unsafe overbreadth, retained eligibility properties, and the declared `battery` collision;
-5. resolve or reject any disputed record rather than editing evidence to fit the desired taxonomy;
-6. record a reviewer reference and human review date on each approved evidence record;
-7. set source human-verification and review-by dates using the approved cadence;
-8. change only approved categories/guidance/sources/evidence to `approved`, activate the approved categories/guidance, and change the root status/kind to `approved` / `v1_canonical_dataset` only when all 15 pass;
-9. rerun both data validators and the provenance audit; and
-10. approve the focused pull request only if no critical/high source-integrity issue remains.
+1. The project owner reviewed and approved all 15 categories on 2026-09-05 under reviewer reference `project-owner-human-review`.
+2. The live-source second pass rechecked all source metadata, evidence locators, category scopes, actions, requirements, destination statements, limitations, exclusions, and 85 aliases on 2026-09-05.
+3. The live pages continued to support every bounded claim. No source-integrity conflict affected a selected category.
+4. The e-waste page still lists VOIP telephones as acceptable while separately rejecting telephones of any type; telephone guidance remains excluded.
+5. The HHW page's event dates and registration status remain dynamic and are not stored as durable instructions; the canonical guidance requires checking the live page.
+6. All categories, aliases, guidance, sources, and evidence are approved; all 15 categories and guidance records are active.
+7. The 90-day source review-by date is 2026-12-04, while the dynamic HHW source uses 2026-10-05.
+8. Both data validators and the provenance, alias, review-state, freshness, link, traceability, and scope checks pass with no critical/high source-integrity issue.
 
-Until those steps are evidenced, AC-FR-005-01, AC-FR-007-01, AC-FR-013-01, AC-NFR-001-01, and AC-NFR-002-01 are structurally prepared but not fully passed for production.
+This completes BL-002's dataset and provenance evidence for AC-FR-005-01, AC-FR-007-01, AC-FR-013-01, AC-NFR-001-01, and AC-NFR-002-01. Later application/database tasks must still enforce and test the runtime behavior those criteria describe.
 
 ## Validation and traceability
 
-The dependency-free validator checks category count and exact IDs, ID/reference uniqueness, source authority/HTTPS, required guidance and evidence, deterministic alias normalization and eligibility qualifiers, undeclared collisions, review/freshness consistency, exclusions, and the zero-production-eligibility gate. The older five-record pilot and its validator remain intact for audit history.
+The dependency-free validator checks category count and exact IDs, ID/reference uniqueness, source authority/HTTPS, required guidance and evidence, deterministic alias normalization and eligibility qualifiers, undeclared collisions, approval metadata, review cadence and expiry, exclusions, and production eligibility. The older five-record pilot and its validator remain intact for audit history.
 
 Traceability for this artifact is:
 
-Problem → FR-003/005/007/013 and NFR-001/002/003 → mapped acceptance criteria → ADR-004/005 and DATA_MODEL → BL-002 → candidate dataset and validator → human provenance audit → backlog-item Definition of Done.
+Problem → FR-003/005/007/013 and NFR-001/002/003 → mapped acceptance criteria → ADR-004/005/009 and DATA_MODEL → BL-002 → reviewed canonical dataset and validator → completed human provenance audit → backlog-item Definition of Done.
 
 ## Open risks
 
-- Human approval is outstanding; this is the blocking condition for BL-002 completion.
-- Official pages can change after 2026-09-05.
+- Official pages can change after 2026-09-05; expired or changed sources must stop supporting production use until reapproved.
 - The minimum 15-category set is intentionally narrow and may expose deterministic coverage gaps during BL-008; that does not authorize adding categories without evidence.
 - The City e-waste telephone contradiction remains documented and excluded.
 - Facility hours, temporary closures, and live HHW event details require the official page and are not treated as stable dataset facts.

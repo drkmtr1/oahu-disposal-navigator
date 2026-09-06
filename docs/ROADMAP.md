@@ -8,7 +8,7 @@ Problem, scope, requirements/ACs, UX, architecture, data/API/AI design, evaluati
 
 ## M1 — Authoritative data
 
-BL-001 pilot source inventory, then BL-002 freeze the 15–25-category set and reviewed canonical dataset. Exit: every proposed category has bounded primary-government evidence or is excluded; gaps/conflicts/freshness are explicit.
+BL-001 pilot source inventory, then BL-002 freeze the 15–25-category set and reviewed canonical dataset. Exit: every proposed category has bounded primary-government evidence or is excluded; gaps/conflicts/freshness are explicit. **Exit satisfied on the BL-002 feature branch on 2026-09-05; pending human merge.**
 
 ## M2 — Deterministic foundation
 

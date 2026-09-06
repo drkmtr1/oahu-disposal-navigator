@@ -1,6 +1,6 @@
 # Oʻahu Household Item Disposal Navigator
 
-Status: **Stage 1 and BL-001 are merged. BL-002 now has a 15-category canonical-data review candidate pending independent human source approval; no application has been implemented.**
+Status: **Stage 1 and BL-001 are merged. BL-002's 15-category canonical dataset is approved and ready for human merge; no application has been implemented.**
 
 The Oʻahu Household Item Disposal Navigator is a small public-interest web project for residents who need to understand how to dispose of a common household item. Official guidance can require people to translate ordinary item names into government categories and combine information from several pages. V1 will provide a single plain-language lookup and return a structured, source-backed result or a clear clarification/unsupported state.
 
@@ -20,6 +20,6 @@ The interface is a mobile-first, single-column public-service lookup with four s
 
 GitHub is the employer-facing repository. Focused branches and pull requests will connect requirements, backlog items, implementation, tests, and acceptance evidence. Supabase will hold curated relational reference data and provenance; Vercel will provide preview and production hosting. Deterministic tests, database policy tests, accessibility checks, end-to-end tests, AI regression evaluation (only if AI is used), and a small comparative user study are required before V1 is done.
 
-Start with [AGENTS.md](AGENTS.md), the [project overview](docs/PROJECT_OVERVIEW.md), the [V1 dataset review candidate](docs/V1_CATEGORY_DATASET.md), and the [UX design](docs/UX_DESIGN.md). The original [PROJECT_HANDOFF.md](PROJECT_HANDOFF.md) is preserved as historical context. The BL-002 dataset cannot become active merely by existing in Git; its source evidence requires the documented independent human review.
+Start with [AGENTS.md](AGENTS.md), the [project overview](docs/PROJECT_OVERVIEW.md), the [reviewed V1 canonical dataset](docs/V1_CATEGORY_DATASET.md), and the [UX design](docs/UX_DESIGN.md). The original [PROJECT_HANDOFF.md](PROJECT_HANDOFF.md) is preserved as historical context. BL-002 approval is recorded in the dataset and remains subject to its source review-by dates and the normal human merge workflow.
 
 This project is intentionally a Level 1 portfolio project: the objective is to demonstrate disciplined problem definition, source integrity, responsible AI boundaries, accessible UX, evaluation, security, and delivery in a system one person can finish and explain.

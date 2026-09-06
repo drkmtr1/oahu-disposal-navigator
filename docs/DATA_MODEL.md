@@ -31,11 +31,11 @@ IDs, slugs/names, active guidance action, source organization/title/URL, evidenc
 
 Normalization is deterministic Unicode normalization, case folding, whitespace collapse, and documented punctuation handling. Store original alias and normalized value. Category slugs are machine identifiers and never derived from model text at runtime.
 
-## BL-002 review-candidate serialization
+## BL-002 reviewed canonical serialization
 
-[`data/v1-canonical-dataset.json`](../data/v1-canonical-dataset.json) is a pre-schema reference artifact, not a database seed. It mirrors categories, aliases, nested guidance, unique sources, and category/source evidence relationships so BL-004 can translate an approved version into the relational design without losing provenance. Records remain inactive and `pending_human_review`; a validator rejects any production-eligible record before the independent human audit is recorded.
+[`data/v1-canonical-dataset.json`](../data/v1-canonical-dataset.json) is an approved pre-schema reference artifact, not a database seed. It mirrors categories, aliases, nested guidance, unique sources, and category/source evidence relationships so BL-004 can translate it into the relational design without losing provenance. Project-owner approval and the live-source second pass were recorded on 2026-09-05; all 15 records are approved and active, with source expiry enforced by the validator.
 
-The candidate keeps destination/program text in `where_summary`. With only three source programs and source-specific qualifications, BL-002 does not yet justify a destination entity. ADR-009 records that proposed decision for human review before BL-004.
+The canonical dataset keeps destination/program text in `where_summary`. With only three source programs and source-specific qualifications, BL-002 does not justify a destination entity. Accepted ADR-009 records that decision for BL-004.
 
 ## Keys, indexes, and deletion
 

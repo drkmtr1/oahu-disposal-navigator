@@ -50,14 +50,14 @@ AC-V1-01 belongs to BL-012 and BL-014; AC-V1-02 belongs to BL-014. Every row mus
 
 ## BL-002 — Freeze V1 categories and reviewed canonical dataset
 
-- Status/Priority/Complexity: In review; 15-category candidate prepared, blocked on independent human source audit and approval / P0 / L
+- Status/Priority/Complexity: Complete; 15 reviewed categories approved after project-owner audit and live-source second pass / P0 / L
 - Description: Extend discovery, select 15–25 categories, exclude insufficient/conflicting cases, and author canonical aliases/guidance/provenance/freshness records.
 - Requirements: FR-003, FR-005, FR-007, FR-013, NFR-001, NFR-002, NFR-003
 - Acceptance criteria: AC-NFR-001-01, AC-NFR-002-01, AC-FR-005-01, AC-FR-007-01, AC-FR-013-01
 - Dependencies: BL-001
 - Testing: dataset schema/uniqueness, ambiguity collisions, required evidence, official URLs, freshness state, independent manual audit.
-- Evidence: `docs/V1_CATEGORY_DATASET.md`, `data/v1-canonical-dataset.json`, and `scripts/validate-v1-dataset.mjs`; automated validation passes with 15 inactive categories, 85 aliases, 15 evidence records, one intentional ambiguity, qualification checks for eligibility-sensitive aliases, and zero production-eligible categories before human approval.
-- Remaining gate: Independently compare every source/evidence/guidance/alias relationship to the live City pages, record the human reviewer/date and review-by dates, approve only supported records, rerun validation, and complete the provenance audit before marking BL-002 Complete.
+- Evidence: `docs/V1_CATEGORY_DATASET.md`, `data/v1-canonical-dataset.json`, and `scripts/validate-v1-dataset.mjs`; project-owner review and a live-source second pass completed on 2026-09-05 with reviewer reference `project-owner-human-review`. Validation passes with 15 active approved categories, 85 approved aliases, three approved City sources, 15 approved evidence records, one intentional ambiguity, qualification checks for eligibility-sensitive aliases, and source review-by dates of 2026-10-05 or 2026-12-04 according to cadence.
+- Completion: All BL-002 source, scope, provenance, alias-safety, approval, and freshness gates pass. Runtime enforcement and regression behavior remain assigned to their later mapped backlog items.
 
 ## BL-003 — Reproducible application and CI foundation
 

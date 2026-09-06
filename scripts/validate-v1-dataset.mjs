@@ -33,6 +33,12 @@ const allowedAuthorityLevels = new Set([
 ]);
 const forbiddenPlaceholder = /^(?:unknown|tbd|todo|n\/?a|none|placeholder|lorem ipsum)$/i;
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const validationDate = new Intl.DateTimeFormat("en-CA", {
+  timeZone: "Pacific/Honolulu",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+}).format(new Date());
 const errors = [];
 
 const sourceListedLargeApplianceAliases = new Set([
@@ -144,6 +150,13 @@ function validDate(value) {
     parsed.getUTCMonth() === month - 1 &&
     parsed.getUTCDate() === day
   );
+}
+
+function addDays(date, days) {
+  const [year, month, day] = date.split("-").map(Number);
+  const result = new Date(Date.UTC(year, month - 1, day));
+  result.setUTCDate(result.getUTCDate() + days);
+  return result.toISOString().slice(0, 10);
 }
 
 function normalizeAlias(value) {
@@ -275,6 +288,30 @@ if (!dataset.review_policy || typeof dataset.review_policy !== "object") {
     addError("review_policy.production_rule must be a non-placeholder string.");
   }
 }
+if (!dataset.approval || typeof dataset.approval !== "object" || Array.isArray(dataset.approval)) {
+  addError("approval is required.");
+} else {
+  if (!nonEmptyString(dataset.approval.reviewer_ref)) {
+    addError("approval.reviewer_ref must be a non-placeholder string.");
+  }
+  if (!validDate(dataset.approval.human_reviewed_on)) {
+    addError("approval.human_reviewed_on must use a valid YYYY-MM-DD date.");
+  }
+  if (!validDate(dataset.approval.second_pass_verified_on)) {
+    addError("approval.second_pass_verified_on must use a valid YYYY-MM-DD date.");
+  }
+  if (!nonEmptyString(dataset.approval.scope)) {
+    addError("approval.scope must be a non-placeholder string.");
+  }
+  if (dataset.status === "approved") {
+    if (dataset.approval.human_reviewed_on !== dataset.research_checked_on) {
+      addError("An approved dataset must align its human review and research-check dates.");
+    }
+    if (dataset.approval.second_pass_verified_on !== dataset.research_checked_on) {
+      addError("An approved dataset must align its second-pass verification and research-check dates.");
+    }
+  }
+}
 
 const categories = Array.isArray(dataset.categories) ? dataset.categories : [];
 const sources = Array.isArray(dataset.sources) ? dataset.sources : [];
@@ -289,7 +326,7 @@ if (dataset.category_count !== categories.length) {
   addError("category_count must equal categories.length.");
 }
 if (categories.length !== expectedCategoryIds.size) {
-  addError(`This BL-002 candidate must contain exactly ${expectedCategoryIds.size} selected categories.`);
+  addError(`The BL-002 dataset must contain exactly ${expectedCategoryIds.size} selected categories.`);
 }
 
 const selectedCategoryIds = Array.isArray(dataset.selected_category_ids)
@@ -367,6 +404,15 @@ sources.forEach((source, index) => {
       if (source.review_by < dataset.research_checked_on) {
         addError(`${label} is already past its review_by date.`);
       }
+      if (source.review_by < validationDate) {
+        addError(`${label} is past its review_by date as of ${validationDate}.`);
+      }
+      if (source.review_by !== addDays(source.last_human_verified_on, source.review_cadence_days)) {
+        addError(`${label}.review_by must equal its human-verification date plus its cadence.`);
+      }
+      if (source.last_human_verified_on !== dataset.approval?.human_reviewed_on) {
+        addError(`${label}.last_human_verified_on must align with the recorded human approval.`);
+      }
     }
   }
 });
@@ -408,6 +454,12 @@ evidence.forEach((record, index) => {
   } else if (record.review_status === "approved") {
     if (!validDate(record.human_reviewed_on) || !nonEmptyString(record.reviewer_ref)) {
       addError(`${label} requires a human review date and reviewer reference when approved.`);
+    }
+    if (record.human_reviewed_on !== dataset.approval?.human_reviewed_on) {
+      addError(`${label}.human_reviewed_on must align with the recorded human approval.`);
+    }
+    if (record.reviewer_ref !== dataset.approval?.reviewer_ref) {
+      addError(`${label}.reviewer_ref must align with the recorded human approval.`);
     }
   }
 });
@@ -613,10 +665,12 @@ if (errors.length > 0) {
 }
 
 const aliasCount = categories.reduce((total, category) => total + category.aliases.length, 0);
-console.log("V1 canonical dataset candidate validation passed.");
+console.log("V1 canonical dataset validation passed.");
+console.log(`Status: ${dataset.status}`);
+console.log(`Validation date: ${validationDate}`);
 console.log(`Categories: ${categories.length}`);
 console.log(`Aliases: ${aliasCount}`);
 console.log(`Sources: ${sources.length}`);
 console.log(`Evidence records: ${evidence.length}`);
 console.log(`Intentional alias collisions: ${declaredCollisions.size}`);
-console.log(`Production-eligible categories before human approval: ${productionEligibleCategories.length}`);
+console.log(`Production-eligible categories: ${productionEligibleCategories.length}`);

@@ -33,7 +33,7 @@ Unknown scalar values are represented as JSON `null`; an empty array means the f
 
 The pilot review-state allowlist is `verified`, `verified_with_gaps`, `blocked_incomplete`, `blocked_conflict`, and `rejected`. `Verified_with_gaps` means the stated bounded claim was manually confirmed, while the candidate is not yet broad enough or unambiguous enough for a production category. A conflict is recorded verbatim in substance, but no disputed instruction is selected. A missing apparent update date is not guessed. The official City page metadata reports that the resident waste-drop-off page was modified on 2025-04-22; the other two source pages did not expose a stable update date during review.
 
-All three unique source pages and all five category-to-evidence relationships were checked on 2026-09-05. This pilot does not set the final review cadence. ADR-005's 90-day cadence remains an assumption for later validation; BL-002 and BL-007 must define production approval, review-by dates, and exclusion behavior.
+All three unique source pages and all five category-to-evidence relationships were checked on 2026-09-05. This pilot did not set the final review cadence. Approved BL-002 applies ADR-005's 90-day cadence to the resident and e-waste pages and a shorter 30-day cadence to the dynamic HHW page; BL-007 must preserve production expiry and exclusion behavior.
 
 ## Candidate findings
 
@@ -83,5 +83,5 @@ All three unique source pages and all five category-to-evidence relationships we
 - This is a five-record research artifact, not production guidance, a complete source corpus, a schema, or seed data.
 - The source pages are live and can change after the recorded access date; no archived snapshots or City staff confirmations were obtained.
 - One City page is intentionally reused for three candidates because its separately headed sections are the direct current evidence. Reuse does not imply that those candidates should share a production category.
-- The pilot shows that destinations can be represented as bounded structured details, but it does not decide whether a normalized destination entity is justified; OD-002 remains open.
-- All five pilot candidates retain gaps, and electronics retains an explicit source conflict. The [BL-002 V1 dataset review candidate](V1_CATEGORY_DATASET.md) narrows, splits, or excludes them and keeps the result inactive until independent human source approval.
+- The pilot shows that destinations can be represented as bounded structured details. Accepted ADR-009 and resolved OD-002 keep V1 destination/program text in authored guidance.
+- All five pilot candidates retain their historical gaps, and electronics retains an explicit source conflict. The [reviewed BL-002 V1 canonical dataset](V1_CATEGORY_DATASET.md) narrows, splits, or excludes them; the project-owner audit and live-source second pass approved its bounded records on 2026-09-05.
