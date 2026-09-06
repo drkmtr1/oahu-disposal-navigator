@@ -4,6 +4,7 @@ import { performance } from "node:perf_hooks";
 import test from "node:test";
 
 import { createDisposalPostHandler } from "../lib/disposal/http.ts";
+import { createSupabaseLookupRows } from "../lib/disposal/supabase.ts";
 
 const dataset = JSON.parse(
   await readFile(new URL("../data/v1-canonical-dataset.json", import.meta.url), "utf8"),
@@ -20,6 +21,17 @@ function request(item) {
     body: JSON.stringify({ item }),
   });
 }
+
+test("BL-005 local Supabase configuration reaches the dedicated lookup projection", async () => {
+  const lookupRows = createSupabaseLookupRows({
+    url: process.env.SUPABASE_URL,
+    publishableKey: process.env.SUPABASE_PUBLISHABLE_KEY,
+  });
+
+  const rows = await lookupRows("old mattress");
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].category_id, "mattresses");
+});
 
 test("BL-005 / AC-FR-003-01 and AC-FR-005-01 traverse the local Data API with canonical provenance", async () => {
   const response = await handler(request("old mattress"));
