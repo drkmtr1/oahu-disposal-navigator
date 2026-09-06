@@ -2,7 +2,7 @@ begin;
 
 create extension if not exists pgtap with schema extensions;
 
-select plan(45);
+select plan(48);
 
 select has_schema('private', 'BL-004 creates the non-exposed data schema');
 select has_schema('api', 'BL-004 creates the dedicated Data API schema');
@@ -286,6 +286,62 @@ select results_eq(
 );
 reset role;
 
+update private.official_sources
+set review_by = date '2026-10-05'
+where stable_id = 'src-hnl-household-hazardous-waste';
+
+update private.official_sources
+set review_status = 'pending'
+where stable_id = 'src-hnl-city-ewaste';
+
+set local role anon;
+select results_eq(
+  $$select count(*) from api.disposal_lookup where source_id = 'src-hnl-city-ewaste'$$,
+  array[0::bigint],
+  'Unreviewed sources cannot support an anonymous production lookup'
+);
+reset role;
+
+update private.official_sources
+set review_status = 'approved'
+where stable_id = 'src-hnl-city-ewaste';
+
+update private.official_sources
+set review_status = 'rejected'
+where stable_id = 'src-hnl-resident-drop-off';
+
+set local role anon;
+select results_eq(
+  $$select count(*) from api.disposal_lookup where source_id = 'src-hnl-resident-drop-off'$$,
+  array[0::bigint],
+  'Rejected sources cannot support an anonymous production lookup'
+);
+reset role;
+
+update private.official_sources
+set review_status = 'approved'
+where stable_id = 'src-hnl-resident-drop-off';
+
+update private.disposal_guidance
+set active = false
+where category_id = (
+  select id from private.disposal_categories where slug = 'mattresses'
+);
+
+set local role anon;
+select results_eq(
+  $$select count(*) from api.disposal_lookup where category_id = 'mattresses'$$,
+  array[0::bigint],
+  'Inactive guidance cannot support an anonymous production lookup'
+);
+reset role;
+
+update private.disposal_guidance
+set active = true
+where category_id = (
+  select id from private.disposal_categories where slug = 'mattresses'
+);
+
 update private.disposal_categories
 set review_status = 'pending'
 where slug = 'mattresses';
@@ -297,6 +353,10 @@ select results_eq(
   'Unreviewed categories cannot support an anonymous production lookup'
 );
 reset role;
+
+update private.disposal_categories
+set review_status = 'approved'
+where slug = 'mattresses';
 
 update private.source_evidence
 set review_status = 'conflict'
