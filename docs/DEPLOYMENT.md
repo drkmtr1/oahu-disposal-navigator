@@ -4,11 +4,11 @@ This is a future reproducible path, not evidence of a current deployment. No Sup
 
 ## Local development
 
-BL-003 pins Node.js 22.17.1 and npm 10.9.2, commits the npm lockfile, and supplies lint, type, test, reviewed-data validation, secret-scan, production-build, and dependency-audit scripts. No runtime environment value is required for the static foundation. Docker-compatible Supabase CLI requirements remain deferred until database work begins. Use a local Supabase stack with synthetic/reviewed seed data when authorized; never expose it publicly.
+BL-003 pins Node.js 22.17.1 and npm 10.9.2, commits the npm lockfile, and supplies lint, type, test, reviewed-data validation, secret-scan, production-build, and dependency-audit scripts. BL-004 pins Supabase CLI 2.116.0 as a development-only dependency and commits local configuration with unused Auth, Realtime, Storage, Edge Runtime, Vector, and Analytics services disabled. A Docker-compatible container runtime is required for `npm run db:start`, `db:reset`, `db:lint`, and `db:test`; the local stack is development-only and must never be exposed publicly.
 
 The committed environment example contains names only. Expected future server-only variables include the Supabase project URL, a publishable/read-only key or narrower credential, and optional model key/model ID. Local values stay in ignored files. Their activation and exact provider-specific contracts belong to the relevant later backlog items. Discover exact CLI commands through installed-version help and pin tool versions where practical.
 
-The new-project database path is declarative schema files plus generated/reviewed versioned migrations and repeatable seeds/tests. Current workflow guidance: https://supabase.com/docs/guides/local-development/cli-workflows
+The database path is declarative schema files plus generated/reviewed versioned migrations and repeatable seeds/tests. The `api` schema alone is configured as the local Data API surface. The factual seed is generated from the approved JSON with `npm run db:generate-seed` and checked with `npm run db:verify-seed`. Current workflow guidance: https://supabase.com/docs/guides/local-development/cli-workflows
 
 ## GitHub and CI
 
@@ -16,7 +16,7 @@ Use focused backlog branches and PRs. CI grows with implementation and gates rep
 
 ## Supabase environments and recovery
 
-Use local/test data during development and one production Supabase project only when the deployment backlog authorizes it. Preview builds must not have production write access. Apply reviewed migrations through a controlled release step; verify migration order/status and access policies before application promotion. Version reference seeds/data changes.
+Use local/test data during development and one production Supabase project only when the deployment backlog authorizes it. No hosted project is created or linked by BL-004. BL-013 must expose the dedicated `api` schema only, keep automatic table exposure disabled, and verify that `private` is not a Data API schema. Preview builds must not have production write access. Apply reviewed migrations through a controlled release step; verify migration order/status and access policies before application promotion. Version reference seeds/data changes.
 
 Before production, document provider backup availability, a tested logical export/restore path appropriate to the plan, responsible owner, and recovery objective. Roll back deployed schema by a reviewed forward corrective migration; never reset a production database.
 

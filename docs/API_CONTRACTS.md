@@ -73,7 +73,7 @@ Enforce body/input limits and rate controls at the server/platform boundary. Avo
 
 The server queries only active reviewed records through parameterized library calls or prepared SQL. It must retrieve the complete category → guidance → evidence → source/freshness projection atomically enough that incomplete provenance cannot pass. Anonymous writes are denied. Database result schemas are validated before response assembly.
 
-The final access mechanism (Data API via publishable key versus a narrowly scoped server database role) is decided with the schema/access implementation; service-role access is explicitly not the default.
+ADR-010 resolves the access mechanism: the server will use the Supabase Data API with a server-only publishable key acting as `anon` and query the dedicated `api.disposal_lookup` security-invoker view. The `api` schema is the only application schema exposed to the Data API; base tables and verification history stay in `private`. Explicit grants and RLS allow approved/fresh reads and deny anonymous/authenticated writes. Service-role access is not part of the lookup path.
 
 ## Optional model-provider interface
 

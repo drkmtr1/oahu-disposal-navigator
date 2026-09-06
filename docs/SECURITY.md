@@ -8,9 +8,9 @@ Primary harms are unsupported authoritative-looking advice, data tampering, secr
 
 ## Access and least privilege
 
-The browser calls only the same-origin application route. It receives no model key, database password, Supabase secret/service-role key, or maintenance credential. The normal lookup path should use a publishable-key/anon identity or narrower role with explicit read-only grants and RLS; anonymous/authenticated writes are denied and tested.
+The browser calls only the same-origin application route. It receives no model key, database password, Supabase secret/service-role key, or maintenance credential. ADR-010 fixes the normal lookup identity as a server-only publishable key acting as `anon`. Only the dedicated `api.disposal_lookup` projection is exposed through the Data API; underlying curation tables remain in `private`. The security-invoker view preserves underlying RLS, explicit grants are SELECT-only, and anonymous/authenticated writes are denied and tested.
 
-All exposed-schema tables require deliberate grants, RLS, and operation-specific policy tests. RLS does not replace grants. A service-role/secret key bypasses RLS and is not needed for normal lookup. If future curation tooling needs elevated access, isolate it server-side, scope it away from resident routes, document authorization, rotate secrets, and add a separate threat review.
+All exposed objects and supporting tables require deliberate grants, RLS where applicable, and operation-specific policy tests. RLS does not replace grants. Verification history has no `anon`/`authenticated` SELECT grant and is append-only. A service-role/secret key bypasses RLS and is not needed for normal lookup. If future curation tooling needs elevated access, isolate it server-side, scope it away from resident routes, document authorization, rotate secrets, and add a separate threat review. BL-013 must configure the hosted Data API to expose `api` only and repeat the allow/deny tests against that environment.
 
 Current official references for later implementation:
 

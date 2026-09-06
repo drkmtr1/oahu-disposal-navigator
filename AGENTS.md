@@ -2,7 +2,7 @@
 
 This file and approved documents in docs are authoritative after Stage 1. PROJECT_HANDOFF.md remains historical context. If guidance conflicts, use the newest approved requirement or ADR and report the conflict.
 
-Current lifecycle status: Stage 1 was approved, committed, and pushed; BL-001 was merged to `main` at `db5472b`; BL-002 was approved and merged to `main` at `cd7f2fa`. Stage 2 proceeds through one bounded backlog item at a time. BL-003's application and CI foundation has passing local and GitHub checks on its feature branch and awaits human review/merge.
+Current lifecycle status: Stage 1 was approved, committed, and pushed; BL-001 was merged to `main` at `db5472b`; BL-002 was approved and merged to `main` at `cd7f2fa`; BL-003 was merged to `main` at `137b432`. Stage 2 proceeds through one bounded backlog item at a time. BL-004's local Supabase schema/access candidate is in review on its feature branch; no hosted Supabase or Vercel resource exists for this application.
 
 ## Objective and Level 1 boundary
 

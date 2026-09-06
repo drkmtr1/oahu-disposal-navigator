@@ -47,7 +47,13 @@ for (const relativePath of candidateFiles) {
 
   if (!textExtensions.has(path.extname(filename)) && !filename.startsWith(".env")) continue;
 
-  const content = await readFile(path.join(root, relativePath), "utf8");
+  let content;
+  try {
+    content = await readFile(path.join(root, relativePath), "utf8");
+  } catch (error) {
+    if (error?.code === "ENOENT") continue;
+    throw error;
+  }
   for (const { label, pattern } of secretPatterns) {
     if (pattern.test(content)) findings.push(`${relativePath}: possible ${label}`);
   }

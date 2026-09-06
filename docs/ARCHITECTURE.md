@@ -61,7 +61,7 @@ A success response is impossible unless the category, guidance, source, evidence
 
 Browser input, model output, source content, database data, and provider responses are untrusted at their boundaries. Validate length/characters on server; validate database result shape and review state; validate model output against a closed schema/allowlist; render text with framework escaping; allow only approved HTTPS official URLs; log sanitized reason codes rather than arbitrary content.
 
-The Vercel runtime holds server-only environment variables. Prefer a Supabase publishable key operating as anon with explicit read-only grants and RLS policies for public reference data. Anonymous writes are denied. A secret/service-role key is not needed for the lookup path; if a future maintenance job requires one, it must be isolated and separately approved because it bypasses RLS.
+The Vercel runtime holds server-only environment variables. ADR-010 selects a Supabase publishable key operating as `anon` for the normal lookup path. Curated base tables remain in the non-exposed `private` schema; one `security_invoker` view in the dedicated `api` schema supplies the complete active, approved, fresh category → alias → guidance → evidence → source projection. The caller receives only explicit SELECT grants, underlying RLS remains effective, and anonymous/authenticated writes are denied. A secret/service-role key is not needed; if a future maintenance job requires one, it must be isolated and separately approved because it bypasses RLS.
 
 ## Failure paths
 

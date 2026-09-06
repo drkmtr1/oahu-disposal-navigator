@@ -61,23 +61,25 @@ AC-V1-01 belongs to BL-012 and BL-014; AC-V1-02 belongs to BL-014. Every row mus
 
 ## BL-003 — Reproducible application and CI foundation
 
-- Status/Priority/Complexity: In review; local and GitHub CI checks pass / P0 / M
+- Status/Priority/Complexity: Complete; merged to `main` at `137b432` / P0 / M
 - Description: Scaffold the minimal pinned Next.js/TypeScript app, scripts, environment example, and GitHub CI without product functionality.
 - Requirements: FR-001, NFR-004, NFR-006, NFR-008, NFR-012, NFR-013, NFR-014
 - Acceptance criteria: AC-NFR-012-01, AC-NFR-013-01; reproducible install/type/lint/test/build and no secret/client credential
 - Dependencies: BL-001 informs data/tooling shape
 - Testing: smoke unit, build, CI, secret scan; no UI/product implementation.
 - Evidence: pinned `package.json`/`package-lock.json` and Node/npm versions; minimal App Router shell; names-only `.env.example`; dependency-free foundation tests and secret scan; GitHub CI gates install, lint, type, test, both reviewed-data validators, secret scan, production build, and dependency audit. The ESLint 9 pin is the current compatible path for Next.js 16.3.4's bundled React lint plugin and should be revisited when that upstream configuration supports ESLint 10.
-- Completion: Implementation and local acceptance evidence are complete on the BL-003 feature branch, and GitHub CI run 1 passed. Human PR review/merge remains required; no product functionality or external resource was created.
+- Completion: Human review and merge are complete at `137b432`; no product functionality or external resource was created.
 
 ## BL-004 — Supabase relational schema and access controls
 
-- Status/Priority/Complexity: Blocked by BL-002/003 / P0 / L
+- Status/Priority/Complexity: In review; local checks and GitHub foundation/database CI pass / P0 / L
 - Description: Implement reviewed declarative data model, generated migration, reference/test seeds, read projection, explicit grants/RLS, and policy tests.
 - Requirements: FR-005, FR-007, FR-013, NFR-002, NFR-008, NFR-012, NFR-014
 - Acceptance criteria: AC-FR-005-01, AC-FR-007-01, AC-FR-013-01, AC-NFR-008-01
-- Dependencies: BL-002, BL-003, OD-002/003 resolved
+- Dependencies: BL-002 and BL-003 complete; OD-002 and OD-003 resolved
 - Testing: local reset/migration, constraints, provenance joins, active/fresh filter, anon/auth allow-and-deny operations.
+- Evidence: Declarative schema under `supabase/schemas`, generated and privilege-hardening migrations under `supabase/migrations`, deterministic reviewed seed generation, the `api.disposal_lookup` projection, passing pgTAP database/access checks, and passing GitHub foundation/database jobs. No hosted Supabase project is created or linked. Human PR review/merge remains required.
+- Completion: Implementation and automated acceptance evidence are complete on the BL-004 feature branch. The item remains In review until the focused PR receives human approval and is merged.
 
 ## BL-005 — Deterministic lookup vertical slice
 

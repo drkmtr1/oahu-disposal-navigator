@@ -1,6 +1,6 @@
 # Data model
 
-This is the expected relational design, not an implemented production schema. BL-001/BL-002 may refine fields based on real sources before the schema backlog item. Keep the fewest entities that preserve category lookup, instructions, provenance, and review history.
+BL-004 implements this design as a version-controlled local schema candidate; it is not a deployed production database. Keep the fewest entities that preserve category lookup, instructions, provenance, and review history.
 
 ## Proposed entities
 
@@ -9,9 +9,9 @@ This is the expected relational design, not an implemented production schema. BL
 | disposal_categories | id UUID PK; slug text; display_name text; description text; active boolean; created_at/updated_at timestamptz | slug unique and stable; display fields nonempty; deactivate rather than delete once referenced |
 | item_aliases | id UUID PK; category_id UUID FK; alias text; normalized_alias text; locale text default en; review_status text | unique(category_id, normalized_alias); index normalized_alias; duplicate aliases across categories allowed to represent ambiguity; reviewed aliases only in production |
 | disposal_guidance | id UUID PK; category_id UUID FK; action_summary text; requirements text array; where_summary nullable text; escalation_url nullable text; active boolean; updated_at | at most one active V1 guidance record per category; nonempty action; URLs approved HTTPS; change creates reviewed migration/data update |
-| official_sources | id UUID PK; organization text; title text; url text; apparent_updated_on nullable date; first_retrieved_at and last_verified_at timestamptz; review_by date; review_status text | URL unique; status in pending/approved/expired/conflict/rejected; approved and not overdue for production |
-| source_evidence | id UUID PK; source_id UUID FK; category_id UUID FK; guidance_id UUID FK; supporting_passage text; locator nullable text; claim_scope text; reviewed_at timestamptz; reviewer_ref text | passage and claim scope nonempty; one evidence row supports a bounded claim; RESTRICT deletion |
-| source_verifications | id UUID PK; source_id UUID FK; verified_at timestamptz; result text; notes nullable text; apparent_updated_on nullable date | append-only history; result in confirmed/changed/unavailable/conflict |
+| official_sources | id UUID PK; stable_id text; organization text; title text; url text; authority/domain fields; apparent_updated_on nullable date; first_retrieved_on, research_checked_on, last_verified_on, and review_by dates; cadence/status/notes | URL/stable ID unique; status in pending/approved/expired/conflict/rejected; approved and not overdue for production |
+| source_evidence | id UUID PK; stable_id text; source_id UUID FK; category_id UUID FK; guidance_id UUID FK; supporting_summary text; locator nullable text; claim_scope text; research_checked_on/reviewed_on dates; reviewer_ref/status | summary and claim scope nonempty; composite FK prevents a guidance/category mismatch; RESTRICT deletion |
+| source_verifications | id UUID PK; source_id UUID FK; verified_on date; result text; notes nullable text; apparent_updated_on nullable date; reviewer_ref text | trigger-enforced append-only history; result in confirmed/changed/unavailable/conflict |
 
 Destinations/facilities are not yet a table. BL-001 must show repeated structured fields and relationships before adding an optional destination entity; otherwise where_summary remains authored guidance. This avoids speculative modeling.
 
@@ -33,7 +33,7 @@ Normalization is deterministic Unicode normalization, case folding, whitespace c
 
 ## BL-002 reviewed canonical serialization
 
-[`data/v1-canonical-dataset.json`](../data/v1-canonical-dataset.json) is an approved pre-schema reference artifact, not a database seed. It mirrors categories, aliases, nested guidance, unique sources, and category/source evidence relationships so BL-004 can translate it into the relational design without losing provenance. Project-owner approval and the live-source second pass were recorded on 2026-09-05; all 15 records are approved and active, with source expiry enforced by the validator.
+[`data/v1-canonical-dataset.json`](../data/v1-canonical-dataset.json) remains the approved factual reference artifact. BL-004 deterministically translates it into `supabase/seed.sql` with stable UUIDv5 keys and one initial verification-history row per source; the generated SQL must not be edited directly. Project-owner approval and the live-source second pass were recorded on 2026-09-05; all 15 records are approved and active, with source expiry enforced by the data validator and database view.
 
 The canonical dataset keeps destination/program text in `where_summary`. With only three source programs and source-specific qualifications, BL-002 does not justify a destination entity. Accepted ADR-009 records that decision for BL-004.
 
@@ -43,7 +43,7 @@ Use UUID primary keys and foreign keys with ON DELETE RESTRICT for guidance/sour
 
 ## Ownership and access
 
-The project maintainer owns/curates all data. Residents create no database records. Production reads occur through the server boundary using least-privilege anon access. Grants and RLS allow intended SELECTs only and deny anon/authenticated INSERT, UPDATE, and DELETE. No service-role key belongs in browser or normal lookup code.
+The project maintainer owns/curates all data. Residents create no database records. ADR-010 keeps base tables in the non-exposed `private` schema and exposes one complete read projection through the dedicated `api` schema. Production reads occur through the server boundary using a publishable key acting as least-privilege `anon`. Grants and RLS allow intended SELECTs only and deny anon/authenticated INSERT, UPDATE, and DELETE. No service-role key belongs in browser or normal lookup code.
 
 Every table in an exposed schema must have RLS plus deliberate grants/policies; RLS and grants are both tested. A private schema may be chosen for internal-only history if it meaningfully reduces exposure, but the final choice must be recorded before schema implementation.
 
@@ -64,4 +64,4 @@ Version-controlled seed data will include only reviewed categories, aliases, gui
 
 ## Schema workflow
 
-The intended new-project workflow is declarative files in supabase/schemas as source of truth, generated/reviewed migrations in supabase/migrations, and repeatable seed/test data. Schema and migration are committed together and verified by a local reset and database policy tests. Stage 1 creates none of these files.
+The implemented new-project workflow uses declarative files in `supabase/schemas` as source of truth, generated/reviewed migrations in `supabase/migrations`, and repeatable seed/test data. Supabase's declarative diff does not reliably emit schema/default-privilege changes, so a focused reviewed privilege-hardening migration accompanies the generated schema migrations. CI recreates the database, lints it, runs pgTAP policy/provenance tests, and rejects declarative-schema drift.
