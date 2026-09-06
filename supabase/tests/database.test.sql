@@ -113,6 +113,7 @@ select throws_ok(
     where slug = 'mattresses'
   $$,
   '23505',
+  'duplicate key value violates unique constraint "disposal_guidance_one_active_per_category_idx"',
   'A category cannot have two active guidance records'
 );
 
@@ -128,6 +129,7 @@ select throws_ok(
     where stable_id = 'ev-mattresses-drop-off'
   $$,
   '23503',
+  'insert or update on table "source_evidence" violates foreign key constraint "source_evidence_guidance_category_fkey"',
   'Evidence cannot point to guidance for another category'
 );
 
@@ -138,6 +140,7 @@ select throws_ok(
     where stable_id = 'src-hnl-city-ewaste'
   $$,
   '23514',
+  'new row for relation "official_sources" violates check constraint "official_sources_url_https"',
   'Source URLs must use HTTPS'
 );
 
@@ -148,6 +151,7 @@ select throws_ok(
     where id = (select id from private.source_verifications limit 1)
   $$,
   '55000',
+  'source verification history is append-only',
   'Source verification history is append-only'
 );
 
@@ -214,16 +218,19 @@ select throws_ok(
     )
   $$,
   '42501',
+  'permission denied for table disposal_categories',
   'Anonymous inserts are denied'
 );
 select throws_ok(
   $$update private.disposal_categories set display_name = 'Unauthorized' where slug = 'mattresses'$$,
   '42501',
+  'permission denied for table disposal_categories',
   'Anonymous updates are denied'
 );
 select throws_ok(
   $$delete from private.disposal_categories where slug = 'mattresses'$$,
   '42501',
+  'permission denied for table disposal_categories',
   'Anonymous deletes are denied'
 );
 
@@ -249,16 +256,19 @@ select throws_ok(
     )
   $$,
   '42501',
+  'permission denied for table disposal_categories',
   'Authenticated inserts are denied'
 );
 select throws_ok(
   $$update private.disposal_categories set display_name = 'Unauthorized' where slug = 'mattresses'$$,
   '42501',
+  'permission denied for table disposal_categories',
   'Authenticated updates are denied'
 );
 select throws_ok(
   $$delete from private.disposal_categories where slug = 'mattresses'$$,
   '42501',
+  'permission denied for table disposal_categories',
   'Authenticated deletes are denied'
 );
 
