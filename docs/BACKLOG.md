@@ -83,14 +83,14 @@ AC-V1-01 belongs to BL-012 and BL-014; AC-V1-02 belongs to BL-014. Every row mus
 
 ## BL-005 — Deterministic lookup vertical slice
 
-- Status/Priority/Complexity: In review; local checks pass / P0 / L
+- Status/Priority/Complexity: In review; local and required CI checks pass / P0 / L
 - Description: Implement input/route/normalization/alias lookup/response union for a small reviewed slice, including ambiguity, unsupported, missing evidence, and dependency failure.
 - Requirements: FR-001, FR-002, FR-003, FR-005, FR-009, FR-010, NFR-007, NFR-010, NFR-012
 - Acceptance criteria: all ACs for listed FRs; AC-NFR-010-01
 - Dependencies: BL-004
 - Testing: unit/contract/API/integration, zero-model-call assertion, failure injection, latency sample.
-- Evidence: The server-only deterministic modules and `POST /api/disposal-options` route validate a strict 4 KiB JSON body and 1–200-character item, normalize exactly as the approved alias dataset specifies, query `api.disposal_lookup` with a publishable-key `apikey` header, validate every untrusted row/provenance field, and return only the documented success/ambiguity/unsupported/error shapes. Node tests cover exact match with no model path, the three-way `battery` ambiguity, unmatched input, malformed/stale/inconsistent evidence, dependency failure, response sanitization, configuration safety, and a bounded local latency sample. No hosted resource or resident UI was added.
-- Completion: Implementation and local acceptance evidence are complete on the BL-005 feature branch. Production latency evidence remains assigned to BL-013; the item remains In review until CI and human PR approval/merge.
+- Evidence: The server-only deterministic modules and `POST /api/disposal-options` route validate a strict 4 KiB JSON body and 1–200-character item, normalize exactly as the approved alias dataset specifies, query `api.disposal_lookup` with a publishable-key `apikey` header, validate every untrusted row/provenance field, and return only the documented success/ambiguity/unsupported/error shapes. Node tests cover exact match with no model path, the three-way `battery` ambiguity, unmatched input, malformed/stale/inconsistent evidence, dependency failure, response sanitization, configuration safety, and a bounded local latency sample. GitHub CI run `34059926827` rebuilt the local Supabase stack and passed five live Data API integration cases plus the foundation and database gates. No hosted resource or resident UI was added.
+- Completion: Implementation and automated acceptance evidence are complete on the BL-005 feature branch. Production latency evidence remains assigned to BL-013; the item remains In review until human PR approval and merge.
 
 ## BL-006 — Four-state accessible resident UX
 
