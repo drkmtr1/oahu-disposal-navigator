@@ -35,6 +35,7 @@ test("BL-004 / AC-NFR-012-01 gates the implemented database layer in CI", () => 
     "supabase db reset --local",
     "supabase db lint --local",
     "supabase test db --local",
+    "npm run test:integration",
     "supabase db schema declarative sync",
   ]) {
     assert.ok(workflow.includes(command), `CI must run ${command}`);

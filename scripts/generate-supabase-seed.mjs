@@ -210,7 +210,8 @@ const checkOnly = process.argv.includes("--check");
 
 if (checkOnly) {
   const committedSql = await readFile(OUTPUT_URL, "utf8").catch(() => null);
-  if (committedSql !== generatedSql) {
+  const normalizedCommittedSql = committedSql?.replaceAll("\r\n", "\n") ?? null;
+  if (normalizedCommittedSql !== generatedSql) {
     throw new Error(
       "supabase/seed.sql is missing or stale; run npm run db:generate-seed and review the diff.",
     );

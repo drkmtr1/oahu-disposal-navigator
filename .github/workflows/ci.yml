@@ -39,7 +39,7 @@ jobs:
       - name: Type-check
         run: npm run typecheck
 
-      - name: Run foundation tests
+      - name: Run Node tests
         run: npm test
 
       - name: Validate reviewed data
@@ -71,6 +71,15 @@ jobs:
         with:
           version: 2.116.0
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install exact locked dependencies
+        run: npm ci
+
       - name: Start local database services
         run: supabase start
 
@@ -82,6 +91,23 @@ jobs:
 
       - name: Run database, provenance, freshness, and access tests
         run: supabase test db --local
+
+      - name: Run lookup integration tests against local Data API
+        shell: bash
+        run: |
+          eval "$(supabase status -o env)"
+          local_api_key="${PUBLISHABLE_KEY:-${ANON_KEY:-}}"
+          if [[ -z "$local_api_key" ]]; then
+            # `status` intentionally omits keys when Auth is disabled. Read the
+            # public key actually configured in the running local API gateway.
+            local_api_key="$(docker exec supabase_kong_oahu-disposal-navigator \
+              sh -c "grep -o 'sb_publishable_[A-Za-z0-9_-]*' /home/kong/kong.yml | head -n 1")"
+          fi
+          test -n "${API_URL:-}"
+          test -n "$local_api_key"
+          SUPABASE_URL="$API_URL" \
+          SUPABASE_PUBLISHABLE_KEY="$local_api_key" \
+          npm run test:integration
 
       - name: Verify declarative schema and migration history agree
         shell: bash
