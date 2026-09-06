@@ -72,13 +72,14 @@ AC-V1-01 belongs to BL-012 and BL-014; AC-V1-02 belongs to BL-014. Every row mus
 
 ## BL-004 — Supabase relational schema and access controls
 
-- Status/Priority/Complexity: In review; implementation and database CI evidence pending final branch verification / P0 / L
+- Status/Priority/Complexity: In review; local checks and GitHub foundation/database CI pass / P0 / L
 - Description: Implement reviewed declarative data model, generated migration, reference/test seeds, read projection, explicit grants/RLS, and policy tests.
 - Requirements: FR-005, FR-007, FR-013, NFR-002, NFR-008, NFR-012, NFR-014
 - Acceptance criteria: AC-FR-005-01, AC-FR-007-01, AC-FR-013-01, AC-NFR-008-01
 - Dependencies: BL-002 and BL-003 complete; OD-002 and OD-003 resolved
 - Testing: local reset/migration, constraints, provenance joins, active/fresh filter, anon/auth allow-and-deny operations.
-- Evidence: Declarative schema under `supabase/schemas`, generated and privilege-hardening migrations under `supabase/migrations`, deterministic reviewed seed generation, the `api.disposal_lookup` projection, pgTAP database/access tests, and CI database gates. No hosted Supabase project is created or linked. Human review/merge remains required.
+- Evidence: Declarative schema under `supabase/schemas`, generated and privilege-hardening migrations under `supabase/migrations`, deterministic reviewed seed generation, the `api.disposal_lookup` projection, 45 passing pgTAP database/access checks, and passing GitHub foundation/database jobs in run `34056100121`. No hosted Supabase project is created or linked. Human PR review/merge remains required.
+- Completion: Implementation and automated acceptance evidence are complete on the BL-004 feature branch. The item remains In review until the focused PR receives human approval and is merged.
 
 ## BL-005 — Deterministic lookup vertical slice
 
