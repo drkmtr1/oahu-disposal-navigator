@@ -4,9 +4,9 @@ This is a future reproducible path, not evidence of a current deployment. No Sup
 
 ## Local development
 
-Planned prerequisites are a supported Node.js LTS runtime, the repository package manager selected by the scaffold, Git, and Docker-compatible Supabase CLI requirements when database work begins. Commit the lockfile. Use a local Supabase stack with synthetic/reviewed seed data; never expose it publicly.
+BL-003 pins Node.js 22.17.1 and npm 10.9.2, commits the npm lockfile, and supplies lint, type, test, reviewed-data validation, secret-scan, production-build, and dependency-audit scripts. No runtime environment value is required for the static foundation. Docker-compatible Supabase CLI requirements remain deferred until database work begins. Use a local Supabase stack with synthetic/reviewed seed data when authorized; never expose it publicly.
 
-Commit an environment-variable example containing names only. Expected server-only variables include the Supabase project URL, a publishable/read-only key or narrower credential, and optional model key/model ID. Local values stay in ignored files. Discover exact CLI commands through installed-version help and pin tool versions where practical.
+The committed environment example contains names only. Expected future server-only variables include the Supabase project URL, a publishable/read-only key or narrower credential, and optional model key/model ID. Local values stay in ignored files. Their activation and exact provider-specific contracts belong to the relevant later backlog items. Discover exact CLI commands through installed-version help and pin tool versions where practical.
 
 The new-project database path is declarative schema files plus generated/reviewed versioned migrations and repeatable seeds/tests. Current workflow guidance: https://supabase.com/docs/guides/local-development/cli-workflows
 

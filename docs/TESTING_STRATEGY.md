@@ -1,6 +1,6 @@
 # Testing strategy
 
-Testing grows with implemented behavior; Stage 1 creates no test harness. Each layer exists only when it protects a real boundary.
+Testing grows with implemented behavior; Stage 1 created no test harness. BL-003 adds the first dependency-free foundation checks and GitHub CI. Each later layer exists only when it protects a real implemented boundary.
 
 | Layer | Purpose | Representative coverage |
 |---|---|---|
@@ -30,6 +30,8 @@ Normal unit/integration/CI tests use a narrow adapter interface with determinist
 ## CI expectations
 
 As layers appear, a pull request must run formatting/lint, type checking, unit/contract tests, data validation, integration/database tests, production build, selected E2E accessibility/responsive flows, dependency/secret checks, and frozen non-paid regression evaluation. CI may use affected layers for speed only when the skipped scope is provably unrelated. Skips require a reason in the PR.
+
+BL-003 currently gates reproducible install, lint, type checking, foundation smoke tests, both approved data validators, a dependency-free committed-secret scan, production build, and dependency audit. Database, API/integration, product E2E, automated accessibility/browser checks, and regression evaluation are absent because their implementing backlog items have not begun; they must be added to CI when those layers appear.
 
 ## Minimum passing build
 

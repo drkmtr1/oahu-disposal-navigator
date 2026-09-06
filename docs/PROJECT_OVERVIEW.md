@@ -55,4 +55,4 @@ The portfolio evidence should demonstrate traceable product judgment: problem â†
 
 ## Current status
 
-Stage 1 and BL-001 are merged. The project owner approved BL-002's 15-category canonical dataset, and a live-source second pass found no material discrepancy on 2026-09-05; the feature branch is ready for human merge. No framework scaffold, application code, dependency, schema, migration, detected application-specific Supabase/Vercel project, deployment, production database dataset, or user test has been created.
+Stage 1, BL-001, and the approved 15-category BL-002 dataset are merged to `main`. BL-003's minimal pinned Next.js/TypeScript application and CI foundation is in review. It adds only a static accessible shell, reproducible build/test scripts, a names-only environment example, secret scanning, and CI; no resident lookup behavior, API route, schema, migration, application-specific Supabase/Vercel project, deployment, production database dataset, AI integration, or user test has been created.
