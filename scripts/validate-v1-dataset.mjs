@@ -35,6 +35,96 @@ const forbiddenPlaceholder = /^(?:unknown|tbd|todo|n\/?a|none|placeholder|lorem 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const errors = [];
 
+const sourceListedLargeApplianceAliases = new Set([
+  "refrigerator",
+  "fridge",
+  "freezer",
+  "air conditioner",
+  "large water dispenser",
+  "washing machine",
+  "clothes dryer",
+  "water heater",
+  "stove",
+  "dishwasher",
+]);
+const aliasSafetyRules = new Map([
+  [
+    "large-household-appliances",
+    {
+      reason: "must name a household appliance type explicitly listed by the source",
+      test: (alias) => sourceListedLargeApplianceAliases.has(alias),
+    },
+  ],
+  [
+    "passenger-and-light-truck-tires",
+    {
+      reason:
+        "must identify a passenger/car or light-truck tire because heavy-truck and equipment tires are excluded",
+      test: (alias) => /^(?:car|passenger|passenger vehicle|light truck) tire(?: with rim)?$/.test(alias),
+    },
+  ],
+  [
+    "standalone-rechargeable-batteries",
+    {
+      reason:
+        "must identify standalone/loose condition and a listed rechargeable chemistry, unless it is the declared ambiguous battery alias",
+      test: (alias) =>
+        alias === "battery" ||
+        (/^(?:standalone|loose) /.test(alias) &&
+          /(?:rechargeable lithium|lithium-ion|nimh|nicad|nickel-metal-hydride|nickel-cadmium)/.test(
+            alias,
+          )),
+    },
+  ],
+  [
+    "car-and-motorcycle-lead-acid-batteries",
+    {
+      reason:
+        "must identify lead-acid chemistry and car or motorcycle type, unless it is the declared ambiguous battery alias",
+      test: (alias) =>
+        alias === "battery" ||
+        (/(?:lead-acid|lead acid)/.test(alias) && /(?:car|motorcycle)/.test(alias)),
+    },
+  ],
+  [
+    "household-propane-containers",
+    {
+      reason: "must state one of the source-listed container sizes",
+      test: (alias) =>
+        /^(?:5 gallon propane tank|20 gallon propane tank|16 (?:ounce|oz) propane cylinder)$/.test(
+          alias,
+        ),
+    },
+  ],
+  [
+    "televisions",
+    {
+      reason: "must state the source's 9-inch-or-larger viewable-screen threshold",
+      test: (alias) => alias.includes("9-inch or larger"),
+    },
+  ],
+  [
+    "computers-and-peripherals",
+    {
+      reason: "printer and scanner aliases must identify the accepted computer or stand-alone device type",
+      test: (alias) =>
+        !/(?:^| )(?:printer|scanner)$/.test(alias) || /^(?:computer|stand-alone) /.test(alias),
+    },
+  ],
+  [
+    "household-medical-sharps",
+    {
+      reason:
+        "plural or container aliases must state small household quantity/content; singular used needles and syringes are bounded",
+      test: (alias) =>
+        /^(?:used needle|used syringe)$/.test(alias) ||
+        /^(?:small quantity of (?:medical|household) sharps|small household container of used medical sharps)$/.test(
+          alias,
+        ),
+    },
+  ],
+]);
+
 function addError(message) {
   errors.push(message);
 }
@@ -370,6 +460,10 @@ categories.forEach((category, index) => {
       }
       if (localAliases.has(alias.normalized_alias)) {
         addError(`${aliasLabel}.normalized_alias duplicates an alias within its category.`);
+      }
+      const aliasSafetyRule = aliasSafetyRules.get(category.id);
+      if (aliasSafetyRule && !aliasSafetyRule.test(alias.normalized_alias)) {
+        addError(`${aliasLabel} ${aliasSafetyRule.reason}.`);
       }
       localAliases.add(alias.normalized_alias);
       const categorySet = aliasesToCategories.get(alias.normalized_alias) ?? new Set();

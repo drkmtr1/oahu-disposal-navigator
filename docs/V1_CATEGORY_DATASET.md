@@ -46,6 +46,19 @@ Each selected category has a stable kebab-case ID, resident-facing name, narrow 
 
 Alias normalization is Unicode NFKC, trimming, en-US lowercase, Unicode-dash normalization, and whitespace collapse. The validator recomputes every normalized alias. Broad or unsafe aliases are intentionally omitted: for example, `tire` does not exact-match because heavy tires are excluded, and a generic propane container does not exact-match because accepted sizes matter.
 
+An alias eligibility-safety review also requires every exact-match alias to include any property that materially determines whether its category instruction applies. The 2026-09-05 correction pass tightened aliases for source-listed appliance type, tire type, rechargeable-battery chemistry and standalone condition, lead-acid chemistry and vehicle type, propane-container size, television screen size, stand-alone printer/scanner type, and small-quantity/content medical sharps. Preparation steps and limits that do not determine category identity remain visible in guidance rather than being forced into every singular alias. The validator now enforces these qualification rules for the affected categories.
+
+| Category | Alias correction | Eligibility boundary preserved |
+|---|---|---|
+| Large household appliances | `large household appliance` → `large water dispenser` | The exact match now names a type on the source list. |
+| Passenger/light-truck tires | `tire with rim` → `passenger tire with rim` | Tire type is retained; a rim alone does not distinguish excluded heavy/equipment tires. |
+| Standalone rechargeable batteries | Three generic/partial aliases were replaced with chemistry-qualified standalone or loose variants. | Both standalone condition and a listed rechargeable chemistry are retained. |
+| Car/motorcycle lead-acid batteries | Three partial aliases were replaced with car- or motorcycle-specific lead-acid variants. | Both vehicle type and lead-acid chemistry are retained. |
+| Household propane containers | `small household propane cylinder` → `16 oz propane cylinder` | The supported cylinder size is explicit. |
+| Televisions | Five generic display-type aliases were replaced with 9-inch-or-larger variants. | The source's viewable-screen threshold is explicit. |
+| Computers and peripherals | `printer` / `scanner` → `stand-alone printer` / `stand-alone scanner` | The aliases no longer silently include equipment integrated into an excluded larger device. |
+| Household medical sharps | Three plural/container aliases were replaced with small-quantity or small-household-content variants. | Quantity and container contents no longer remain unspecified. |
+
 `battery` is the one deliberate cross-category collision. It maps to the three battery categories and must produce ambiguity, not a silent category selection. The dataset records the exact participating IDs, clarification question, and reason. No other normalized collision is permitted.
 
 ## Included guidance and provenance boundaries
@@ -74,7 +87,7 @@ Before this candidate can be called frozen, active, or reviewed canonical data, 
 1. open each official URL directly and confirm organization, title, HTTPS government domain, and current availability;
 2. compare every one of the 15 evidence summaries and locators to the live source;
 3. confirm each action, requirement, destination statement, limitation, and exclusion is supported and not overstated;
-4. review all 85 aliases for ordinary-language usefulness, unsafe overbreadth, and the declared `battery` collision;
+4. review all 85 aliases for ordinary-language usefulness, unsafe overbreadth, retained eligibility properties, and the declared `battery` collision;
 5. resolve or reject any disputed record rather than editing evidence to fit the desired taxonomy;
 6. record a reviewer reference and human review date on each approved evidence record;
 7. set source human-verification and review-by dates using the approved cadence;
@@ -86,7 +99,7 @@ Until those steps are evidenced, AC-FR-005-01, AC-FR-007-01, AC-FR-013-01, AC-NF
 
 ## Validation and traceability
 
-The dependency-free validator checks category count and exact IDs, ID/reference uniqueness, source authority/HTTPS, required guidance and evidence, deterministic alias normalization, undeclared collisions, review/freshness consistency, exclusions, and the zero-production-eligibility gate. The older five-record pilot and its validator remain intact for audit history.
+The dependency-free validator checks category count and exact IDs, ID/reference uniqueness, source authority/HTTPS, required guidance and evidence, deterministic alias normalization and eligibility qualifiers, undeclared collisions, review/freshness consistency, exclusions, and the zero-production-eligibility gate. The older five-record pilot and its validator remain intact for audit history.
 
 Traceability for this artifact is:
 

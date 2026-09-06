@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "dataset_kind": "v1_canonical_dataset_candidate",
-  "data_version": "2026-09-05.bl-002-candidate.1",
+  "data_version": "2026-09-05.bl-002-candidate.2",
   "scope": "Oʻahu residential household disposal only",
   "status": "pending_human_review",
   "research_checked_on": "2026-09-05",
@@ -238,7 +238,7 @@
         {"alias": "water heater", "normalized_alias": "water heater", "locale": "en", "review_status": "pending_human_review"},
         {"alias": "stove", "normalized_alias": "stove", "locale": "en", "review_status": "pending_human_review"},
         {"alias": "dishwasher", "normalized_alias": "dishwasher", "locale": "en", "review_status": "pending_human_review"},
-        {"alias": "large household appliance", "normalized_alias": "large household appliance", "locale": "en", "review_status": "pending_human_review"}
+        {"alias": "large water dispenser", "normalized_alias": "large water dispenser", "locale": "en", "review_status": "pending_human_review"}
       ],
       "guidance": {
         "action_summary": "Take a source-listed large household appliance to an applicable City resident drop-off facility and place it in the separate appliance storage area as directed.",
@@ -266,7 +266,7 @@
         {"alias": "passenger tire", "normalized_alias": "passenger tire", "locale": "en", "review_status": "pending_human_review"},
         {"alias": "passenger vehicle tire", "normalized_alias": "passenger vehicle tire", "locale": "en", "review_status": "pending_human_review"},
         {"alias": "light truck tire", "normalized_alias": "light truck tire", "locale": "en", "review_status": "pending_human_review"},
-        {"alias": "tire with rim", "normalized_alias": "tire with rim", "locale": "en", "review_status": "pending_human_review"}
+        {"alias": "passenger tire with rim", "normalized_alias": "passenger tire with rim", "locale": "en", "review_status": "pending_human_review"}
       ],
       "guidance": {
         "action_summary": "Take passenger or light-truck tires, with or without rims, to an accepting City disposal site.",
@@ -313,9 +313,9 @@
       "active": false,
       "review_status": "pending_human_review",
       "aliases": [
-        {"alias": "standalone rechargeable battery", "normalized_alias": "standalone rechargeable battery", "locale": "en", "review_status": "pending_human_review"},
-        {"alias": "loose rechargeable battery", "normalized_alias": "loose rechargeable battery", "locale": "en", "review_status": "pending_human_review"},
-        {"alias": "standalone lithium battery", "normalized_alias": "standalone lithium battery", "locale": "en", "review_status": "pending_human_review"},
+        {"alias": "standalone rechargeable nickel-metal-hydride battery", "normalized_alias": "standalone rechargeable nickel-metal-hydride battery", "locale": "en", "review_status": "pending_human_review"},
+        {"alias": "loose rechargeable nickel-cadmium battery", "normalized_alias": "loose rechargeable nickel-cadmium battery", "locale": "en", "review_status": "pending_human_review"},
+        {"alias": "standalone rechargeable lithium battery", "normalized_alias": "standalone rechargeable lithium battery", "locale": "en", "review_status": "pending_human_review"},
         {"alias": "standalone lithium-ion battery", "normalized_alias": "standalone lithium-ion battery", "locale": "en", "review_status": "pending_human_review"},
         {"alias": "standalone nimh battery", "normalized_alias": "standalone nimh battery", "locale": "en", "review_status": "pending_human_review"},
         {"alias": "standalone nicad battery", "normalized_alias": "standalone nicad battery", "locale": "en", "review_status": "pending_human_review"},
@@ -343,9 +343,9 @@
       "active": false,
       "review_status": "pending_human_review",
       "aliases": [
-        {"alias": "car battery", "normalized_alias": "car battery", "locale": "en", "review_status": "pending_human_review"},
-        {"alias": "motorcycle battery", "normalized_alias": "motorcycle battery", "locale": "en", "review_status": "pending_human_review"},
-        {"alias": "automotive lead-acid battery", "normalized_alias": "automotive lead-acid battery", "locale": "en", "review_status": "pending_human_review"},
+        {"alias": "car lead-acid battery", "normalized_alias": "car lead-acid battery", "locale": "en", "review_status": "pending_human_review"},
+        {"alias": "motorcycle lead-acid battery", "normalized_alias": "motorcycle lead-acid battery", "locale": "en", "review_status": "pending_human_review"},
+        {"alias": "car lead acid battery", "normalized_alias": "car lead acid battery", "locale": "en", "review_status": "pending_human_review"},
         {"alias": "lead-acid car battery", "normalized_alias": "lead-acid car battery", "locale": "en", "review_status": "pending_human_review"},
         {"alias": "lead-acid motorcycle battery", "normalized_alias": "lead-acid motorcycle battery", "locale": "en", "review_status": "pending_human_review"},
         {"alias": "battery", "normalized_alias": "battery", "locale": "en", "review_status": "pending_human_review"}
@@ -375,7 +375,7 @@
         {"alias": "5 gallon propane tank", "normalized_alias": "5 gallon propane tank", "locale": "en", "review_status": "pending_human_review"},
         {"alias": "20 gallon propane tank", "normalized_alias": "20 gallon propane tank", "locale": "en", "review_status": "pending_human_review"},
         {"alias": "16 ounce propane cylinder", "normalized_alias": "16 ounce propane cylinder", "locale": "en", "review_status": "pending_human_review"},
-        {"alias": "small household propane cylinder", "normalized_alias": "small household propane cylinder", "locale": "en", "review_status": "pending_human_review"}
+        {"alias": "16 oz propane cylinder", "normalized_alias": "16 oz propane cylinder", "locale": "en", "review_status": "pending_human_review"}
       ],
       "guidance": {
         "action_summary": "Take a source-listed household propane tank or cylinder to an applicable City resident waste-drop-off facility, whether empty, partially full, or full.",
@@ -399,11 +399,11 @@
       "active": false,
       "review_status": "pending_human_review",
       "aliases": [
-        {"alias": "television", "normalized_alias": "television", "locale": "en", "review_status": "pending_human_review"},
-        {"alias": "tv", "normalized_alias": "tv", "locale": "en", "review_status": "pending_human_review"},
-        {"alias": "flat screen tv", "normalized_alias": "flat screen tv", "locale": "en", "review_status": "pending_human_review"},
-        {"alias": "crt television", "normalized_alias": "crt television", "locale": "en", "review_status": "pending_human_review"},
-        {"alias": "projection television", "normalized_alias": "projection television", "locale": "en", "review_status": "pending_human_review"}
+        {"alias": "television with a 9-inch or larger screen", "normalized_alias": "television with a 9-inch or larger screen", "locale": "en", "review_status": "pending_human_review"},
+        {"alias": "tv with a 9-inch or larger screen", "normalized_alias": "tv with a 9-inch or larger screen", "locale": "en", "review_status": "pending_human_review"},
+        {"alias": "9-inch or larger flat-screen tv", "normalized_alias": "9-inch or larger flat-screen tv", "locale": "en", "review_status": "pending_human_review"},
+        {"alias": "9-inch or larger crt television", "normalized_alias": "9-inch or larger crt television", "locale": "en", "review_status": "pending_human_review"},
+        {"alias": "9-inch or larger projection television", "normalized_alias": "9-inch or larger projection television", "locale": "en", "review_status": "pending_human_review"}
       ],
       "guidance": {
         "action_summary": "Take a source-qualified television to a City e-waste bin at a listed transfer station or convenience center for recycling.",
@@ -431,8 +431,8 @@
         {"alias": "laptop computer", "normalized_alias": "laptop computer", "locale": "en", "review_status": "pending_human_review"},
         {"alias": "computer monitor", "normalized_alias": "computer monitor", "locale": "en", "review_status": "pending_human_review"},
         {"alias": "computer printer", "normalized_alias": "computer printer", "locale": "en", "review_status": "pending_human_review"},
-        {"alias": "printer", "normalized_alias": "printer", "locale": "en", "review_status": "pending_human_review"},
-        {"alias": "scanner", "normalized_alias": "scanner", "locale": "en", "review_status": "pending_human_review"},
+        {"alias": "stand-alone printer", "normalized_alias": "stand-alone printer", "locale": "en", "review_status": "pending_human_review"},
+        {"alias": "stand-alone scanner", "normalized_alias": "stand-alone scanner", "locale": "en", "review_status": "pending_human_review"},
         {"alias": "computer keyboard", "normalized_alias": "computer keyboard", "locale": "en", "review_status": "pending_human_review"},
         {"alias": "computer mouse", "normalized_alias": "computer mouse", "locale": "en", "review_status": "pending_human_review"},
         {"alias": "tablet computer", "normalized_alias": "tablet computer", "locale": "en", "review_status": "pending_human_review"},
@@ -487,11 +487,11 @@
       "active": false,
       "review_status": "pending_human_review",
       "aliases": [
-        {"alias": "medical sharps", "normalized_alias": "medical sharps", "locale": "en", "review_status": "pending_human_review"},
-        {"alias": "household sharps", "normalized_alias": "household sharps", "locale": "en", "review_status": "pending_human_review"},
+        {"alias": "small quantity of medical sharps", "normalized_alias": "small quantity of medical sharps", "locale": "en", "review_status": "pending_human_review"},
+        {"alias": "small quantity of household sharps", "normalized_alias": "small quantity of household sharps", "locale": "en", "review_status": "pending_human_review"},
         {"alias": "used needle", "normalized_alias": "used needle", "locale": "en", "review_status": "pending_human_review"},
         {"alias": "used syringe", "normalized_alias": "used syringe", "locale": "en", "review_status": "pending_human_review"},
-        {"alias": "sharps container", "normalized_alias": "sharps container", "locale": "en", "review_status": "pending_human_review"}
+        {"alias": "small household container of used medical sharps", "normalized_alias": "small household container of used medical sharps", "locale": "en", "review_status": "pending_human_review"}
       ],
       "guidance": {
         "action_summary": "Encase household medical sharps in a rigid screw-top plastic container, close it securely, and put it in the trash.",

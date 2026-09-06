@@ -56,7 +56,7 @@ AC-V1-01 belongs to BL-012 and BL-014; AC-V1-02 belongs to BL-014. Every row mus
 - Acceptance criteria: AC-NFR-001-01, AC-NFR-002-01, AC-FR-005-01, AC-FR-007-01, AC-FR-013-01
 - Dependencies: BL-001
 - Testing: dataset schema/uniqueness, ambiguity collisions, required evidence, official URLs, freshness state, independent manual audit.
-- Evidence: `docs/V1_CATEGORY_DATASET.md`, `data/v1-canonical-dataset.json`, and `scripts/validate-v1-dataset.mjs`; automated validation passes with 15 inactive categories, 85 aliases, 15 evidence records, one intentional ambiguity, and zero production-eligible categories before human approval.
+- Evidence: `docs/V1_CATEGORY_DATASET.md`, `data/v1-canonical-dataset.json`, and `scripts/validate-v1-dataset.mjs`; automated validation passes with 15 inactive categories, 85 aliases, 15 evidence records, one intentional ambiguity, qualification checks for eligibility-sensitive aliases, and zero production-eligible categories before human approval.
 - Remaining gate: Independently compare every source/evidence/guidance/alias relationship to the live City pages, record the human reviewer/date and review-by dates, approve only supported records, rerun validation, and complete the provenance audit before marking BL-002 Complete.
 
 ## BL-003 — Reproducible application and CI foundation
