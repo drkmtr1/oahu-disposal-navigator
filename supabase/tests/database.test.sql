@@ -2,7 +2,7 @@ begin;
 
 create extension if not exists pgtap with schema extensions;
 
-select plan(44);
+select plan(45);
 
 select has_schema('private', 'BL-004 creates the non-exposed data schema');
 select has_schema('api', 'BL-004 creates the dedicated Data API schema');
@@ -139,6 +139,16 @@ select throws_ok(
   $$,
   '23514',
   'Source URLs must use HTTPS'
+);
+
+select throws_ok(
+  $$
+    update private.source_verifications
+    set result = 'changed'
+    where id = (select id from private.source_verifications limit 1)
+  $$,
+  '55000',
+  'Source verification history is append-only'
 );
 
 select ok(

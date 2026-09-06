@@ -179,6 +179,25 @@ create table private.source_verifications (
   constraint source_verifications_reviewer_not_blank check (btrim(reviewer_ref) <> '')
 );
 
+create function private.reject_source_verification_mutation()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+begin
+  raise exception using
+    errcode = '55000',
+    message = 'source verification history is append-only';
+end;
+$$;
+
+revoke all on function private.reject_source_verification_mutation()
+  from public, anon, authenticated, service_role;
+
+create trigger source_verifications_append_only
+before update or delete on private.source_verifications
+for each row execute function private.reject_source_verification_mutation();
+
 create unique index disposal_guidance_one_active_per_category_idx
   on private.disposal_guidance(category_id)
   where active;
@@ -322,3 +341,8 @@ alter default privileges for role postgres in schema api
   revoke select, insert, update, delete, truncate, references, trigger
   on tables from public, anon, authenticated, service_role;
 
+alter default privileges for role postgres in schema private
+  revoke execute on functions from public, anon, authenticated, service_role;
+
+alter default privileges for role postgres in schema api
+  revoke execute on functions from public, anon, authenticated, service_role;
