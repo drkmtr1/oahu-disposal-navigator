@@ -1,0 +1,745 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_kind": "v1_canonical_dataset",
+  "data_version": "2026-09-05.bl-002-approved.1",
+  "scope": "Oʻahu residential household disposal only",
+  "status": "approved",
+  "research_checked_on": "2026-09-05",
+  "date_format": "YYYY-MM-DD",
+  "unknown_representation": "Use null for an unknown or not-yet-human-approved scalar; use an empty array only when the field was reviewed and no items were identified.",
+  "category_count": 15,
+  "selected_category_ids": [
+    "mattresses",
+    "household-chairs-and-tables",
+    "rugs-and-carpeting",
+    "green-waste",
+    "large-household-appliances",
+    "passenger-and-light-truck-tires",
+    "alkaline-and-single-use-batteries",
+    "standalone-rechargeable-batteries",
+    "car-and-motorcycle-lead-acid-batteries",
+    "household-propane-containers",
+    "televisions",
+    "computers-and-peripherals",
+    "non-cfl-light-bulbs",
+    "household-medical-sharps",
+    "compact-fluorescent-bulbs-and-tubes"
+  ],
+  "review_policy": {
+    "human_approval_required": true,
+    "default_review_cadence_days": 90,
+    "dynamic_source_review_cadence_days": 30,
+    "production_rule": "A category, guidance record, source, and every supporting evidence record must all be approved, active where applicable, and not past review_by before production use."
+  },
+  "approval": {
+    "reviewer_ref": "project-owner-human-review",
+    "human_reviewed_on": "2026-09-05",
+    "second_pass_verified_on": "2026-09-05",
+    "scope": "All 15 categories, guidance records, sources, evidence records, deterministic aliases, limitations, and the intentional battery ambiguity."
+  },
+  "normalization": {
+    "algorithm": "Unicode NFKC, trim, lowercase with en-US locale, normalize Unicode dash variants to ASCII hyphen, then collapse whitespace.",
+    "locale": "en-US"
+  },
+  "review_state_allowlist": [
+    "pending_human_review",
+    "approved",
+    "expired",
+    "conflict",
+    "rejected"
+  ],
+  "intentional_alias_collisions": [
+    {
+      "normalized_alias": "battery",
+      "category_ids": [
+        "alkaline-and-single-use-batteries",
+        "standalone-rechargeable-batteries",
+        "car-and-motorcycle-lead-acid-batteries"
+      ],
+      "behavior": "ambiguous",
+      "clarification_prompt": "What kind of battery is it?",
+      "reason": "The City gives materially different instructions for single-use, standalone rechargeable, and car or motorcycle lead-acid batteries."
+    }
+  ],
+  "sources": [
+    {
+      "id": "src-hnl-resident-drop-off",
+      "organization": "City and County of Honolulu Department of Environmental Services",
+      "title": "Rules and Guidelines for Residents",
+      "url": "https://www.honolulu.gov/env/ref/waste-drop-off-rules-residents/",
+      "authority_level": "city_primary",
+      "government_domain": "honolulu.gov",
+      "first_retrieved_on": "2026-09-05",
+      "research_checked_on": "2026-09-05",
+      "apparent_updated_on": "2025-04-22",
+      "date_basis": "Official City WordPress metadata reports a modified timestamp of 2025-04-22.",
+      "last_human_verified_on": "2026-09-05",
+      "review_by": "2026-12-04",
+      "review_cadence_days": 90,
+      "review_status": "approved",
+      "verification_notes": "Project-owner approval and second-pass live-source verification were completed on 2026-09-05; all cited sections remained supported."
+    },
+    {
+      "id": "src-hnl-city-ewaste",
+      "organization": "City and County of Honolulu Department of Environmental Services",
+      "title": "E-waste Recycling at City Disposal Sites",
+      "url": "https://www.honolulu.gov/env/city-ewaste-dropbins/",
+      "authority_level": "city_primary",
+      "government_domain": "honolulu.gov",
+      "first_retrieved_on": "2026-09-05",
+      "research_checked_on": "2026-09-05",
+      "apparent_updated_on": null,
+      "date_basis": "No stable publication or update date was displayed on the inspected page.",
+      "last_human_verified_on": "2026-09-05",
+      "review_by": "2026-12-04",
+      "review_cadence_days": 90,
+      "review_status": "approved",
+      "verification_notes": "Project-owner approval and second-pass live-source verification were completed on 2026-09-05; the accepted-item, excluded-item, and destination lists remain supported, and the VOIP/telephone contradiction remains excluded."
+    },
+    {
+      "id": "src-hnl-household-hazardous-waste",
+      "organization": "City and County of Honolulu Department of Environmental Services",
+      "title": "Household Hazardous Waste (HHW)",
+      "url": "https://www.honolulu.gov/env/ref/hhw-2/",
+      "authority_level": "city_primary",
+      "government_domain": "honolulu.gov",
+      "first_retrieved_on": "2026-09-05",
+      "research_checked_on": "2026-09-05",
+      "apparent_updated_on": null,
+      "date_basis": "The page displays time-sensitive event information but no stable publication or update date.",
+      "last_human_verified_on": "2026-09-05",
+      "review_by": "2026-10-05",
+      "review_cadence_days": 30,
+      "review_status": "approved",
+      "verification_notes": "Project-owner approval and second-pass live-source verification were completed on 2026-09-05; durable guidance excludes changing event dates and requires live registration details to be checked."
+    }
+  ],
+  "categories": [
+    {
+      "id": "mattresses",
+      "display_name": "Mattresses",
+      "description": "Household mattresses taken to the City resident waste-drop-off system.",
+      "active": true,
+      "review_status": "approved",
+      "aliases": [
+        {"alias": "mattress", "normalized_alias": "mattress", "locale": "en", "review_status": "approved"},
+        {"alias": "old mattress", "normalized_alias": "old mattress", "locale": "en", "review_status": "approved"},
+        {"alias": "bed mattress", "normalized_alias": "bed mattress", "locale": "en", "review_status": "approved"}
+      ],
+      "guidance": {
+        "action_summary": "Take the mattress to an applicable City resident waste-drop-off facility and follow the attendant's direction to the regular-refuse roll-off container or transfer-station pit floor.",
+        "requirements": [
+          "Bag the mattress when possible.",
+          "Follow facility signs and attendant directions; facilities may operate differently.",
+          "Resident vehicle and two-load-per-day rules apply."
+        ],
+        "where_summary": "An applicable City resident waste-drop-off facility; this record does not select an individual site.",
+        "escalation_url": "https://www.honolulu.gov/env/ref/waste-drop-off-rules-residents/",
+        "active": true,
+        "review_status": "approved",
+        "evidence_ids": ["ev-mattresses-drop-off"]
+      },
+      "known_limitations": ["Curbside bulky-pickup eligibility is not claimed by this category."]
+    },
+    {
+      "id": "household-chairs-and-tables",
+      "display_name": "Household chairs and tables",
+      "description": "Household chairs and tables listed as regular refuse at City resident drop-off sites.",
+      "active": true,
+      "review_status": "approved",
+      "aliases": [
+        {"alias": "chair", "normalized_alias": "chair", "locale": "en", "review_status": "approved"},
+        {"alias": "table", "normalized_alias": "table", "locale": "en", "review_status": "approved"},
+        {"alias": "dining chair", "normalized_alias": "dining chair", "locale": "en", "review_status": "approved"},
+        {"alias": "dining table", "normalized_alias": "dining table", "locale": "en", "review_status": "approved"},
+        {"alias": "household chair", "normalized_alias": "household chair", "locale": "en", "review_status": "approved"},
+        {"alias": "household table", "normalized_alias": "household table", "locale": "en", "review_status": "approved"}
+      ],
+      "guidance": {
+        "action_summary": "Take a household chair or table to an applicable City resident waste-drop-off facility and place it with regular refuse as directed.",
+        "requirements": [
+          "Material that can be disassembled or broken down must be less than 6 feet long and weigh less than 60 pounds.",
+          "Follow facility signs and attendant directions; facilities may operate differently.",
+          "Resident vehicle and two-load-per-day rules apply."
+        ],
+        "where_summary": "Regular-refuse roll-off container or transfer-station pit floor at an applicable City facility.",
+        "escalation_url": "https://www.honolulu.gov/env/ref/waste-drop-off-rules-residents/",
+        "active": true,
+        "review_status": "approved",
+        "evidence_ids": ["ev-household-chairs-tables"]
+      },
+      "known_limitations": ["This category does not extend the source's chair-and-table examples to all furniture types."]
+    },
+    {
+      "id": "rugs-and-carpeting",
+      "display_name": "Rugs and carpeting",
+      "description": "Fastened household rugs and carpeting listed as regular refuse for City resident drop-off.",
+      "active": true,
+      "review_status": "approved",
+      "aliases": [
+        {"alias": "rug", "normalized_alias": "rug", "locale": "en", "review_status": "approved"},
+        {"alias": "area rug", "normalized_alias": "area rug", "locale": "en", "review_status": "approved"},
+        {"alias": "carpet", "normalized_alias": "carpet", "locale": "en", "review_status": "approved"},
+        {"alias": "carpeting", "normalized_alias": "carpeting", "locale": "en", "review_status": "approved"},
+        {"alias": "old carpet", "normalized_alias": "old carpet", "locale": "en", "review_status": "approved"}
+      ],
+      "guidance": {
+        "action_summary": "Fasten the rug or carpeting and take it to an applicable City resident waste-drop-off facility for regular refuse.",
+        "requirements": [
+          "Rugs and carpeting must be fastened.",
+          "Material that can be cut or broken down must be less than 6 feet long and weigh less than 60 pounds.",
+          "Follow facility signs and attendant directions."
+        ],
+        "where_summary": "Regular-refuse roll-off container or transfer-station pit floor at an applicable City facility.",
+        "escalation_url": "https://www.honolulu.gov/env/ref/waste-drop-off-rules-residents/",
+        "active": true,
+        "review_status": "approved",
+        "evidence_ids": ["ev-rugs-carpeting"]
+      },
+      "known_limitations": ["The source does not define a separate curbside route for this category."]
+    },
+    {
+      "id": "green-waste",
+      "display_name": "Green waste",
+      "description": "Listed residential yard materials accepted as green waste at City drop-off sites.",
+      "active": true,
+      "review_status": "approved",
+      "aliases": [
+        {"alias": "grass clippings", "normalized_alias": "grass clippings", "locale": "en", "review_status": "approved"},
+        {"alias": "leaves", "normalized_alias": "leaves", "locale": "en", "review_status": "approved"},
+        {"alias": "tree branches", "normalized_alias": "tree branches", "locale": "en", "review_status": "approved"},
+        {"alias": "hedge trimmings", "normalized_alias": "hedge trimmings", "locale": "en", "review_status": "approved"},
+        {"alias": "palm fronds", "normalized_alias": "palm fronds", "locale": "en", "review_status": "approved"},
+        {"alias": "unflocked natural christmas tree", "normalized_alias": "unflocked natural christmas tree", "locale": "en", "review_status": "approved"}
+      ],
+      "guidance": {
+        "action_summary": "Take a listed green-waste material to an applicable City resident drop-off facility and place it loosely in the designated green-waste area.",
+        "requirements": [
+          "Do not put green waste in plastic bags.",
+          "Stumps and logs must be less than 9 inches in diameter.",
+          "Natural Christmas trees must not be flocked.",
+          "General size, vehicle, load, and attendant rules apply."
+        ],
+        "where_summary": "The designated green-waste roll-off container or area at an applicable City drop-off site.",
+        "escalation_url": "https://www.honolulu.gov/env/ref/waste-drop-off-rules-residents/",
+        "active": true,
+        "review_status": "approved",
+        "evidence_ids": ["ev-green-waste"]
+      },
+      "known_limitations": ["Only the source-listed yard materials are represented; food waste is outside this category."]
+    },
+    {
+      "id": "large-household-appliances",
+      "display_name": "Large household appliances",
+      "description": "Source-listed household refrigerators, freezers, air conditioners, water dispensers, washers, dryers, water heaters, stoves, and dishwashers.",
+      "active": true,
+      "review_status": "approved",
+      "aliases": [
+        {"alias": "refrigerator", "normalized_alias": "refrigerator", "locale": "en", "review_status": "approved"},
+        {"alias": "fridge", "normalized_alias": "fridge", "locale": "en", "review_status": "approved"},
+        {"alias": "freezer", "normalized_alias": "freezer", "locale": "en", "review_status": "approved"},
+        {"alias": "air conditioner", "normalized_alias": "air conditioner", "locale": "en", "review_status": "approved"},
+        {"alias": "washing machine", "normalized_alias": "washing machine", "locale": "en", "review_status": "approved"},
+        {"alias": "clothes dryer", "normalized_alias": "clothes dryer", "locale": "en", "review_status": "approved"},
+        {"alias": "water heater", "normalized_alias": "water heater", "locale": "en", "review_status": "approved"},
+        {"alias": "stove", "normalized_alias": "stove", "locale": "en", "review_status": "approved"},
+        {"alias": "dishwasher", "normalized_alias": "dishwasher", "locale": "en", "review_status": "approved"},
+        {"alias": "large water dispenser", "normalized_alias": "large water dispenser", "locale": "en", "review_status": "approved"}
+      ],
+      "guidance": {
+        "action_summary": "Take a source-listed large household appliance to an applicable City resident drop-off facility and place it in the separate appliance storage area as directed.",
+        "requirements": [
+          "The limit is two large appliances per month.",
+          "Only household types are accepted; commercial equipment is not accepted.",
+          "Follow facility signs and attendant directions."
+        ],
+        "where_summary": "The separate large-appliance storage area at an applicable City resident drop-off facility.",
+        "escalation_url": "https://www.honolulu.gov/env/ref/waste-drop-off-rules-residents/",
+        "active": true,
+        "review_status": "approved",
+        "evidence_ids": ["ev-large-appliances"]
+      },
+      "known_limitations": ["The category is limited to appliance types explicitly listed on the source page."]
+    },
+    {
+      "id": "passenger-and-light-truck-tires",
+      "display_name": "Passenger and light-truck tires",
+      "description": "Passenger or light-truck tires, with or without rims, from residential households.",
+      "active": true,
+      "review_status": "approved",
+      "aliases": [
+        {"alias": "car tire", "normalized_alias": "car tire", "locale": "en", "review_status": "approved"},
+        {"alias": "passenger tire", "normalized_alias": "passenger tire", "locale": "en", "review_status": "approved"},
+        {"alias": "passenger vehicle tire", "normalized_alias": "passenger vehicle tire", "locale": "en", "review_status": "approved"},
+        {"alias": "light truck tire", "normalized_alias": "light truck tire", "locale": "en", "review_status": "approved"},
+        {"alias": "passenger tire with rim", "normalized_alias": "passenger tire with rim", "locale": "en", "review_status": "approved"}
+      ],
+      "guidance": {
+        "action_summary": "Take passenger or light-truck tires, with or without rims, to an accepting City disposal site.",
+        "requirements": [
+          "The limit is four tires per month.",
+          "Keʻehi Transfer Station does not accept tires.",
+          "Heavy-truck and equipment tires are not accepted under this rule."
+        ],
+        "where_summary": "City disposal sites except Keʻehi Transfer Station.",
+        "escalation_url": "https://www.honolulu.gov/env/ref/waste-drop-off-rules-residents/",
+        "active": true,
+        "review_status": "approved",
+        "evidence_ids": ["ev-passenger-light-truck-tires"]
+      },
+      "known_limitations": ["A generic tire input is not an alias because the vehicle type must be known."]
+    },
+    {
+      "id": "alkaline-and-single-use-batteries",
+      "display_name": "Alkaline and single-use batteries",
+      "description": "Household alkaline and other single-use batteries covered by the City's regular-refuse instruction.",
+      "active": true,
+      "review_status": "approved",
+      "aliases": [
+        {"alias": "alkaline battery", "normalized_alias": "alkaline battery", "locale": "en", "review_status": "approved"},
+        {"alias": "single-use battery", "normalized_alias": "single-use battery", "locale": "en", "review_status": "approved"},
+        {"alias": "disposable battery", "normalized_alias": "disposable battery", "locale": "en", "review_status": "approved"},
+        {"alias": "battery", "normalized_alias": "battery", "locale": "en", "review_status": "approved"}
+      ],
+      "guidance": {
+        "action_summary": "Put an alkaline or other single-use household battery in regular refuse.",
+        "requirements": ["Use this instruction only when the battery is known to be alkaline or single-use."],
+        "where_summary": "Regular household refuse.",
+        "escalation_url": "https://www.honolulu.gov/env/ref/waste-drop-off-rules-residents/",
+        "active": true,
+        "review_status": "approved",
+        "evidence_ids": ["ev-alkaline-single-use-batteries"]
+      },
+      "known_limitations": ["Damaged, leaking, unidentified, rechargeable, embedded, vehicle, and electric-vehicle batteries are outside this action."]
+    },
+    {
+      "id": "standalone-rechargeable-batteries",
+      "display_name": "Standalone rechargeable batteries",
+      "description": "Standalone rechargeable lithium, lithium-ion, nickel-metal-hydride, and nickel-cadmium batteries.",
+      "active": true,
+      "review_status": "approved",
+      "aliases": [
+        {"alias": "standalone rechargeable nickel-metal-hydride battery", "normalized_alias": "standalone rechargeable nickel-metal-hydride battery", "locale": "en", "review_status": "approved"},
+        {"alias": "loose rechargeable nickel-cadmium battery", "normalized_alias": "loose rechargeable nickel-cadmium battery", "locale": "en", "review_status": "approved"},
+        {"alias": "standalone rechargeable lithium battery", "normalized_alias": "standalone rechargeable lithium battery", "locale": "en", "review_status": "approved"},
+        {"alias": "standalone lithium-ion battery", "normalized_alias": "standalone lithium-ion battery", "locale": "en", "review_status": "approved"},
+        {"alias": "standalone nimh battery", "normalized_alias": "standalone nimh battery", "locale": "en", "review_status": "approved"},
+        {"alias": "standalone nicad battery", "normalized_alias": "standalone nicad battery", "locale": "en", "review_status": "approved"},
+        {"alias": "battery", "normalized_alias": "battery", "locale": "en", "review_status": "approved"}
+      ],
+      "guidance": {
+        "action_summary": "Tape the terminals of a source-listed standalone rechargeable battery, place it in a clear plastic bag, and take it to an applicable City resident waste-drop-off facility.",
+        "requirements": [
+          "The battery must be standalone.",
+          "The source-listed chemistries are lithium, lithium-ion, nickel-metal-hydride, and nickel-cadmium.",
+          "Tape the terminals and place the battery in a clear plastic bag."
+        ],
+        "where_summary": "An applicable City resident waste-drop-off facility; individual-site availability is not specified by this record.",
+        "escalation_url": "https://www.honolulu.gov/env/ref/waste-drop-off-rules-residents/",
+        "active": true,
+        "review_status": "approved",
+        "evidence_ids": ["ev-standalone-rechargeable-batteries"]
+      },
+      "known_limitations": ["Embedded, damaged, swollen, leaking, unidentified, and electric-vehicle batteries are outside this action."]
+    },
+    {
+      "id": "car-and-motorcycle-lead-acid-batteries",
+      "display_name": "Car and motorcycle lead-acid batteries",
+      "description": "Lead-acid batteries from cars and motorcycles accepted under the resident drop-off rules.",
+      "active": true,
+      "review_status": "approved",
+      "aliases": [
+        {"alias": "car lead-acid battery", "normalized_alias": "car lead-acid battery", "locale": "en", "review_status": "approved"},
+        {"alias": "motorcycle lead-acid battery", "normalized_alias": "motorcycle lead-acid battery", "locale": "en", "review_status": "approved"},
+        {"alias": "car lead acid battery", "normalized_alias": "car lead acid battery", "locale": "en", "review_status": "approved"},
+        {"alias": "lead-acid car battery", "normalized_alias": "lead-acid car battery", "locale": "en", "review_status": "approved"},
+        {"alias": "lead-acid motorcycle battery", "normalized_alias": "lead-acid motorcycle battery", "locale": "en", "review_status": "approved"},
+        {"alias": "battery", "normalized_alias": "battery", "locale": "en", "review_status": "approved"}
+      ],
+      "guidance": {
+        "action_summary": "Take a lead-acid car or motorcycle battery to an applicable City resident waste-drop-off facility.",
+        "requirements": [
+          "Only lead-acid car and motorcycle batteries are covered.",
+          "Heavy-equipment and electric-vehicle batteries are not accepted under this rule.",
+          "Follow facility signs and attendant directions."
+        ],
+        "where_summary": "An applicable City resident waste-drop-off facility; individual-site availability is not specified by this record.",
+        "escalation_url": "https://www.honolulu.gov/env/ref/waste-drop-off-rules-residents/",
+        "active": true,
+        "review_status": "approved",
+        "evidence_ids": ["ev-lead-acid-batteries"]
+      },
+      "known_limitations": ["The category does not cover heavy-equipment, electric-vehicle, or other lead-acid battery uses."]
+    },
+    {
+      "id": "household-propane-containers",
+      "display_name": "Household propane tanks and cylinders",
+      "description": "Source-listed household propane tanks and cylinders in the accepted sizes.",
+      "active": true,
+      "review_status": "approved",
+      "aliases": [
+        {"alias": "5 gallon propane tank", "normalized_alias": "5 gallon propane tank", "locale": "en", "review_status": "approved"},
+        {"alias": "20 gallon propane tank", "normalized_alias": "20 gallon propane tank", "locale": "en", "review_status": "approved"},
+        {"alias": "16 ounce propane cylinder", "normalized_alias": "16 ounce propane cylinder", "locale": "en", "review_status": "approved"},
+        {"alias": "16 oz propane cylinder", "normalized_alias": "16 oz propane cylinder", "locale": "en", "review_status": "approved"}
+      ],
+      "guidance": {
+        "action_summary": "Take a source-listed household propane tank or cylinder to an applicable City resident waste-drop-off facility, whether empty, partially full, or full.",
+        "requirements": [
+          "Supported tank sizes are the source-stated 5 gallons and 20 gallons; supported cylinders are the source-stated 16 ounces.",
+          "Commercial-grade compressed gas, industrial tanks, oxygen cylinders, and SCUBA tanks are prohibited.",
+          "Follow facility signs and attendant directions."
+        ],
+        "where_summary": "An applicable City resident waste-drop-off facility; individual-site availability is not specified by this record.",
+        "escalation_url": "https://www.honolulu.gov/env/ref/waste-drop-off-rules-residents/",
+        "active": true,
+        "review_status": "approved",
+        "evidence_ids": ["ev-household-propane-containers"]
+      },
+      "known_limitations": ["Generic propane-container inputs are not exact aliases because the accepted size must be known."]
+    },
+    {
+      "id": "televisions",
+      "display_name": "Televisions",
+      "description": "Source-qualified televisions accepted in City e-waste recycling bins.",
+      "active": true,
+      "review_status": "approved",
+      "aliases": [
+        {"alias": "television with a 9-inch or larger screen", "normalized_alias": "television with a 9-inch or larger screen", "locale": "en", "review_status": "approved"},
+        {"alias": "tv with a 9-inch or larger screen", "normalized_alias": "tv with a 9-inch or larger screen", "locale": "en", "review_status": "approved"},
+        {"alias": "9-inch or larger flat-screen tv", "normalized_alias": "9-inch or larger flat-screen tv", "locale": "en", "review_status": "approved"},
+        {"alias": "9-inch or larger crt television", "normalized_alias": "9-inch or larger crt television", "locale": "en", "review_status": "approved"},
+        {"alias": "9-inch or larger projection television", "normalized_alias": "9-inch or larger projection television", "locale": "en", "review_status": "approved"}
+      ],
+      "guidance": {
+        "action_summary": "Take a source-qualified television to a City e-waste bin at a listed transfer station or convenience center for recycling.",
+        "requirements": [
+          "The viewable screen must be 9 inches or larger.",
+          "The device must fit the television or video-display definition on the official accepted-items list.",
+          "Verify current site availability before travel."
+        ],
+        "where_summary": "City e-waste bins at the transfer stations and convenience centers listed on the official page.",
+        "escalation_url": "https://www.honolulu.gov/env/city-ewaste-dropbins/",
+        "active": true,
+        "review_status": "approved",
+        "evidence_ids": ["ev-televisions-ewaste"]
+      },
+      "known_limitations": ["Telephones, GPS units, smaller screens, and generic electronics are not included in this category."]
+    },
+    {
+      "id": "computers-and-peripherals",
+      "display_name": "Computers and listed peripherals",
+      "description": "Computers and the computer-related devices explicitly accepted by the City's e-waste-bin list.",
+      "active": true,
+      "review_status": "approved",
+      "aliases": [
+        {"alias": "desktop computer", "normalized_alias": "desktop computer", "locale": "en", "review_status": "approved"},
+        {"alias": "laptop computer", "normalized_alias": "laptop computer", "locale": "en", "review_status": "approved"},
+        {"alias": "computer monitor", "normalized_alias": "computer monitor", "locale": "en", "review_status": "approved"},
+        {"alias": "computer printer", "normalized_alias": "computer printer", "locale": "en", "review_status": "approved"},
+        {"alias": "stand-alone printer", "normalized_alias": "stand-alone printer", "locale": "en", "review_status": "approved"},
+        {"alias": "stand-alone scanner", "normalized_alias": "stand-alone scanner", "locale": "en", "review_status": "approved"},
+        {"alias": "computer keyboard", "normalized_alias": "computer keyboard", "locale": "en", "review_status": "approved"},
+        {"alias": "computer mouse", "normalized_alias": "computer mouse", "locale": "en", "review_status": "approved"},
+        {"alias": "tablet computer", "normalized_alias": "tablet computer", "locale": "en", "review_status": "approved"},
+        {"alias": "household router", "normalized_alias": "household router", "locale": "en", "review_status": "approved"},
+        {"alias": "household modem", "normalized_alias": "household modem", "locale": "en", "review_status": "approved"},
+        {"alias": "computer hard drive", "normalized_alias": "computer hard drive", "locale": "en", "review_status": "approved"}
+      ],
+      "guidance": {
+        "action_summary": "Take a computer or computer-related device that appears explicitly on the City's accepted list to a City e-waste bin for recycling.",
+        "requirements": [
+          "Computers, portable computers, printers, and monitors must meet the accepted-item descriptions on the official page.",
+          "Electronics integrated into motor vehicles or larger industrial, commercial, medical, or listed household equipment are excluded.",
+          "Verify current site availability before travel."
+        ],
+        "where_summary": "City e-waste bins at the transfer stations and convenience centers listed on the official page.",
+        "escalation_url": "https://www.honolulu.gov/env/city-ewaste-dropbins/",
+        "active": true,
+        "review_status": "approved",
+        "evidence_ids": ["ev-computers-peripherals-ewaste"]
+      },
+      "known_limitations": ["Generic electronics and telephones are excluded; the category supports only devices explicitly represented by its aliases and the source list."]
+    },
+    {
+      "id": "non-cfl-light-bulbs",
+      "display_name": "Non-CFL light bulbs",
+      "description": "Small residential quantities of light bulbs explicitly identified by the City as non-CFL.",
+      "active": true,
+      "review_status": "approved",
+      "aliases": [
+        {"alias": "non-cfl light bulb", "normalized_alias": "non-cfl light bulb", "locale": "en", "review_status": "approved"},
+        {"alias": "non-cfl bulb", "normalized_alias": "non-cfl bulb", "locale": "en", "review_status": "approved"},
+        {"alias": "light bulb that is not cfl", "normalized_alias": "light bulb that is not cfl", "locale": "en", "review_status": "approved"}
+      ],
+      "guidance": {
+        "action_summary": "Put a non-CFL light bulb from a small residential quantity in the trash.",
+        "requirements": [
+          "Use this instruction only when the bulb is known not to be a compact fluorescent bulb or tube.",
+          "Large quantities require calling the City's Refuse Division for instructions."
+        ],
+        "where_summary": "Regular household trash.",
+        "escalation_url": "https://www.honolulu.gov/env/ref/hhw-2/",
+        "active": true,
+        "review_status": "approved",
+        "evidence_ids": ["ev-non-cfl-light-bulbs"]
+      },
+      "known_limitations": ["Generic light-bulb inputs do not exact-match because compact fluorescent bulbs and tubes use a different route."]
+    },
+    {
+      "id": "household-medical-sharps",
+      "display_name": "Household medical sharps",
+      "description": "Small residential quantities of medical sharps covered by the City's trash route.",
+      "active": true,
+      "review_status": "approved",
+      "aliases": [
+        {"alias": "small quantity of medical sharps", "normalized_alias": "small quantity of medical sharps", "locale": "en", "review_status": "approved"},
+        {"alias": "small quantity of household sharps", "normalized_alias": "small quantity of household sharps", "locale": "en", "review_status": "approved"},
+        {"alias": "used needle", "normalized_alias": "used needle", "locale": "en", "review_status": "approved"},
+        {"alias": "used syringe", "normalized_alias": "used syringe", "locale": "en", "review_status": "approved"},
+        {"alias": "small household container of used medical sharps", "normalized_alias": "small household container of used medical sharps", "locale": "en", "review_status": "approved"}
+      ],
+      "guidance": {
+        "action_summary": "Encase household medical sharps in a rigid screw-top plastic container, close it securely, and put it in the trash.",
+        "requirements": [
+          "Use a rigid plastic container with a screw top.",
+          "Close the container securely to prevent spillage.",
+          "Large quantities require calling the City's Refuse Division for instructions."
+        ],
+        "where_summary": "Regular household trash after secure containment.",
+        "escalation_url": "https://www.honolulu.gov/env/ref/hhw-2/",
+        "active": true,
+        "review_status": "approved",
+        "evidence_ids": ["ev-household-medical-sharps"]
+      },
+      "known_limitations": ["This category does not cover other medical waste, which the resident drop-off page lists as prohibited."]
+    },
+    {
+      "id": "compact-fluorescent-bulbs-and-tubes",
+      "display_name": "Compact fluorescent bulbs and tubes",
+      "description": "Compact fluorescent bulbs and tubes listed for City household-hazardous-waste appointments.",
+      "active": true,
+      "review_status": "approved",
+      "aliases": [
+        {"alias": "compact fluorescent bulb", "normalized_alias": "compact fluorescent bulb", "locale": "en", "review_status": "approved"},
+        {"alias": "compact fluorescent tube", "normalized_alias": "compact fluorescent tube", "locale": "en", "review_status": "approved"},
+        {"alias": "cfl bulb", "normalized_alias": "cfl bulb", "locale": "en", "review_status": "approved"},
+        {"alias": "cfl tube", "normalized_alias": "cfl tube", "locale": "en", "review_status": "approved"}
+      ],
+      "guidance": {
+        "action_summary": "Schedule a City household-hazardous-waste appointment for a compact fluorescent bulb or tube and follow the live registration instructions.",
+        "requirements": [
+          "Drop-off is by appointment only.",
+          "Only registered items are accepted, subject to the current event limit and instructions.",
+          "Event dates, registration status, and deadlines must be checked on the live page."
+        ],
+        "where_summary": "A scheduled City household-hazardous-waste drop-off event.",
+        "escalation_url": "https://www.honolulu.gov/env/ref/hhw-2/",
+        "active": true,
+        "review_status": "approved",
+        "evidence_ids": ["ev-compact-fluorescent-lamps"]
+      },
+      "known_limitations": ["Non-CFL bulbs follow a different source row and are not part of this category."]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-mattresses-drop-off",
+      "source_id": "src-hnl-resident-drop-off",
+      "category_id": "mattresses",
+      "locator": "Rules and Guidelines for Residents > Regular Refuse",
+      "supporting_summary": "The page lists mattresses as acceptable regular refuse, directs regular refuse to a roll-off container or transfer-station pit floor, and requests bags when possible.",
+      "claim_scope": "Resident mattress drop-off only; no curbside-pickup claim.",
+      "research_checked_on": "2026-09-05",
+      "human_reviewed_on": "2026-09-05",
+      "reviewer_ref": "project-owner-human-review",
+      "review_status": "approved"
+    },
+    {
+      "id": "ev-household-chairs-tables",
+      "source_id": "src-hnl-resident-drop-off",
+      "category_id": "household-chairs-and-tables",
+      "locator": "Rules and Guidelines for Residents > Preparing to Dispose Your Waste; Regular Refuse",
+      "supporting_summary": "The page lists chairs and tables as acceptable regular refuse and gives a less-than-6-foot and less-than-60-pound preparation rule for material that can be disassembled or broken down.",
+      "claim_scope": "Household chairs and tables delivered under the resident drop-off rules.",
+      "research_checked_on": "2026-09-05",
+      "human_reviewed_on": "2026-09-05",
+      "reviewer_ref": "project-owner-human-review",
+      "review_status": "approved"
+    },
+    {
+      "id": "ev-rugs-carpeting",
+      "source_id": "src-hnl-resident-drop-off",
+      "category_id": "rugs-and-carpeting",
+      "locator": "Rules and Guidelines for Residents > Preparing to Dispose Your Waste; Regular Refuse",
+      "supporting_summary": "The page lists fastened rugs and carpeting as acceptable regular refuse and gives general size and weight preparation rules for material that can be cut or broken down.",
+      "claim_scope": "Fastened residential rugs and carpeting delivered under the resident drop-off rules.",
+      "research_checked_on": "2026-09-05",
+      "human_reviewed_on": "2026-09-05",
+      "reviewer_ref": "project-owner-human-review",
+      "review_status": "approved"
+    },
+    {
+      "id": "ev-green-waste",
+      "source_id": "src-hnl-resident-drop-off",
+      "category_id": "green-waste",
+      "locator": "Rules and Guidelines for Residents > Green Waste",
+      "supporting_summary": "The page directs listed green waste to a designated area without plastic bags and lists grass, leaves, branches, trimmings, palm fronds, qualifying stumps/logs, and unflocked natural Christmas trees.",
+      "claim_scope": "Only source-listed residential green-waste materials and stated preparation limits.",
+      "research_checked_on": "2026-09-05",
+      "human_reviewed_on": "2026-09-05",
+      "reviewer_ref": "project-owner-human-review",
+      "review_status": "approved"
+    },
+    {
+      "id": "ev-large-appliances",
+      "source_id": "src-hnl-resident-drop-off",
+      "category_id": "large-household-appliances",
+      "locator": "Rules and Guidelines for Residents > Large Appliances",
+      "supporting_summary": "The page directs listed large appliances to separate storage, limits residents to two per month, and accepts household types rather than commercial equipment.",
+      "claim_scope": "Only the household appliance types explicitly listed by the City page.",
+      "research_checked_on": "2026-09-05",
+      "human_reviewed_on": "2026-09-05",
+      "reviewer_ref": "project-owner-human-review",
+      "review_status": "approved"
+    },
+    {
+      "id": "ev-passenger-light-truck-tires",
+      "source_id": "src-hnl-resident-drop-off",
+      "category_id": "passenger-and-light-truck-tires",
+      "locator": "Rules and Guidelines for Residents > Tires (with or without rims)",
+      "supporting_summary": "The page accepts up to four passenger or light-truck tires per month, with or without rims, at City disposal sites other than Keʻehi Transfer Station; heavy-truck and equipment tires are excluded.",
+      "claim_scope": "Residential passenger and light-truck tires only.",
+      "research_checked_on": "2026-09-05",
+      "human_reviewed_on": "2026-09-05",
+      "reviewer_ref": "project-owner-human-review",
+      "review_status": "approved"
+    },
+    {
+      "id": "ev-alkaline-single-use-batteries",
+      "source_id": "src-hnl-resident-drop-off",
+      "category_id": "alkaline-and-single-use-batteries",
+      "locator": "Rules and Guidelines for Residents > Battery",
+      "supporting_summary": "The battery section directs alkaline and single-use batteries to regular refuse.",
+      "claim_scope": "Known household alkaline and single-use batteries only.",
+      "research_checked_on": "2026-09-05",
+      "human_reviewed_on": "2026-09-05",
+      "reviewer_ref": "project-owner-human-review",
+      "review_status": "approved"
+    },
+    {
+      "id": "ev-standalone-rechargeable-batteries",
+      "source_id": "src-hnl-resident-drop-off",
+      "category_id": "standalone-rechargeable-batteries",
+      "locator": "Rules and Guidelines for Residents > Battery",
+      "supporting_summary": "The page limits its rechargeable-battery instruction to standalone lithium, lithium-ion, nickel-metal-hydride, and nickel-cadmium batteries and requires taped terminals and a clear plastic bag.",
+      "claim_scope": "Source-listed standalone rechargeable batteries only.",
+      "research_checked_on": "2026-09-05",
+      "human_reviewed_on": "2026-09-05",
+      "reviewer_ref": "project-owner-human-review",
+      "review_status": "approved"
+    },
+    {
+      "id": "ev-lead-acid-batteries",
+      "source_id": "src-hnl-resident-drop-off",
+      "category_id": "car-and-motorcycle-lead-acid-batteries",
+      "locator": "Rules and Guidelines for Residents > Battery; Prohibited Items",
+      "supporting_summary": "The page accepts lead-acid car and motorcycle batteries, excludes heavy-equipment batteries, and prohibits electric-vehicle batteries.",
+      "claim_scope": "Lead-acid car and motorcycle batteries under the resident drop-off rules.",
+      "research_checked_on": "2026-09-05",
+      "human_reviewed_on": "2026-09-05",
+      "reviewer_ref": "project-owner-human-review",
+      "review_status": "approved"
+    },
+    {
+      "id": "ev-household-propane-containers",
+      "source_id": "src-hnl-resident-drop-off",
+      "category_id": "household-propane-containers",
+      "locator": "Rules and Guidelines for Residents > Compressed Gas; Prohibited Items",
+      "supporting_summary": "The compressed-gas section accepts empty, partially full, or full propane tanks in the source-stated 5- and 20-gallon sizes and 16-ounce propane cylinders; the prohibited list excludes commercial-grade and other industrial gas containers, oxygen tanks, and SCUBA tanks.",
+      "claim_scope": "Only the household propane container sizes explicitly listed by the City page.",
+      "research_checked_on": "2026-09-05",
+      "human_reviewed_on": "2026-09-05",
+      "reviewer_ref": "project-owner-human-review",
+      "review_status": "approved"
+    },
+    {
+      "id": "ev-televisions-ewaste",
+      "source_id": "src-hnl-city-ewaste",
+      "category_id": "televisions",
+      "locator": "E-waste Recycling at City Disposal Sites > Acceptable items; Disposal method",
+      "supporting_summary": "The page accepts television or video-display devices with a viewable screen of 9 inches or larger and says accepted items may go to City e-waste bins at its listed transfer stations and convenience centers for recycling.",
+      "claim_scope": "Televisions meeting the source's display definition and size threshold.",
+      "research_checked_on": "2026-09-05",
+      "human_reviewed_on": "2026-09-05",
+      "reviewer_ref": "project-owner-human-review",
+      "review_status": "approved"
+    },
+    {
+      "id": "ev-computers-peripherals-ewaste",
+      "source_id": "src-hnl-city-ewaste",
+      "category_id": "computers-and-peripherals",
+      "locator": "E-waste Recycling at City Disposal Sites > Acceptable items; Unacceptable items; Disposal method",
+      "supporting_summary": "The page lists computers, printers, monitors, laptops, tablets, peripherals, routers, modems, hard drives, and other named computer-related devices as accepted for City e-waste recycling, while excluding electronics integrated into vehicles or larger industrial, commercial, medical, or listed household equipment.",
+      "claim_scope": "Only computer and peripheral types represented by the category aliases and explicitly listed by the source.",
+      "research_checked_on": "2026-09-05",
+      "human_reviewed_on": "2026-09-05",
+      "reviewer_ref": "project-owner-human-review",
+      "review_status": "approved"
+    },
+    {
+      "id": "ev-non-cfl-light-bulbs",
+      "source_id": "src-hnl-household-hazardous-waste",
+      "category_id": "non-cfl-light-bulbs",
+      "locator": "Household Hazardous Waste > Disposal of HHW > Put In Trash Can",
+      "supporting_summary": "The small-quantity disposal table explicitly includes non-CFL light bulbs in the put-in-trash route and directs large quantities of household hazardous waste to call the City for instructions.",
+      "claim_scope": "Small residential quantities of light bulbs known not to be compact fluorescent bulbs or tubes.",
+      "research_checked_on": "2026-09-05",
+      "human_reviewed_on": "2026-09-05",
+      "reviewer_ref": "project-owner-human-review",
+      "review_status": "approved"
+    },
+    {
+      "id": "ev-household-medical-sharps",
+      "source_id": "src-hnl-household-hazardous-waste",
+      "category_id": "household-medical-sharps",
+      "locator": "Household Hazardous Waste > Disposal of HHW > Put In Trash Can",
+      "supporting_summary": "The small-quantity disposal table includes medical sharps in the trash route and instructs residents to encase sharps in a rigid screw-top plastic container and close containers securely.",
+      "claim_scope": "Small residential quantities of medical sharps after source-specified containment.",
+      "research_checked_on": "2026-09-05",
+      "human_reviewed_on": "2026-09-05",
+      "reviewer_ref": "project-owner-human-review",
+      "review_status": "approved"
+    },
+    {
+      "id": "ev-compact-fluorescent-lamps",
+      "source_id": "src-hnl-household-hazardous-waste",
+      "category_id": "compact-fluorescent-bulbs-and-tubes",
+      "locator": "Household Hazardous Waste > Disposal of HHW > Schedule an Appointment to Drop-Off",
+      "supporting_summary": "The page lists compact fluorescent bulbs and tubes for appointment drop-off and says only registered items are accepted under the live event instructions.",
+      "claim_scope": "Residential compact fluorescent bulbs and tubes using the City appointment process; no durable event date is asserted.",
+      "research_checked_on": "2026-09-05",
+      "human_reviewed_on": "2026-09-05",
+      "reviewer_ref": "project-owner-human-review",
+      "review_status": "approved"
+    }
+  ],
+  "excluded_or_deferred": [
+    {
+      "item_group": "Generic electronics and telephones",
+      "reason": "The City page's accepted and unacceptable lists conflict on VOIP telephones, and generic electronics exceed the two bounded device categories selected here."
+    },
+    {
+      "item_group": "Damaged, swollen, leaking, embedded, unidentified, heavy-equipment, and electric-vehicle batteries",
+      "reason": "The inspected sources do not support one safe deterministic household instruction; some are separately prohibited or routed."
+    },
+    {
+      "item_group": "Commercial, construction, industrial, medical-facility, and agricultural waste",
+      "reason": "These uses are outside the Oʻahu residential household V1 boundary."
+    },
+    {
+      "item_group": "Unlisted compressed-gas containers and paint-related chemicals",
+      "reason": "Only source-listed compressed-gas sizes are included. Paint and primer remain excluded because a generic description does not safely distinguish the City's trash route from separately listed appointment-only paint products or large quantities."
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+# V1 reviewed canonical dataset
+
+## Status and purpose
+
+BL-002 extends the five-record pilot into the approved minimum-size V1 taxonomy and canonical reference dataset. The machine-readable artifact is [`data/v1-canonical-dataset.json`](../data/v1-canonical-dataset.json), validated by [`scripts/validate-v1-dataset.mjs`](../scripts/validate-v1-dataset.mjs).
+
+The project owner approved all 15 categories and their guidance, aliases, sources, evidence, limitations, and intentional ambiguity on 2026-09-05. A same-day second-pass check against the three live City and County of Honolulu ENV pages found no material discrepancy. The artifact is now approved canonical reference data with 15 active, production-eligible records. This approval does not deploy the data or create application code, a database schema, a migration, or a production seed.
+
+## Selection method
+
+The set uses the 15-category lower bound in NFR-001 to keep V1 small enough for one maintainer while covering ordinary refuse, yard waste, appliances, tires, batteries, compressed gas, electronics, sharps, and two distinct light-bulb routes. A category was included only when a current City and County of Honolulu ENV page directly supported a bounded residential action and its important qualifications.
+
+Selection followed the authority and evidence rules in [SOURCE_INVENTORY.md](SOURCE_INVENTORY.md): City ENV first, no search snippet or secondary source as evidence, no inferred facility rule, and explicit exclusion when the available language was broad, conflicting, or unsafe. All three source pages and 15 category-to-evidence relationships were research-checked, independently reviewed, and second-pass verified on 2026-09-05.
+
+## Selected category set
+
+| ID | Resident-facing category | Source locator | Bounded action and important boundary |
+|---|---|---|---|
+| `mattresses` | Mattresses | Resident rules → Regular Refuse | City drop-off as regular refuse; no curbside-pickup claim |
+| `household-chairs-and-tables` | Household chairs and tables | Resident rules → Preparing / Regular Refuse | Only chairs and tables; general size/weight rules apply |
+| `rugs-and-carpeting` | Rugs and carpeting | Resident rules → Preparing / Regular Refuse | Must be fastened; general size/weight rules apply |
+| `green-waste` | Green waste | Resident rules → Green Waste | Listed yard materials, loose and without plastic bags |
+| `large-household-appliances` | Large household appliances | Resident rules → Large Appliances | Listed household types; two per month; no commercial equipment |
+| `passenger-and-light-truck-tires` | Passenger and light-truck tires | Resident rules → Tires | Four per month; not Keʻehi; no heavy-truck/equipment tires |
+| `alkaline-and-single-use-batteries` | Alkaline and single-use batteries | Resident rules → Battery | Regular refuse only when battery type is known |
+| `standalone-rechargeable-batteries` | Standalone rechargeable batteries | Resident rules → Battery | Listed chemistries only; standalone, terminals taped, clear bag |
+| `car-and-motorcycle-lead-acid-batteries` | Car and motorcycle lead-acid batteries | Resident rules → Battery / Prohibited | No heavy-equipment or electric-vehicle batteries |
+| `household-propane-containers` | Household propane tanks and cylinders | Resident rules → Compressed Gas / Prohibited | Only source-stated sizes; generic-size inputs do not exact-match |
+| `televisions` | Televisions | City e-waste → Accepted items | Source-qualified display of at least 9 inches |
+| `computers-and-peripherals` | Computers and listed peripherals | City e-waste → Accepted / Unacceptable items | Only aliased device types that appear on the accepted list |
+| `non-cfl-light-bulbs` | Non-CFL light bulbs | HHW → Put In Trash Can | Small residential quantities known not to be CFLs |
+| `household-medical-sharps` | Household medical sharps | HHW → Put In Trash Can | Small residential quantities in a rigid screw-top container |
+| `compact-fluorescent-bulbs-and-tubes` | Compact fluorescent bulbs and tubes | HHW → Appointment | Appointment route; live event details must be rechecked |
+
+## Authoritative sources
+
+1. City and County of Honolulu ENV, [Rules and Guidelines for Residents](https://www.honolulu.gov/env/ref/waste-drop-off-rules-residents/).
+2. City and County of Honolulu ENV, [E-waste Recycling at City Disposal Sites](https://www.honolulu.gov/env/city-ewaste-dropbins/).
+3. City and County of Honolulu ENV, [Household Hazardous Waste](https://www.honolulu.gov/env/ref/hhw-2/).
+
+The resident drop-off page's official metadata reports a 2025-04-22 modification date. The other pages did not expose a stable apparent update date during review. The HHW page uses a 30-day cadence because its event and registration information changes; its next review is due 2026-10-05. The other two sources use the approved 90-day cadence from ADR-005 and are due for review on 2026-12-04.
+
+## Canonical data and deterministic aliases
+
+Each selected category has a stable kebab-case ID, resident-facing name, narrow description, deterministic alias objects, authored guidance, limitations, and evidence references. Each source is stored once and each evidence record points to exactly one category and source. This mirrors the relational boundaries in [DATA_MODEL.md](DATA_MODEL.md) without implementing the Supabase schema.
+
+Alias normalization is Unicode NFKC, trimming, en-US lowercase, Unicode-dash normalization, and whitespace collapse. The validator recomputes every normalized alias. Broad or unsafe aliases are intentionally omitted: for example, `tire` does not exact-match because heavy tires are excluded, and a generic propane container does not exact-match because accepted sizes matter.
+
+An alias eligibility-safety review also requires every exact-match alias to include any property that materially determines whether its category instruction applies. The 2026-09-05 correction pass tightened aliases for source-listed appliance type, tire type, rechargeable-battery chemistry and standalone condition, lead-acid chemistry and vehicle type, propane-container size, television screen size, stand-alone printer/scanner type, and small-quantity/content medical sharps. Preparation steps and limits that do not determine category identity remain visible in guidance rather than being forced into every singular alias. The validator now enforces these qualification rules for the affected categories.
+
+| Category | Alias correction | Eligibility boundary preserved |
+|---|---|---|
+| Large household appliances | `large household appliance` → `large water dispenser` | The exact match now names a type on the source list. |
+| Passenger/light-truck tires | `tire with rim` → `passenger tire with rim` | Tire type is retained; a rim alone does not distinguish excluded heavy/equipment tires. |
+| Standalone rechargeable batteries | Three generic/partial aliases were replaced with chemistry-qualified standalone or loose variants. | Both standalone condition and a listed rechargeable chemistry are retained. |
+| Car/motorcycle lead-acid batteries | Three partial aliases were replaced with car- or motorcycle-specific lead-acid variants. | Both vehicle type and lead-acid chemistry are retained. |
+| Household propane containers | `small household propane cylinder` → `16 oz propane cylinder` | The supported cylinder size is explicit. |
+| Televisions | Five generic display-type aliases were replaced with 9-inch-or-larger variants. | The source's viewable-screen threshold is explicit. |
+| Computers and peripherals | `printer` / `scanner` → `stand-alone printer` / `stand-alone scanner` | The aliases no longer silently include equipment integrated into an excluded larger device. |
+| Household medical sharps | Three plural/container aliases were replaced with small-quantity or small-household-content variants. | Quantity and container contents no longer remain unspecified. |
+
+`battery` is the one deliberate cross-category collision. It maps to the three battery categories and must produce ambiguity, not a silent category selection. The dataset records the exact participating IDs, clarification question, and reason. No other normalized collision is permitted.
+
+## Included guidance and provenance boundaries
+
+- Guidance is authored only from the cited bounded evidence summaries; no model text or general knowledge is an authority.
+- Every category points to at least one evidence record with source, locator, claim scope, and research date.
+- Important restrictions stay in the guidance rather than being inferred by a later UI.
+- “Where” remains an authored summary tied to the source. BL-002 does not create a destination table or claim live site availability.
+- Source links use reviewed HTTPS government domains only.
+- Dynamic event dates are not embedded as durable instructions.
+- An unapproved, expired, conflicted, or rejected record cannot become active.
+
+## Excluded and deferred groups
+
+- **Generic electronics and telephones:** excluded because the City page conflicts on VOIP telephones versus telephones generally, and “electronics” is broader than the selected device records.
+- **Damaged, swollen, leaking, embedded, unidentified, heavy-equipment, and electric-vehicle batteries:** excluded because no single safe deterministic household action was established; some types are separately prohibited or routed.
+- **Generic tires and propane containers:** not exact aliases because type or size materially changes eligibility.
+- **Paint and primer:** excluded from the frozen candidate set because a generic description cannot safely distinguish the City's small-quantity trash route from lead/aluminum paint, stripper, thinner, unidentified products, or large quantities.
+- **Commercial, construction, industrial, medical-facility, and agricultural waste:** outside the residential V1 scope.
+- **All unlisted household items:** unsupported until a separate evidence-backed scope change is approved.
+
+## Human approval record
+
+The independent review gate was completed as follows:
+
+1. The project owner reviewed and approved all 15 categories on 2026-09-05 under reviewer reference `project-owner-human-review`.
+2. The live-source second pass rechecked all source metadata, evidence locators, category scopes, actions, requirements, destination statements, limitations, exclusions, and 85 aliases on 2026-09-05.
+3. The live pages continued to support every bounded claim. No source-integrity conflict affected a selected category.
+4. The e-waste page still lists VOIP telephones as acceptable while separately rejecting telephones of any type; telephone guidance remains excluded.
+5. The HHW page's event dates and registration status remain dynamic and are not stored as durable instructions; the canonical guidance requires checking the live page.
+6. All categories, aliases, guidance, sources, and evidence are approved; all 15 categories and guidance records are active.
+7. The 90-day source review-by date is 2026-12-04, while the dynamic HHW source uses 2026-10-05.
+8. Both data validators and the provenance, alias, review-state, freshness, link, traceability, and scope checks pass with no critical/high source-integrity issue.
+
+This completes BL-002's dataset and provenance evidence for AC-FR-005-01, AC-FR-007-01, AC-FR-013-01, AC-NFR-001-01, and AC-NFR-002-01. Later application/database tasks must still enforce and test the runtime behavior those criteria describe.
+
+## Validation and traceability
+
+The dependency-free validator checks category count and exact IDs, ID/reference uniqueness, source authority/HTTPS, required guidance and evidence, deterministic alias normalization and eligibility qualifiers, undeclared collisions, approval metadata, review cadence and expiry, exclusions, and production eligibility. The older five-record pilot and its validator remain intact for audit history.
+
+Traceability for this artifact is:
+
+Problem → FR-003/005/007/013 and NFR-001/002/003 → mapped acceptance criteria → ADR-004/005/009 and DATA_MODEL → BL-002 → reviewed canonical dataset and validator → completed human provenance audit → backlog-item Definition of Done.
+
+## Open risks
+
+- Official pages can change after 2026-09-05; expired or changed sources must stop supporting production use until reapproved.
+- The minimum 15-category set is intentionally narrow and may expose deterministic coverage gaps during BL-008; that does not authorize adding categories without evidence.
+- The City e-waste telephone contradiction remains documented and excluded.
+- Facility hours, temporary closures, and live HHW event details require the official page and are not treated as stable dataset facts.

@@ -31,6 +31,12 @@ IDs, slugs/names, active guidance action, source organization/title/URL, evidenc
 
 Normalization is deterministic Unicode normalization, case folding, whitespace collapse, and documented punctuation handling. Store original alias and normalized value. Category slugs are machine identifiers and never derived from model text at runtime.
 
+## BL-002 reviewed canonical serialization
+
+[`data/v1-canonical-dataset.json`](../data/v1-canonical-dataset.json) is an approved pre-schema reference artifact, not a database seed. It mirrors categories, aliases, nested guidance, unique sources, and category/source evidence relationships so BL-004 can translate it into the relational design without losing provenance. Project-owner approval and the live-source second pass were recorded on 2026-09-05; all 15 records are approved and active, with source expiry enforced by the validator.
+
+The canonical dataset keeps destination/program text in `where_summary`. With only three source programs and source-specific qualifications, BL-002 does not justify a destination entity. Accepted ADR-009 records that decision for BL-004.
+
 ## Keys, indexes, and deletion
 
 Use UUID primary keys and foreign keys with ON DELETE RESTRICT for guidance/source/evidence chains. Index active category slug, normalized alias, category foreign keys, source review status/review_by, and evidence joins. A partial uniqueness constraint should enforce one active guidance per category if history remains in the same table. Prefer deactivation and new reviewed records over destructive edits; preserve source verification history.
