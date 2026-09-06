@@ -1,6 +1,6 @@
 # Oʻahu Household Item Disposal Navigator
 
-Status: **Stage 1 and BL-001 through BL-005 are merged. BL-006's four-state resident interface is implemented on a focused branch and pending human review.**
+Status: **Stage 1 and BL-001 through BL-005 are merged. BL-006's four-state resident interface passes CI and its manual accessibility review; PR approval and squash merge remain pending.**
 
 The Oʻahu Household Item Disposal Navigator is a small public-interest web project for residents who need to understand how to dispose of a common household item. Official guidance can require people to translate ordinary item names into government categories and combine information from several pages. V1 will provide a single plain-language lookup and return a structured, source-backed result or a clear clarification/unsupported state.
 
@@ -44,7 +44,7 @@ npm run db:test
 npm run db:stop
 ~~~
 
-BL-006 adds the resident form and the initial, structured-success, clarification, and unsupported/error experiences. It includes visible source/trust information, edit/search-again controls, keyboard focus and status handling, responsive 44-pixel controls, one user-initiated transient retry, and safe abstention when a resident is unsure. Browser tests use synthetic response fixtures; reviewed factual guidance still comes only from the BL-005 server boundary. Complete provenance/freshness behavior remains assigned to BL-007. No Supabase/Vercel resource has been linked or deployed.
+BL-006 adds the resident form and the initial, structured-success, clarification, and unsupported/error experiences. It includes visible source/trust information, edit/search-again controls, keyboard focus and status handling, responsive 44-pixel controls, one user-initiated transient retry, and safe abstention when a resident is unsure. Browser tests use synthetic response fixtures; reviewed factual guidance still comes only from the BL-005 server boundary. On 2026-09-06, the project owner reported that 200% zoom, keyboard/focus operation, and Windows Narrator worked without a blocking accessibility issue. The local live-data path was unavailable because the workstation lacks the Docker-compatible runtime required by local Supabase; this does not replace later browser-to-server-to-Supabase verification. Complete provenance/freshness behavior remains assigned to BL-007. No Supabase/Vercel resource has been linked or deployed.
 
 ## Engineering approach
 
