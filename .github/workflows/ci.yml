@@ -97,7 +97,7 @@ jobs:
         run: |
           eval "$(supabase status -o env)"
           SUPABASE_URL="$API_URL" \
-          SUPABASE_PUBLISHABLE_KEY="${PUBLISHABLE_KEY:-$ANON_KEY}" \
+          SUPABASE_PUBLISHABLE_KEY="$ANON_KEY" \
           npm run test:integration
 
       - name: Verify declarative schema and migration history agree

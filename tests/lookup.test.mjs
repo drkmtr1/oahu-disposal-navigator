@@ -337,6 +337,19 @@ test("BL-005 Supabase adapter rejects unsafe configuration and invalid responses
   });
   await assert.rejects(nonSuccess("old mattress"), /Supabase lookup failed/);
 
+  let legacyHeaders;
+  const legacy = createSupabaseLookupRows({
+    url: "http://127.0.0.1:54321",
+    publishableKey: "eyJlegacy-anon-jwt",
+    fetchImpl: async (_url, options) => {
+      legacyHeaders = options.headers;
+      return Response.json([]);
+    },
+  });
+  await legacy("old mattress");
+  assert.equal(legacyHeaders.apikey, "eyJlegacy-anon-jwt");
+  assert.equal(legacyHeaders.Authorization, "Bearer eyJlegacy-anon-jwt");
+
   const malformed = createSupabaseLookupRows({
     url: "http://localhost:54321",
     publishableKey: "local-key",

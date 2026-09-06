@@ -59,20 +59,25 @@ export function createSupabaseLookupRows(
       ? AbortSignal.any([requestSignal, timeoutSignal])
       : timeoutSignal;
 
+    const headers: Record<string, string> = {
+      Accept: "application/json",
+      "Accept-Profile": "api",
+      apikey: publishableKey,
+    };
+    if (publishableKey.startsWith("eyJ")) {
+      headers.Authorization = `Bearer ${publishableKey}`;
+    }
+
     const response = await fetchImpl(url, {
       method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Accept-Profile": "api",
-        apikey: publishableKey,
-      },
+      headers,
       cache: "no-store",
       redirect: "error",
       signal,
     });
 
     if (!response.ok) {
-      throw new Error("Supabase lookup failed");
+      throw new Error(`Supabase lookup failed with HTTP ${response.status}`);
     }
 
     const data: unknown = await response.json();
