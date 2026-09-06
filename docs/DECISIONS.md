@@ -74,10 +74,21 @@
 - Alternatives: Direct-to-main; long-lived environment branches.
 - Tradeoffs: Small process overhead buys auditable decisions and rollback.
 
+## ADR-009 — Keep V1 destination information in authored guidance
+
+- Status: Proposed; pending BL-002 human review
+- Date: 2026-09-05
+- Context: The BL-001 pilot and 15-category BL-002 candidate reuse three City programs, but the supported destination wording is tightly coupled to each category's qualifications. V1 does not need maps, routing, live facility lookup, or independent destination browsing.
+- Decision: Keep supported destination/program information in each guidance record's nullable `where_summary`; do not add a normalized destination entity or table for V1.
+- Alternatives: A shared destination table with category/program relationships; a live facility directory; embedding facility details in aliases.
+- Rationale: Authored `where_summary` preserves the exact source-supported boundary with the fewest joins and avoids treating time-sensitive locations as a separate product feature.
+- Tradeoffs/consequences: Some destination wording is duplicated and must be reviewed with its guidance. The design cannot independently update or query facilities, which is acceptable because V1 exposes only source-backed where/program text.
+- Revisit conditions: Reconsider in BL-004 only if the human-approved dataset reveals independently changing destination attributes, unsafe duplication, or a required many-to-many relationship that cannot be represented without inconsistency. Any expansion to maps, routing, or live facility data requires separate requirements and approval.
+
 ## Open decisions
 
-- OD-001: Final 15–25 supported categories, after source discovery.
-- OD-002: Whether destinations warrant a normalized entity, after inspecting source repetition.
+- OD-001: Human approval or revision of the 15-category BL-002 review candidate before it can become the frozen supported set.
+- OD-002: Proposed resolution in ADR-009; closes only when that ADR is accepted through BL-002 review.
 - OD-003: Exact least-privilege Supabase access mechanism/private-schema split, during schema threat review.
 - OD-004: Whether AI clears the need/value gate and, only then, provider/model/configuration.
 - OD-005: Final per-source review cadence and conflict handling, informed by source behavior.

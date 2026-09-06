@@ -1,6 +1,6 @@
 # Prioritized backlog
 
-Status values: Ready, Blocked by dependency, Conditional, Future. Complexity is relative S/M/L for one developer.
+Status values: Ready, In review, Blocked by dependency, Complete, Conditional, Future. Complexity is relative S/M/L for one developer.
 
 ## Requirement traceability
 
@@ -40,22 +40,24 @@ AC-V1-01 belongs to BL-012 and BL-014; AC-V1-02 belongs to BL-014. Every row mus
 
 ## BL-001 — Pilot authoritative source inventory
 
-- Status/Priority/Complexity: Complete on feature branch; pending review and merge / P0 / M
+- Status/Priority/Complexity: Complete; merged to `main` at `db5472b` / P0 / M
 - Description: Define the source inventory format and capture reviewed evidence for exactly five diverse candidate categories from primary City/County sources (State/other primary government only with written necessity). Candidates are research subjects, not V1 promises.
 - Requirements: FR-005, FR-007, FR-013, NFR-001, NFR-002, NFR-003
 - Acceptance criteria: AC-FR-007-01, AC-FR-013-01, AC-NFR-002-01; item checks require organization/title/official URL/access date/apparent update date/evidence/locator/claim scope/category/restrictions/gaps/review state and an authority/inclusion rubric.
 - Dependencies: Satisfied by approved and pushed Stage 1 foundation commit `aa3a296`
 - Testing: parse/structure validation for machine-readable inventory; duplicate/stable ID and required-field checks; official-domain/HTTPS check; manual evidence-to-claim and live-link review.
-- Evidence: `docs/SOURCE_INVENTORY.md`, `data/source-inventory.json`, and `scripts/validate-source-inventory.mjs`; five live primary-government source relationships manually reviewed on 2026-09-05; validator passes on the feature branch.
+- Evidence: `docs/SOURCE_INVENTORY.md`, `data/source-inventory.json`, and `scripts/validate-source-inventory.mjs`; five live primary-government source relationships checked on 2026-09-05; validator passed and the work was merged at `db5472b`.
 
 ## BL-002 — Freeze V1 categories and reviewed canonical dataset
 
-- Status/Priority/Complexity: Blocked by BL-001 / P0 / L
+- Status/Priority/Complexity: In review; 15-category candidate prepared, blocked on independent human source audit and approval / P0 / L
 - Description: Extend discovery, select 15–25 categories, exclude insufficient/conflicting cases, and author canonical aliases/guidance/provenance/freshness records.
 - Requirements: FR-003, FR-005, FR-007, FR-013, NFR-001, NFR-002, NFR-003
 - Acceptance criteria: AC-NFR-001-01, AC-NFR-002-01, AC-FR-005-01, AC-FR-007-01, AC-FR-013-01
 - Dependencies: BL-001
 - Testing: dataset schema/uniqueness, ambiguity collisions, required evidence, official URLs, freshness state, independent manual audit.
+- Evidence: `docs/V1_CATEGORY_DATASET.md`, `data/v1-canonical-dataset.json`, and `scripts/validate-v1-dataset.mjs`; automated validation passes with 15 inactive categories, 85 aliases, 15 evidence records, one intentional ambiguity, and zero production-eligible categories before human approval.
+- Remaining gate: Independently compare every source/evidence/guidance/alias relationship to the live City pages, record the human reviewer/date and review-by dates, approve only supported records, rerun validation, and complete the provenance audit before marking BL-002 Complete.
 
 ## BL-003 — Reproducible application and CI foundation
 

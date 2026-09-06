@@ -4,7 +4,7 @@ Roadmap items are V1 milestones, not speculative future-version promises.
 
 ## M0 — Foundation (Stage 1)
 
-Problem, scope, requirements/ACs, UX, architecture, data/API/AI design, evaluation/testing/security/operations, workflow, ADRs, risks, backlog, and Definition of Done. Exit: the 34 numbered handoff checks are reconciled, the human approves the candidate, and the final Stage 1 foundation is committed and pushed; no functionality/schema/resource/deployment is created. **Candidate pending human approval, final commit, and push.**
+Problem, scope, requirements/ACs, UX, architecture, data/API/AI design, evaluation/testing/security/operations, workflow, ADRs, risks, backlog, and Definition of Done. Exit: the 34 numbered handoff checks are reconciled, the human approves the candidate, and the final Stage 1 foundation is committed and pushed; no functionality/schema/resource/deployment is created. **Complete at `aa3a296`.**
 
 ## M1 — Authoritative data
 

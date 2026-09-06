@@ -2,7 +2,7 @@
 
 This file and approved documents in docs are authoritative after Stage 1. PROJECT_HANDOFF.md remains historical context. If guidance conflicts, use the newest approved requirement or ADR and report the conflict.
 
-Current lifecycle status: the Stage 1 documentation is a candidate pending human approval, final commit, and push. Do not begin Stage 2 until those gates are complete.
+Current lifecycle status: Stage 1 was approved, committed, and pushed; BL-001 was merged to `main` at `db5472b`. Stage 2 proceeds through one bounded backlog item at a time. BL-002 data remains non-production until its documented independent human source audit is complete.
 
 ## Objective and Level 1 boundary
 

@@ -55,4 +55,4 @@ The portfolio evidence should demonstrate traceable product judgment: problem â†
 
 ## Current status
 
-The Stage 1 documentation is a candidate pending human approval, final commit, and push. No framework scaffold, application code, dependency, schema, migration, detected application-specific Supabase/Vercel project, deployment, source dataset, or user test has been created.
+Stage 1 and BL-001 are merged. BL-002 has produced a 15-category canonical-data review candidate with all records inactive pending independent human source approval. No framework scaffold, application code, dependency, schema, migration, detected application-specific Supabase/Vercel project, deployment, production dataset, or user test has been created.

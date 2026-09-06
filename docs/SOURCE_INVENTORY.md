@@ -84,4 +84,4 @@ All three unique source pages and all five category-to-evidence relationships we
 - The source pages are live and can change after the recorded access date; no archived snapshots or City staff confirmations were obtained.
 - One City page is intentionally reused for three candidates because its separately headed sections are the direct current evidence. Reuse does not imply that those candidates should share a production category.
 - The pilot shows that destinations can be represented as bounded structured details, but it does not decide whether a normalized destination entity is justified; OD-002 remains open.
-- All five candidates retain gaps, and electronics retains an explicit source conflict. BL-002 must resolve, split, exclude, or further research them before freezing any V1 category.
+- All five pilot candidates retain gaps, and electronics retains an explicit source conflict. The [BL-002 V1 dataset review candidate](V1_CATEGORY_DATASET.md) narrows, splits, or excludes them and keeps the result inactive until independent human source approval.
