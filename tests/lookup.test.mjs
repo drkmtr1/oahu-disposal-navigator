@@ -28,6 +28,7 @@ function lookupRow(overrides = {}) {
     source_organization: "City and County of Honolulu Department of Environmental Services",
     source_title: "Rules and Guidelines for Residents",
     source_url: "https://www.honolulu.gov/env/ref/waste-drop-off-rules-residents/",
+    source_apparent_updated_on: "2025-04-22",
     source_verified_on: "2026-09-05",
     source_review_by: "2026-12-04",
     evidence_id: "ev-mattresses-drop-off",
@@ -113,7 +114,18 @@ test("BL-005 / AC-FR-003-01 and AC-FR-005-01 return stored reviewed guidance wit
   assert.equal(result.guidance.action, lookupRow().action_summary);
   assert.deepEqual(result.guidance.requirements, lookupRow().requirements);
   assert.equal(result.source.url, lookupRow().source_url);
+  assert.equal(result.source.apparentUpdatedOn, "2025-04-22");
   assert.equal(result.source.verifiedOn, "2026-09-05");
+  assert.equal(result.source.reviewBy, "2026-12-04");
+  assert.deepEqual(result.evidence, [
+    {
+      id: "ev-mattresses-drop-off",
+      summary: "The reviewed source lists mattresses as regular refuse.",
+      locator: "Regular Refuse",
+      claimScope: "Oʻahu residential mattress drop-off.",
+      reviewedOn: "2026-09-05",
+    },
+  ]);
   assert.equal(result.trustMessage, "Disposal rules come from official sources.");
 });
 
@@ -199,12 +211,18 @@ test("BL-005 / AC-FR-009-01 safely abstains on unmatched and over-broad ambiguit
   assert.equal("guidance" in bypassAttempt, false);
 });
 
-test("BL-005 / AC-FR-010-01 and AC-NFR-010-01 reject missing, stale, or inconsistent evidence", async () => {
+test("BL-007 / AC-FR-013-01 rejects missing, stale, future-dated, or inconsistent evidence", async () => {
   for (const rows of [
     [lookupRow({ evidence_summary: "" })],
     [lookupRow({ source_review_by: "2026-09-05" })],
+    [lookupRow({ source_verified_on: "2026-09-07" })],
+    [lookupRow({ evidence_reviewed_on: "2026-09-07" })],
+    [lookupRow({ source_apparent_updated_on: "2026-09-07" })],
+    [lookupRow({ source_review_by: "2026-09-04" })],
     [lookupRow({ source_url: "https://example.com/not-authoritative" })],
     [lookupRow(), lookupRow({ source_id: "different-source" })],
+    [lookupRow(), lookupRow({ source_review_by: "2026-12-05" })],
+    [lookupRow(), lookupRow({ evidence_summary: "Conflicting evidence summary." })],
   ]) {
     const result = await resolveDisposalLookup("old mattress", async () => rows, {
       today: TODAY,
@@ -377,6 +395,7 @@ test("BL-005 Supabase adapter uses the dedicated API schema and publishable-key 
   assert.equal(capturedUrl.origin, "https://project-ref.supabase.co");
   assert.equal(capturedUrl.pathname, "/rest/v1/disposal_lookup");
   assert.equal(capturedUrl.searchParams.get("normalized_alias"), "eq.old mattress");
+  assert.match(capturedUrl.searchParams.get("select"), /source_apparent_updated_on/);
   assert.equal(capturedUrl.searchParams.get("limit"), "32");
   assert.equal(capturedOptions.headers["Accept-Profile"], "api");
   assert.equal(capturedOptions.headers.apikey, "sb_publishable_test-value");

@@ -94,23 +94,25 @@ AC-V1-01 belongs to BL-012 and BL-014; AC-V1-02 belongs to BL-014. Every row mus
 
 ## BL-006 — Four-state accessible resident UX
 
-- Status/Priority/Complexity: Ready for human approval and squash merge; implementation, automated checks, CI, and the bounded manual accessibility review pass / P0 / L
+- Status/Priority/Complexity: Complete on `main` at `9853528`; implementation, automated checks, CI, and the bounded manual accessibility review pass / P0 / L
 - Description: Implement initial, structured success, ambiguity clarification, unsupported/error, edit/search-again, and trust copy.
 - Requirements: FR-001, FR-006, FR-008, FR-009, FR-011, FR-012, NFR-004, NFR-005, NFR-006, NFR-009
 - Acceptance criteria: corresponding functional ACs and all AC-NFR-004/005/006/009 criteria
 - Dependencies: BL-005
 - Testing: component/E2E, keyboard/focus/status, automated accessibility, target sizes, responsive widths, zoom/manual screen reader.
 - Evidence: `app/disposal-navigator.tsx`, `app/page.tsx`, and `app/globals.css` implement one labeled item form plus initial, loading, structured success, bounded ambiguity, unsupported/evidence-unavailable, and retryable error behavior. A clarification choice is accepted only when the server confirms it belongs to the original deterministic match; “I’m not sure” shows no instruction and uses the approved fallback. Pinned Playwright/axe checks exercise keyboard entry and validation, focus and status behavior, semantic result sections, source/trust copy, edit/search-again, clarification selection/abstention, unsupported/error recovery, 44-pixel controls, empty browser storage, no serious/critical accessibility finding, and no page overflow at 320/375/768/1280 pixels or the 200%-zoom-equivalent width. Local production build and browser checks pass with no framework overlay or console error. GitHub CI run `34064497378` passed the Foundation and Database jobs for PR #4. The [manual review record](BL-006_ACCESSIBILITY_REVIEW.md) preserves the project owner's 2026-09-06 report that 200% zoom, keyboard/focus operation, and Windows Narrator worked without a blocking accessibility issue. The local live-data path was not exercised because the review workstation lacks the Docker-compatible runtime required by local Supabase; automated fixture-based browser checks cover all resident states, and later real browser → server → Supabase verification remains assigned to BL-013.
-- Completion: BL-006 implementation, automated evidence, CI, and its bounded manual accessibility evidence pass. The focused PR remains open pending explicit human approval and squash merge. AC-NFR-005-02 comparative moderated-user evidence remains owned by BL-012 and is not claimed here.
+- Completion: BL-006 implementation, automated evidence, CI, its bounded manual accessibility evidence pass, and squash merge are complete. AC-NFR-005-02 comparative moderated-user evidence remains owned by BL-012 and is not claimed here.
 
 ## BL-007 — Complete provenance and freshness behavior
 
-- Status/Priority/Complexity: Blocked by BL-002/004/006 / P0 / M
+- Status/Priority/Complexity: Ready for human approval and squash merge; implementation, local validation, and GitHub CI pass / P0 / M
 - Description: Load the frozen reviewed dataset, expose source/evidence/freshness correctly, and implement manual review/update runbook behavior.
 - Requirements: FR-005, FR-007, FR-013, NFR-002, NFR-003
 - Acceptance criteria: AC-FR-005-01, AC-FR-007-01, AC-FR-013-01, AC-NFR-002-01, AC-NFR-003-01
 - Dependencies: BL-002, BL-004, BL-006
 - Testing: full data/provenance regression, stale/conflict/unavailable exclusion, visible source E2E.
+- Evidence: `lib/disposal/domain.ts`, `lib/disposal/supabase.ts`, and `app/disposal-navigator.tsx` carry stored evidence plus apparent-update, verification, and review-by dates through the complete lookup path. `data/v1-canonical-dataset.json` schema 1.1 stores explicit append-only verification history, enforced by its validator and generated seed. `tests/provenance.test.mjs`, the local Data API integration suite, database policy tests, and resident E2E cover all 85 category-alias mappings, citation/claim equality, 10 critical exclusions, ineligible freshness/review states, and visible provenance. [The BL-007 review](BL-007_PROVENANCE_REVIEW.md) records the bounded audit; [the source review runbook](SOURCE_REVIEW_RUNBOOK.md) defines future manual updates. Local validation passes. GitHub Actions run `34081999555` passed both Foundation and Docker-backed Database jobs for PR #5, including database reset/lint/pgTAP, live local Data API integration, and declarative-schema drift checks.
+- Completion: BL-007 implementation, documentation, local validation, source comparison, and CI evidence pass. PR #5 remains open pending explicit human approval and squash merge. BL-008's independently reviewed frozen baseline evaluation is not claimed here.
 
 ## BL-008 — Deterministic baseline evaluation
 

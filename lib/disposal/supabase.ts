@@ -15,6 +15,7 @@ const LOOKUP_COLUMNS = [
   "source_organization",
   "source_title",
   "source_url",
+  "source_apparent_updated_on",
   "source_verified_on",
   "source_review_by",
   "evidence_id",

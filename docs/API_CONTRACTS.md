@@ -47,8 +47,17 @@ Normalization is Unicode NFKC, Unicode-dash replacement with ASCII `-`, whitespa
     "organization": "Official organization",
     "title": "Official page title",
     "url": "https://official.example/",
-    "verifiedOn": "YYYY-MM-DD"
+    "apparentUpdatedOn": "YYYY-MM-DD or null",
+    "verifiedOn": "YYYY-MM-DD",
+    "reviewBy": "YYYY-MM-DD"
   },
+  "evidence": [{
+    "id": "stable-evidence-id",
+    "summary": "Bounded reviewed evidence summary",
+    "locator": "Section, heading, or null",
+    "claimScope": "Claims supported by this evidence",
+    "reviewedOn": "YYYY-MM-DD"
+  }],
   "trustMessage": "Disposal rules come from official sources."
 }
 ~~~
@@ -59,7 +68,7 @@ Other statuses:
 - unsupported: reasonCode and approved fallback {title,url}; no guidance.
 - error: reasonCode, retryable boolean, and user-safe message; no internal detail.
 
-The category ID is stable application data. The browser renders source text but does not infer claims. Unknown response properties do not control UI behavior. BL-005 validates every untrusted projection row, including official HTTPS domain, evidence fields, source verification/review dates, and consistency across rows, before returning success. Missing, stale, malformed, or inconsistent evidence safely returns `EVIDENCE_UNAVAILABLE` without guidance.
+The category and evidence IDs are stable application data. The browser renders source/evidence text but does not infer claims. Unknown response properties do not control UI behavior. BL-007 validates every untrusted projection row, including official HTTPS domain, evidence fields, source verification/review dates, future dates, and consistency across rows, before returning success. Missing, stale, malformed, future-dated, or inconsistent evidence safely returns `EVIDENCE_UNAVAILABLE` without guidance. `apparentUpdatedOn` remains `null` when the official page exposes no reliable date; `reviewBy` is the freshness cutoff, not a claim that the government will update the page on that date.
 
 ### Status codes and errors
 

@@ -26,8 +26,17 @@ type SuccessResponse = {
     organization: string;
     title: string;
     url: string;
+    apparentUpdatedOn: string | null;
     verifiedOn: string;
+    reviewBy: string;
   };
+  evidence: Array<{
+    id: string;
+    summary: string;
+    locator: string | null;
+    claimScope: string;
+    reviewedOn: string;
+  }>;
   trustMessage: string;
 };
 
@@ -317,6 +326,29 @@ function ResultPanel({
           <p className="source-date">
             Project verified: {formatDate(response.source.verifiedOn)}
           </p>
+          <p className="source-date">
+            Review due by: {formatDate(response.source.reviewBy)}
+          </p>
+          {response.source.apparentUpdatedOn ? (
+            <p className="source-date">
+              Source page date: {formatDate(response.source.apparentUpdatedOn)}
+            </p>
+          ) : null}
+          <details className="evidence-details">
+            <summary>Evidence supporting this guidance</summary>
+            {response.evidence.map((evidence) => (
+              <div className="evidence-record" key={evidence.id}>
+                <p>{evidence.summary}</p>
+                <p className="source-date">Claim covered: {evidence.claimScope}</p>
+                {evidence.locator ? (
+                  <p className="source-date">Source location: {evidence.locator}</p>
+                ) : null}
+                <p className="source-date">
+                  Evidence reviewed: {formatDate(evidence.reviewedOn)}
+                </p>
+              </div>
+            ))}
+          </details>
           <p className="source-trust">{response.trustMessage}</p>
         </div>
 
@@ -437,7 +469,15 @@ function parseApiResponse(value: unknown): ApiResponse | null {
       !isString(value.source.organization) ||
       !isString(value.source.title) ||
       !isOfficialUrl(value.source.url) ||
+      !(
+        value.source.apparentUpdatedOn === null ||
+        isIsoDate(value.source.apparentUpdatedOn)
+      ) ||
       !isIsoDate(value.source.verifiedOn) ||
+      !isIsoDate(value.source.reviewBy) ||
+      !Array.isArray(value.evidence) ||
+      value.evidence.length === 0 ||
+      !value.evidence.every(isEvidence) ||
       !isString(value.trustMessage)
     ) {
       return null;
@@ -485,6 +525,19 @@ function parseApiResponse(value: unknown): ApiResponse | null {
   }
 
   return null;
+}
+
+function isEvidence(
+  value: unknown,
+): value is SuccessResponse["evidence"][number] {
+  return (
+    isRecord(value) &&
+    isString(value.id) &&
+    isString(value.summary) &&
+    (value.locator === null || isString(value.locator)) &&
+    isString(value.claimScope) &&
+    isIsoDate(value.reviewedOn)
+  );
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

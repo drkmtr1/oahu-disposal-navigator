@@ -255,6 +255,26 @@ input[aria-invalid="true"] {
   font-weight: 700;
 }
 
+.evidence-details {
+  margin-top: 1rem;
+}
+
+.evidence-details summary {
+  min-height: 2.75rem;
+  padding: 0.65rem 0;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.evidence-record {
+  border-top: 1px solid #bdcac4;
+  padding-top: 0.75rem;
+}
+
+.evidence-record + .evidence-record {
+  margin-top: 0.75rem;
+}
+
 .choice-list {
   display: grid;
   gap: 0.75rem;

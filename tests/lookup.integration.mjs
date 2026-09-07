@@ -62,8 +62,93 @@ test("BL-005 / AC-FR-003-01 and AC-FR-005-01 traverse the local Data API with ca
     organization: source.organization,
     title: source.title,
     url: source.url,
+    apparentUpdatedOn: source.apparent_updated_on,
     verifiedOn: source.last_human_verified_on,
+    reviewBy: source.review_by,
   });
+  const evidence = dataset.evidence.find(
+    (candidate) => candidate.category_id === category.id,
+  );
+  assert.deepEqual(body.evidence, [
+    {
+      id: evidence.id,
+      summary: evidence.supporting_summary,
+      locator: evidence.locator,
+      claimScope: evidence.claim_scope,
+      reviewedOn: evidence.human_reviewed_on,
+    },
+  ]);
+});
+
+test("BL-007 / AC-FR-005-01, AC-FR-007-01, and AC-NFR-003-01 regress every reviewed alias and citation", async () => {
+  const aliases = new Map();
+  for (const category of dataset.categories) {
+    for (const alias of category.aliases) {
+      const categoryIds = aliases.get(alias.normalized_alias) ?? [];
+      categoryIds.push(category.id);
+      aliases.set(alias.normalized_alias, categoryIds);
+    }
+  }
+
+  let successCount = 0;
+  let citationCount = 0;
+  for (const [alias, categoryIds] of aliases) {
+    if (categoryIds.length > 1) {
+      const ambiguityResponse = await handler(request(alias));
+      const ambiguity = await ambiguityResponse.json();
+      assert.equal(ambiguity.status, "ambiguous", alias);
+      assert.deepEqual(
+        ambiguity.candidates.map((candidate) => candidate.id).toSorted(),
+        categoryIds.toSorted(),
+        alias,
+      );
+    }
+
+    for (const categoryId of categoryIds) {
+      const response = await handler(
+        request(alias, categoryIds.length > 1 ? categoryId : undefined),
+      );
+      const body = await response.json();
+      const category = dataset.categories.find((candidate) => candidate.id === categoryId);
+      const evidence = dataset.evidence.filter(
+        (candidate) => candidate.category_id === categoryId,
+      );
+      const source = dataset.sources.find(
+        (candidate) => candidate.id === evidence[0].source_id,
+      );
+
+      assert.equal(response.status, 200, alias);
+      assert.equal(body.status, "success", alias);
+      assert.deepEqual(body.guidance, {
+        action: category.guidance.action_summary,
+        requirements: category.guidance.requirements,
+        where: category.guidance.where_summary,
+      });
+      assert.deepEqual(body.source, {
+        organization: source.organization,
+        title: source.title,
+        url: source.url,
+        apparentUpdatedOn: source.apparent_updated_on,
+        verifiedOn: source.last_human_verified_on,
+        reviewBy: source.review_by,
+      });
+      assert.deepEqual(
+        body.evidence,
+        evidence.map((record) => ({
+          id: record.id,
+          summary: record.supporting_summary,
+          locator: record.locator,
+          claimScope: record.claim_scope,
+          reviewedOn: record.human_reviewed_on,
+        })),
+      );
+      successCount += 1;
+      citationCount += body.evidence.length > 0 ? 1 : 0;
+    }
+  }
+
+  assert.equal(successCount, 85);
+  assert.equal(citationCount, successCount);
 });
 
 test("BL-005 / AC-FR-003-02 traverses the local Data API for the reviewed battery ambiguity", async () => {

@@ -26,6 +26,7 @@ export type LookupRow = {
   source_organization: string;
   source_title: string;
   source_url: string;
+  source_apparent_updated_on: string | null;
   source_verified_on: string;
   source_review_by: string;
   evidence_id: string;
@@ -57,8 +58,17 @@ export type LookupOutcome =
         organization: string;
         title: string;
         url: string;
+        apparentUpdatedOn: string | null;
         verifiedOn: string;
+        reviewBy: string;
       };
+      evidence: Array<{
+        id: string;
+        summary: string;
+        locator: string | null;
+        claimScope: string;
+        reviewedOn: string;
+      }>;
       trustMessage: string;
     }
   | {
@@ -181,6 +191,13 @@ export async function resolveDisposalLookup(
     return evidenceUnavailable();
   }
 
+  let evidence: Extract<LookupOutcome, { status: "success" }>["evidence"];
+  try {
+    evidence = uniqueEvidence(rows);
+  } catch {
+    return evidenceUnavailable();
+  }
+
   return {
     status: "success",
     category: { id: first.category_id, name: first.category_name },
@@ -193,8 +210,11 @@ export async function resolveDisposalLookup(
       organization: first.source_organization,
       title: first.source_title,
       url: first.source_url,
+      apparentUpdatedOn: first.source_apparent_updated_on,
       verifiedOn: first.source_verified_on,
+      reviewBy: first.source_review_by,
     },
+    evidence,
     trustMessage: "Disposal rules come from official sources.",
   };
 }
@@ -217,6 +237,7 @@ function parseLookupRow(value: unknown, expectedAlias: string, today: string): L
     source_organization: requiredString(value.source_organization),
     source_title: requiredString(value.source_title),
     source_url: requiredOfficialUrl(value.source_url),
+    source_apparent_updated_on: nullableDate(value.source_apparent_updated_on),
     source_verified_on: requiredDate(value.source_verified_on),
     source_review_by: requiredDate(value.source_review_by),
     evidence_id: requiredString(value.evidence_id),
@@ -230,12 +251,43 @@ function parseLookupRow(value: unknown, expectedAlias: string, today: string): L
     !CATEGORY_ID_PATTERN.test(row.category_id) ||
     row.normalized_alias !== expectedAlias ||
     row.locale !== "en" ||
-    row.source_review_by < today
+    row.source_review_by < today ||
+    row.source_verified_on > today ||
+    row.evidence_reviewed_on > today ||
+    (row.source_apparent_updated_on !== null &&
+      row.source_apparent_updated_on > today) ||
+    row.source_review_by < row.source_verified_on
   ) {
     throw new Error("Lookup row is outside the allowed production contract");
   }
 
   return row;
+}
+
+function uniqueEvidence(
+  rows: LookupRow[],
+): Extract<LookupOutcome, { status: "success" }>["evidence"] {
+  const evidence = new Map<
+    string,
+    Extract<LookupOutcome, { status: "success" }>["evidence"][number]
+  >();
+
+  for (const row of rows) {
+    const candidate = {
+      id: row.evidence_id,
+      summary: row.evidence_summary,
+      locator: row.evidence_locator,
+      claimScope: row.evidence_claim_scope,
+      reviewedOn: row.evidence_reviewed_on,
+    };
+    const existing = evidence.get(candidate.id);
+    if (existing !== undefined && JSON.stringify(existing) !== JSON.stringify(candidate)) {
+      throw new Error("Evidence metadata is inconsistent");
+    }
+    evidence.set(candidate.id, candidate);
+  }
+
+  return [...evidence.values()].sort((left, right) => left.id.localeCompare(right.id));
 }
 
 function uniqueCategories(rows: LookupRow[]): Array<{ id: string; name: string }> {
@@ -265,7 +317,9 @@ function hasConsistentAnswer(first: LookupRow, row: LookupRow): boolean {
     row.source_organization === first.source_organization &&
     row.source_title === first.source_title &&
     row.source_url === first.source_url &&
-    row.source_verified_on === first.source_verified_on
+    row.source_apparent_updated_on === first.source_apparent_updated_on &&
+    row.source_verified_on === first.source_verified_on &&
+    row.source_review_by === first.source_review_by
   );
 }
 
@@ -308,6 +362,11 @@ function requiredString(value: unknown): string {
 function nullableString(value: unknown): string | null {
   if (value === null) return null;
   return requiredString(value);
+}
+
+function nullableDate(value: unknown): string | null {
+  if (value === null) return null;
+  return requiredDate(value);
 }
 
 function requiredStringArray(value: unknown): string[] {

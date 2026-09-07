@@ -31,6 +31,12 @@ const allowedAuthorityLevels = new Set([
   "state_primary",
   "other_primary_government",
 ]);
+const allowedVerificationResults = new Set([
+  "confirmed",
+  "changed",
+  "unavailable",
+  "conflict",
+]);
 const forbiddenPlaceholder = /^(?:unknown|tbd|todo|n\/?a|none|placeholder|lorem ipsum)$/i;
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const validationDate = new Intl.DateTimeFormat("en-CA", {
@@ -227,8 +233,8 @@ try {
   process.exit(1);
 }
 
-if (dataset.schema_version !== "1.0.0") {
-  addError('schema_version must be "1.0.0".');
+if (dataset.schema_version !== "1.1.0") {
+  addError('schema_version must be "1.1.0".');
 }
 if (!["pending_human_review", "approved"].includes(dataset.status)) {
   addError('status must be "pending_human_review" or "approved".');
@@ -316,9 +322,15 @@ if (!dataset.approval || typeof dataset.approval !== "object" || Array.isArray(d
 const categories = Array.isArray(dataset.categories) ? dataset.categories : [];
 const sources = Array.isArray(dataset.sources) ? dataset.sources : [];
 const evidence = Array.isArray(dataset.evidence) ? dataset.evidence : [];
+const sourceVerifications = Array.isArray(dataset.source_verifications)
+  ? dataset.source_verifications
+  : [];
 if (!Array.isArray(dataset.categories)) addError("categories must be an array.");
 if (!Array.isArray(dataset.sources)) addError("sources must be an array.");
 if (!Array.isArray(dataset.evidence)) addError("evidence must be an array.");
+if (!Array.isArray(dataset.source_verifications)) {
+  addError("source_verifications must be an array.");
+}
 if (categories.length < 15 || categories.length > 25) {
   addError(`categories must contain 15–25 records; found ${categories.length}.`);
 }
@@ -410,12 +422,100 @@ sources.forEach((source, index) => {
       if (source.review_by !== addDays(source.last_human_verified_on, source.review_cadence_days)) {
         addError(`${label}.review_by must equal its human-verification date plus its cadence.`);
       }
-      if (source.last_human_verified_on !== dataset.approval?.human_reviewed_on) {
-        addError(`${label}.last_human_verified_on must align with the recorded human approval.`);
+      if (source.last_human_verified_on < dataset.approval?.human_reviewed_on) {
+        addError(`${label}.last_human_verified_on cannot predate dataset approval.`);
       }
     }
   }
 });
+
+const verificationIds = new Set();
+const verificationSourceDates = new Set();
+const verificationsBySource = new Map();
+sourceVerifications.forEach((verification, index) => {
+  const label = `source_verifications[${index}]`;
+  if (!nonEmptyString(verification.id) || !slugPattern.test(verification.id)) {
+    addError(`${label}.id must be a stable kebab-case identifier.`);
+  } else if (verificationIds.has(verification.id)) {
+    addError(`${label}.id duplicates ${verification.id}.`);
+  } else {
+    verificationIds.add(verification.id);
+  }
+  if (!sourceById.has(verification.source_id)) {
+    addError(`${label}.source_id does not reference a source.`);
+  }
+  if (!validDate(verification.verified_on)) {
+    addError(`${label}.verified_on must use a valid YYYY-MM-DD date.`);
+  } else {
+    if (verification.verified_on > validationDate) {
+      addError(`${label}.verified_on cannot be in the future.`);
+    }
+    const sourceDate = `${verification.source_id}/${verification.verified_on}`;
+    if (verificationSourceDates.has(sourceDate)) {
+      addError(`${label} duplicates a source verification date.`);
+    }
+    verificationSourceDates.add(sourceDate);
+  }
+  if (!allowedVerificationResults.has(verification.result)) {
+    addError(`${label}.result is not allowlisted.`);
+  }
+  if (verification.notes !== null && !nonEmptyString(verification.notes)) {
+    addError(`${label}.notes must be null or a non-placeholder string.`);
+  }
+  if (
+    verification.result !== "confirmed" &&
+    !nonEmptyString(verification.notes)
+  ) {
+    addError(`${label}.notes are required for a non-confirmed result.`);
+  }
+  if (
+    verification.apparent_updated_on !== null &&
+    !validDate(verification.apparent_updated_on)
+  ) {
+    addError(`${label}.apparent_updated_on must be null or a valid YYYY-MM-DD date.`);
+  }
+  if (!nonEmptyString(verification.reviewer_ref)) {
+    addError(`${label}.reviewer_ref must be a non-placeholder string.`);
+  }
+
+  const sourceHistory = verificationsBySource.get(verification.source_id) ?? [];
+  sourceHistory.push(verification);
+  verificationsBySource.set(verification.source_id, sourceHistory);
+});
+
+for (const source of sources) {
+  const history = (verificationsBySource.get(source.id) ?? []).toSorted((left, right) =>
+    left.verified_on.localeCompare(right.verified_on),
+  );
+  if (source.review_status === "pending_human_review" && history.length === 0) continue;
+  if (history.length === 0) {
+    addError(`Source ${source.id} requires append-only verification history.`);
+    continue;
+  }
+
+  const latest = history.at(-1);
+  if (latest.verified_on !== source.last_human_verified_on) {
+    addError(`Source ${source.id} must align last_human_verified_on with its latest verification.`);
+  }
+  if (latest.apparent_updated_on !== source.apparent_updated_on) {
+    addError(`Source ${source.id} must align apparent_updated_on with its latest verification.`);
+  }
+  if (latest.notes !== source.verification_notes) {
+    addError(`Source ${source.id} must align verification_notes with its latest verification.`);
+  }
+
+  const expectedStatuses =
+    latest.result === "confirmed"
+      ? ["approved"]
+      : latest.result === "conflict"
+        ? ["conflict"]
+        : ["expired", "rejected"];
+  if (!expectedStatuses.includes(source.review_status)) {
+    addError(
+      `Source ${source.id} status must be ${expectedStatuses.join(" or ")} for latest result ${latest.result}.`,
+    );
+  }
+}
 
 const evidenceById = new Map();
 const usedSourceIds = new Set();
@@ -455,11 +555,8 @@ evidence.forEach((record, index) => {
     if (!validDate(record.human_reviewed_on) || !nonEmptyString(record.reviewer_ref)) {
       addError(`${label} requires a human review date and reviewer reference when approved.`);
     }
-    if (record.human_reviewed_on !== dataset.approval?.human_reviewed_on) {
-      addError(`${label}.human_reviewed_on must align with the recorded human approval.`);
-    }
-    if (record.reviewer_ref !== dataset.approval?.reviewer_ref) {
-      addError(`${label}.reviewer_ref must align with the recorded human approval.`);
+    if (record.human_reviewed_on < dataset.approval?.human_reviewed_on) {
+      addError(`${label}.human_reviewed_on cannot predate dataset approval.`);
     }
   }
 });
@@ -672,5 +769,6 @@ console.log(`Categories: ${categories.length}`);
 console.log(`Aliases: ${aliasCount}`);
 console.log(`Sources: ${sources.length}`);
 console.log(`Evidence records: ${evidence.length}`);
+console.log(`Source verifications: ${sourceVerifications.length}`);
 console.log(`Intentional alias collisions: ${declaredCollisions.size}`);
 console.log(`Production-eligible categories: ${productionEligibleCategories.length}`);

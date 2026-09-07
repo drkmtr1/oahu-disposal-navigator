@@ -33,7 +33,7 @@ Normalization is deterministic Unicode normalization, case folding, whitespace c
 
 ## BL-002 reviewed canonical serialization
 
-[`data/v1-canonical-dataset.json`](../data/v1-canonical-dataset.json) remains the approved factual reference artifact. BL-004 deterministically translates it into `supabase/seed.sql` with stable UUIDv5 keys and one initial verification-history row per source; the generated SQL must not be edited directly. Project-owner approval and the live-source second pass were recorded on 2026-09-05; all 15 records are approved and active, with source expiry enforced by the data validator and database view.
+[`data/v1-canonical-dataset.json`](../data/v1-canonical-dataset.json) remains the approved factual reference artifact. BL-004 deterministically translates it into `supabase/seed.sql` with stable UUIDv5 keys. BL-007 makes its `source_verifications` history explicit and append-only so later reviews survive repeatable seed generation; the generated SQL must not be edited directly. Project-owner approval and the live-source second pass were recorded on 2026-09-05; all 15 records are approved and active, with source expiry enforced by the data validator, server response validation, and database view.
 
 The canonical dataset keeps destination/program text in `where_summary`. With only three source programs and source-specific qualifications, BL-002 does not justify a destination entity. Accepted ADR-009 records that decision for BL-004.
 
@@ -53,7 +53,7 @@ Every table in an exposed schema must have RLS plus deliberate grants/policies; 
 2. Record metadata and bounded evidence as pending.
 3. Human verifies category/claim association and marks approved with review_by.
 4. Seed/reference change is reviewed in a focused PR with provenance tests.
-5. A scheduled manual review records source_verifications.
+5. A scheduled manual review follows [SOURCE_REVIEW_RUNBOOK.md](SOURCE_REVIEW_RUNBOOK.md), appends `source_verifications`, and updates the source eligibility snapshot.
 6. Changed/conflicting/unavailable/overdue sources stop supporting production success until resolved.
 
 No autonomous web monitor is required. Review cadence begins with 90 days for approved sources, shortened when a source states frequent/temporary changes; this assumption is validated during source discovery.
