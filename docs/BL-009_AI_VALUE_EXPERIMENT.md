@@ -2,6 +2,8 @@
 
 Status: **Recorded experiment candidate pending human review and pull-request approval. The mandatory AI gate failed; deterministic-only V1 is recommended.**
 
+GitHub Actions run `34158975816` passed both Foundation and Docker-backed Database jobs on PR #7.
+
 ## Decision summary
 
 GPT-5.6 Luna materially improved classification of deterministic unresolved supported descriptions, but it incorrectly matched two designated critical inputs in every run. Critical safe handling was 78/84 (92.86%), below the required 100%. Under `EVALUATION_PLAN.md`, one failed mandatory gate rejects production AI regardless of gains elsewhere. No model adapter or application AI path was implemented.

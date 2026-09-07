@@ -126,13 +126,13 @@ AC-V1-01 belongs to BL-012 and BL-014; AC-V1-02 belongs to BL-014. Every row mus
 
 ## BL-009 — AI value/need experiment and ADR
 
-- Status/Priority/Complexity: Experiment candidate complete; mandatory AI gate failed; pending human review, CI, PR approval, and merge / P1 / M
+- Status/Priority/Complexity: Experiment candidate complete; mandatory AI gate failed; local and GitHub CI checks pass; pending human review, PR approval, and merge / P1 / M
 - Description: Compare bounded provider candidates to baseline on frozen hard/holdout cases; decide implement or deterministic-only.
 - Requirements: FR-004, NFR-003, NFR-007, NFR-010, NFR-012
 - Acceptance criteria: AC-FR-004-01/02 and every AI gate in EVALUATION_PLAN
 - Dependencies: BL-008 and explicit live-call budget/credential
 - Testing: repeated live evaluation, structured validity, containment, latency/token/cost report.
-- Evidence: [BL-009_AI_VALUE_EXPERIMENT.md](BL-009_AI_VALUE_EXPERIMENT.md) records three runs and 180 calls of GPT-5.6 Luna for an estimated $0.044361. Accuracy, structure, latency, cost, containment, and no-guidance gates passed, but repeatable false matches on two critical inputs produced only 92.86% critical safe handling. Proposed ADR-011 therefore selects deterministic-only V1. Local validation passes; CI and human review/merge remain required.
+- Evidence: [BL-009_AI_VALUE_EXPERIMENT.md](BL-009_AI_VALUE_EXPERIMENT.md) records three runs and 180 calls of GPT-5.6 Luna for an estimated $0.044361. Accuracy, structure, latency, cost, containment, and no-guidance gates passed, but repeatable false matches on two critical inputs produced only 92.86% critical safe handling. Proposed ADR-011 therefore selects deterministic-only V1. Local validation and GitHub Actions run `34158975816` pass; human review and merge remain required.
 
 ## BL-010 — Conditional bounded AI adapter
 
