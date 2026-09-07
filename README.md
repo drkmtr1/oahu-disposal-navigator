@@ -1,6 +1,6 @@
 # Oʻahu Household Item Disposal Navigator
 
-Status: **Stage 1 and BL-001 through BL-006 are merged. BL-007 provenance/freshness behavior is an implementation candidate pending CI and human merge review.**
+Status: **Stage 1 and BL-001 through BL-006 are merged. BL-007 provenance/freshness behavior passes local checks and GitHub CI on PR #5, which is ready for human approval and squash merge.**
 
 The Oʻahu Household Item Disposal Navigator is a small public-interest web project for residents who need to understand how to dispose of a common household item. Official guidance can require people to translate ordinary item names into government categories and combine information from several pages. V1 will provide a single plain-language lookup and return a structured, source-backed result or a clear clarification/unsupported state.
 

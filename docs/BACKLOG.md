@@ -105,13 +105,14 @@ AC-V1-01 belongs to BL-012 and BL-014; AC-V1-02 belongs to BL-014. Every row mus
 
 ## BL-007 — Complete provenance and freshness behavior
 
-- Status/Priority/Complexity: Implementation candidate pending pull-request CI and human merge review / P0 / M
+- Status/Priority/Complexity: Ready for human approval and squash merge; implementation, local validation, and GitHub CI pass / P0 / M
 - Description: Load the frozen reviewed dataset, expose source/evidence/freshness correctly, and implement manual review/update runbook behavior.
 - Requirements: FR-005, FR-007, FR-013, NFR-002, NFR-003
 - Acceptance criteria: AC-FR-005-01, AC-FR-007-01, AC-FR-013-01, AC-NFR-002-01, AC-NFR-003-01
 - Dependencies: BL-002, BL-004, BL-006
 - Testing: full data/provenance regression, stale/conflict/unavailable exclusion, visible source E2E.
-- Evidence: `lib/disposal/domain.ts`, `lib/disposal/supabase.ts`, and `app/disposal-navigator.tsx` carry stored evidence plus apparent-update, verification, and review-by dates through the complete lookup path. `data/v1-canonical-dataset.json` schema 1.1 stores explicit append-only verification history, enforced by its validator and generated seed. `tests/provenance.test.mjs`, the local Data API integration suite, database policy tests, and resident E2E cover all 85 category-alias mappings, citation/claim equality, 10 critical exclusions, ineligible freshness/review states, and visible provenance. [The BL-007 review](BL-007_PROVENANCE_REVIEW.md) records the bounded audit; [the source review runbook](SOURCE_REVIEW_RUNBOOK.md) defines future manual updates. Local validation passes; required GitHub CI evidence remains pending.
+- Evidence: `lib/disposal/domain.ts`, `lib/disposal/supabase.ts`, and `app/disposal-navigator.tsx` carry stored evidence plus apparent-update, verification, and review-by dates through the complete lookup path. `data/v1-canonical-dataset.json` schema 1.1 stores explicit append-only verification history, enforced by its validator and generated seed. `tests/provenance.test.mjs`, the local Data API integration suite, database policy tests, and resident E2E cover all 85 category-alias mappings, citation/claim equality, 10 critical exclusions, ineligible freshness/review states, and visible provenance. [The BL-007 review](BL-007_PROVENANCE_REVIEW.md) records the bounded audit; [the source review runbook](SOURCE_REVIEW_RUNBOOK.md) defines future manual updates. Local validation passes. GitHub Actions run `34081999555` passed both Foundation and Docker-backed Database jobs for PR #5, including database reset/lint/pgTAP, live local Data API integration, and declarative-schema drift checks.
+- Completion: BL-007 implementation, documentation, local validation, source comparison, and CI evidence pass. PR #5 remains open pending explicit human approval and squash merge. BL-008's independently reviewed frozen baseline evaluation is not claimed here.
 
 ## BL-008 — Deterministic baseline evaluation
 

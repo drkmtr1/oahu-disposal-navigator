@@ -2,7 +2,7 @@
 
 Date: 2026-09-06
 
-Status: implementation candidate pending pull-request CI and human merge review
+Status: ready for human approval and squash merge on PR #5
 
 Dataset: `2026-09-05.bl-002-approved.1`, schema serialization `1.1.0`
 
@@ -44,4 +44,4 @@ All current sources are City and County of Honolulu Department of Environmental 
 
 ## Remaining boundary and risk
 
-This workstation has no Docker-compatible local runtime, so PostgreSQL policy tests and live Data API integration are delegated to the required GitHub CI database job. No hosted Supabase or Vercel resource exists, no production update was applied, and no source was re-approved by an agent. BL-008 is the next bounded item after BL-007 is approved and merged.
+This workstation has no Docker-compatible local runtime, so PostgreSQL policy tests and live Data API integration ran in the required GitHub CI database job. GitHub Actions run `34081999555` passed its Foundation job in 1 minute 6 seconds and Database job in 1 minute 30 seconds, including reset, lint, pgTAP, all-alias Data API integration, and declarative-schema drift checks. No hosted Supabase or Vercel resource exists, no production update was applied, and no source was re-approved by an agent. BL-008 is the next bounded item after BL-007 is approved and merged.
