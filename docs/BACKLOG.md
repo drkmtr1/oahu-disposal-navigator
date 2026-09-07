@@ -145,17 +145,17 @@ AC-V1-01 belongs to BL-012 and BL-014; AC-V1-02 belongs to BL-014. Every row mus
 
 ## BL-011 — Security, reliability, accessibility, and observability hardening
 
-- Status/Priority/Complexity: Implementation and local validation complete; pending PR/CI review and squash merge / P0 / L
+- Status/Priority/Complexity: Complete; squash-merged to `main` at `95e2744` / P0 / L
 - Description: Close platform/access, error, rate, logging, privacy, performance, accessibility, and incident-diagnostic gates.
 - Requirements: FR-010, NFR-004, NFR-007, NFR-008, NFR-009, NFR-010, NFR-011, NFR-012
 - Acceptance criteria: all corresponding NFR ACs
 - Dependencies: BL-006/007 and BL-010 if used
 - Testing: threat controls, secret/bundle scan, policy tests, failure injection, logs, performance, accessibility manual/automated.
-- Evidence: [BL-011 hardening review](BL-011_HARDENING_REVIEW.md), dependency-free application rate control, bounded structured diagnostic events, response/security headers, post-build client-bundle scan, and focused failure/privacy/rate/header tests. Existing database policy/integration, deterministic safety/latency, Playwright/axe/reflow, and the completed owner accessibility review remain applicable. Distributed platform rate control, hosted-log drill, and representative production p95 are verified in BL-013 rather than claimed locally.
+- Evidence: [BL-011 hardening review](BL-011_HARDENING_REVIEW.md), dependency-free application rate control, bounded structured diagnostic events, response/security headers, post-build client-bundle scan, and focused failure/privacy/rate/header tests. Existing database policy/integration, deterministic safety/latency, Playwright/axe/reflow, and the completed owner accessibility review remain applicable. GitHub Actions run `34162170691` passed both Foundation and Docker-backed Database jobs; PR #8 was squash-merged at `95e2744`. Distributed platform rate control, hosted-log drill, and representative production p95 are verified in BL-013 rather than claimed locally.
 
 ## BL-012 — Comparative resident usability validation
 
-- Status/Priority/Complexity: Blocked by BL-011 / P0 / M
+- Status/Priority/Complexity: Ready; human participants/consent required / P0 / M
 - Description: Run the approved small official-workflow versus navigator study, report limitations/failures, and create bounded corrective backlog.
 - Requirements: FR-001, FR-006, FR-008, FR-009, FR-011, NFR-004, NFR-005, NFR-006, NFR-012
 - Acceptance criteria: AC-NFR-005-02 and AC-V1-01
