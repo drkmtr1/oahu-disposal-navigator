@@ -147,14 +147,14 @@ const output = {
   schema_version: "1.0.0",
   evaluation_id: "deterministic-baseline-v1",
   evaluation_date: CREATED_ON,
-  status: "pending_human_review",
+  status: "approved",
   source_data_version: dataset.data_version,
   split_policy:
     "Development cases document transparent baseline behavior. Holdout cases must not be used to change matching behavior after human freeze; they remain versioned and visible for audit.",
   review: {
     human_review_required: true,
-    reviewer_ref: null,
-    reviewed_on: null,
+    reviewer_ref: "project_owner",
+    reviewed_on: "2026-09-07",
     scope: "Every expected decision, category/candidate label, critical-safety flag, rationale, and development/holdout assignment.",
   },
   case_count: cases.length,

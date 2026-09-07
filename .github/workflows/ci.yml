@@ -54,6 +54,9 @@ jobs:
       - name: Run deterministic baseline evaluation
         run: npm run evaluate:deterministic
 
+      - name: Validate recorded AI value experiment
+        run: npm run validate:ai-experiment
+
       - name: Verify generated database seed
         run: npm run db:verify-seed
 

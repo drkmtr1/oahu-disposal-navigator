@@ -21,6 +21,8 @@
     "evaluation:verify-cases": "node scripts/generate-deterministic-evaluation-cases.mjs --check",
     "validate:evaluation": "node scripts/validate-deterministic-evaluation.mjs",
     "evaluate:deterministic": "node --no-warnings --experimental-strip-types scripts/run-deterministic-evaluation.mjs",
+    "evaluate:ai:live": "node --no-warnings --experimental-strip-types scripts/run-ai-value-experiment.mjs",
+    "validate:ai-experiment": "node scripts/validate-ai-experiment-results.mjs",
     "validate:data": "node scripts/validate-source-inventory.mjs && node scripts/validate-v1-dataset.mjs",
     "db:generate-seed": "node scripts/generate-supabase-seed.mjs",
     "db:verify-seed": "node scripts/generate-supabase-seed.mjs --check",
