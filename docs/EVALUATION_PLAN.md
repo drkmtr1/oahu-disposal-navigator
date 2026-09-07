@@ -18,6 +18,8 @@ Create versioned cases only after the V1 category/source set is reviewed. Each c
 
 No test label is generated solely by the model. A human reviews labels and critical cases.
 
+BL-008 implements the candidate case schema, generator, validator, runner, and measured results in [BL-008_DETERMINISTIC_BASELINE.md](BL-008_DETERMINISTIC_BASELINE.md). The committed set remains `pending_human_review` until an independent person approves its curated labels and critical-safety flags; automated validation does not substitute for that review.
+
 ## Deterministic baseline
 
 Report canonical classification accuracy, ambiguity accuracy, unsupported/safe-abstention accuracy, coverage (share resolved), false-supported rate, citation association, and execution time. Exact/normalized canonical fixtures must be 100% correct. Critical unsupported/hazardous cases must be 100% safely handled. Every returned claim/source association must be correct and unsupported-claim count must be zero.

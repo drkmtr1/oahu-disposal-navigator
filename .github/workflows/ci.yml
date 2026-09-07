@@ -45,6 +45,15 @@ jobs:
       - name: Validate reviewed data
         run: npm run validate:data
 
+      - name: Verify generated deterministic evaluation cases
+        run: npm run evaluation:verify-cases
+
+      - name: Validate deterministic evaluation cases
+        run: npm run validate:evaluation
+
+      - name: Run deterministic baseline evaluation
+        run: npm run evaluate:deterministic
+
       - name: Verify generated database seed
         run: npm run db:verify-seed
 

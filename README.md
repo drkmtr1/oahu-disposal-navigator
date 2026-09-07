@@ -1,6 +1,6 @@
 # Oʻahu Household Item Disposal Navigator
 
-Status: **Stage 1 and BL-001 through BL-006 are merged. BL-007 provenance/freshness behavior passes local checks and GitHub CI on PR #5, which is ready for human approval and squash merge.**
+Status: **Stage 1 and BL-001 through BL-007 are merged. BL-008's measured deterministic-baseline candidate passes local checks and GitHub CI on PR #6 and is pending independent human label review, approval, and merge.**
 
 The Oʻahu Household Item Disposal Navigator is a small public-interest web project for residents who need to understand how to dispose of a common household item. Official guidance can require people to translate ordinary item names into government categories and combine information from several pages. V1 will provide a single plain-language lookup and return a structured, source-backed result or a clear clarification/unsupported state.
 
@@ -26,6 +26,9 @@ npm run lint
 npm run typecheck
 npm test
 npm run validate:data
+npm run evaluation:verify-cases
+npm run validate:evaluation
+npm run evaluate:deterministic
 npm run db:verify-seed
 npm run check:secrets
 npm run build
