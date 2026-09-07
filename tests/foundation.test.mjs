@@ -11,10 +11,13 @@ test("BL-003 / AC-NFR-012-01: package scripts and dependency versions are reprod
   const requiredScripts = [
     "build",
     "check:secrets",
+    "evaluate:deterministic",
+    "evaluation:verify-cases",
     "lint",
     "test",
     "typecheck",
     "validate:data",
+    "validate:evaluation",
   ];
 
   for (const script of requiredScripts) {
@@ -70,6 +73,9 @@ test("BL-003 / AC-NFR-012-01: CI gates every implemented validation layer", asyn
     "npm run typecheck",
     "npm test",
     "npm run validate:data",
+    "npm run evaluation:verify-cases",
+    "npm run validate:evaluation",
+    "npm run evaluate:deterministic",
     "npm run check:secrets",
     "npm run build",
     "npm run audit:dependencies",
