@@ -2,7 +2,7 @@
 
 This file and approved documents in docs are authoritative after Stage 1. PROJECT_HANDOFF.md remains historical context. If guidance conflicts, use the newest approved requirement or ADR and report the conflict.
 
-Current lifecycle status: Stage 1 and BL-001 through BL-007 are merged to `main`, with BL-007 squash-merged at `745dece`. Stage 2 proceeds through one bounded backlog item at a time. BL-008's deterministic-baseline candidate is pending independent human label review and pull-request checks. The live-data path is exercised by Docker-backed CI because this workstation has no compatible local runtime. No hosted Supabase or Vercel resource exists for this application.
+Current lifecycle status: Stage 1 and BL-001 through BL-007 are merged to `main`, with BL-007 squash-merged at `745dece`. Stage 2 proceeds through one bounded backlog item at a time. BL-008's deterministic-baseline candidate passes local checks and GitHub CI on PR #6 and is pending independent human label review, approval, and squash merge. The live-data path is exercised by Docker-backed CI because this workstation has no compatible local runtime. No hosted Supabase or Vercel resource exists for this application.
 
 ## Objective and Level 1 boundary
 

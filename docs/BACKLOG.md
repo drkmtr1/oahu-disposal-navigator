@@ -116,13 +116,13 @@ AC-V1-01 belongs to BL-012 and BL-014; AC-V1-02 belongs to BL-014. Every row mus
 
 ## BL-008 — Deterministic baseline evaluation
 
-- Status/Priority/Complexity: Implementation candidate pending independent human label review, CI, pull-request approval, and merge / P0 / M
+- Status/Priority/Complexity: Implementation candidate with local and GitHub CI checks passing; pending independent human label review, pull-request approval, and merge / P0 / M
 - Description: Build frozen development/holdout sets and report deterministic classification, abstention, claim, citation, and latency metrics.
 - Requirements: FR-003, FR-005, FR-009, NFR-002, NFR-003, NFR-012
 - Acceptance criteria: AC-FR-003-01/02, AC-FR-005-01, AC-FR-009-01, AC-NFR-003-01
 - Dependencies: BL-005, BL-007
 - Testing: reproducible evaluation runner, label review, repeatability check.
-- Evidence: The versioned 155-case development/holdout candidate, dependency-free generator/validator/runner, repeatability tests, safety gates, and measured limitations are documented in [BL-008_DETERMINISTIC_BASELINE.md](BL-008_DETERMINISTIC_BASELINE.md). Automated checks pass locally; independent human label review and GitHub CI/PR evidence remain required before completion.
+- Evidence: The versioned 155-case development/holdout candidate, dependency-free generator/validator/runner, repeatability tests, safety gates, and measured limitations are documented in [BL-008_DETERMINISTIC_BASELINE.md](BL-008_DETERMINISTIC_BASELINE.md). Automated checks pass locally. GitHub Actions run `34083742718` passed Foundation and Docker-backed Database jobs for PR #6. Independent human label review, approval, and squash merge remain required before completion.
 
 ## BL-009 — AI value/need experiment and ADR
 

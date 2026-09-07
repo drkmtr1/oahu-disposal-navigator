@@ -45,6 +45,8 @@ npm test
 
 The evaluation date is `2026-09-06`; runtime/version evidence is supplied by the pinned Node environment and the eventual Git commit/CI run. No model, provider credential, network call, or generated label is used.
 
+GitHub Actions run `34083742718` passed both the Foundation job containing this evaluation and the Docker-backed Database job on PR #6.
+
 ## Limitations and robustness
 
 - The curated labels and critical-safety designations are pending independent human review; they are not frozen merely because validation passes.
