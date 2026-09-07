@@ -13,9 +13,9 @@ This matrix supplies the planning chain from requirement to criterion, owning im
 | FR-003 | AC-FR-003-01, AC-FR-003-02 | BL-002, BL-005, BL-008 | Unit/integration/evaluation |
 | FR-004 | AC-FR-004-01, AC-FR-004-02 | BL-009, conditional BL-010 | Adapter/live evaluation |
 | FR-005 | AC-FR-005-01 | BL-002, BL-004, BL-005, BL-007 | Data/integration/provenance |
-| FR-006 | AC-FR-006-01 | BL-006 | Component/E2E/user test |
+| FR-006 | AC-FR-006-01 | BL-006, BL-012 | Component/E2E/resident-task benchmark |
 | FR-007 | AC-FR-007-01 | BL-001, BL-002, BL-004, BL-007 | Data audit/E2E |
-| FR-008 | AC-FR-008-01, AC-FR-008-02 | BL-006, conditional BL-010 | Unit/E2E/user test |
+| FR-008 | AC-FR-008-01, AC-FR-008-02 | BL-006, BL-012, conditional BL-010 | Unit/E2E/resident-task benchmark |
 | FR-009 | AC-FR-009-01 | BL-005, BL-006, conditional BL-010 | Safety/E2E |
 | FR-010 | AC-FR-010-01 | BL-005, BL-011 | Failure injection |
 | FR-011 | AC-FR-011-01 | BL-006 | E2E/usability |
@@ -25,7 +25,7 @@ This matrix supplies the planning chain from requirement to criterion, owning im
 | NFR-002 | AC-NFR-002-01 | BL-001, BL-002, BL-007, BL-008 | Provenance audit |
 | NFR-003 | AC-NFR-003-01 | BL-002, BL-007–BL-010, BL-014 | Regression evaluation |
 | NFR-004 | AC-NFR-004-01, AC-NFR-004-02, AC-NFR-004-03 | BL-003, BL-006, BL-011, BL-012 | Accessibility checks |
-| NFR-005 | AC-NFR-005-01, AC-NFR-005-02 | BL-006, BL-012 | UI review/user test |
+| NFR-005 | AC-NFR-005-01, AC-NFR-005-02 | BL-006, BL-012 | UI review/resident-task benchmark |
 | NFR-006 | AC-NFR-006-01 | BL-003, BL-006, BL-012 | Responsive E2E |
 | NFR-007 | AC-NFR-007-01 | BL-005, BL-009, BL-011, BL-013 | Performance metrics |
 | NFR-008 | AC-NFR-008-01 | BL-003, BL-004, BL-011, BL-013 | Secret/database tests |
@@ -101,7 +101,7 @@ AC-V1-01 belongs to BL-012 and BL-014; AC-V1-02 belongs to BL-014. Every row mus
 - Dependencies: BL-005
 - Testing: component/E2E, keyboard/focus/status, automated accessibility, target sizes, responsive widths, zoom/manual screen reader.
 - Evidence: `app/disposal-navigator.tsx`, `app/page.tsx`, and `app/globals.css` implement one labeled item form plus initial, loading, structured success, bounded ambiguity, unsupported/evidence-unavailable, and retryable error behavior. A clarification choice is accepted only when the server confirms it belongs to the original deterministic match; “I’m not sure” shows no instruction and uses the approved fallback. Pinned Playwright/axe checks exercise keyboard entry and validation, focus and status behavior, semantic result sections, source/trust copy, edit/search-again, clarification selection/abstention, unsupported/error recovery, 44-pixel controls, empty browser storage, no serious/critical accessibility finding, and no page overflow at 320/375/768/1280 pixels or the 200%-zoom-equivalent width. Local production build and browser checks pass with no framework overlay or console error. GitHub CI run `34064497378` passed the Foundation and Database jobs for PR #4. The [manual review record](BL-006_ACCESSIBILITY_REVIEW.md) preserves the project owner's 2026-09-06 report that 200% zoom, keyboard/focus operation, and Windows Narrator worked without a blocking accessibility issue. The local live-data path was not exercised because the review workstation lacks the Docker-compatible runtime required by local Supabase; automated fixture-based browser checks cover all resident states, and later real browser → server → Supabase verification remains assigned to BL-013.
-- Completion: BL-006 implementation, automated evidence, CI, its bounded manual accessibility evidence pass, and squash merge are complete. AC-NFR-005-02 comparative moderated-user evidence remains owned by BL-012 and is not claimed here.
+- Completion: BL-006 implementation, automated evidence, CI, its bounded manual accessibility evidence pass, and squash merge are complete. AC-NFR-005-02 resident-task benchmark evidence remains owned by BL-012 and is not claimed here.
 
 ## BL-007 — Complete provenance and freshness behavior
 
@@ -153,14 +153,14 @@ AC-V1-01 belongs to BL-012 and BL-014; AC-V1-02 belongs to BL-014. Every row mus
 - Testing: threat controls, secret/bundle scan, policy tests, failure injection, logs, performance, accessibility manual/automated.
 - Evidence: [BL-011 hardening review](BL-011_HARDENING_REVIEW.md), dependency-free application rate control, bounded structured diagnostic events, response/security headers, post-build client-bundle scan, and focused failure/privacy/rate/header tests. Existing database policy/integration, deterministic safety/latency, Playwright/axe/reflow, and the completed owner accessibility review remain applicable. GitHub Actions run `34162170691` passed both Foundation and Docker-backed Database jobs; PR #8 was squash-merged at `95e2744`. Distributed platform rate control, hosted-log drill, and representative production p95 are verified in BL-013 rather than claimed locally.
 
-## BL-012 — Comparative resident usability validation
+## BL-012 — Reproducible resident-task validation
 
-- Status/Priority/Complexity: Ready; human participants/consent required / P0 / M
-- Description: Run the approved small official-workflow versus navigator study, report limitations/failures, and create bounded corrective backlog.
+- Status/Priority/Complexity: In progress / P0 / M
+- Description: Run the approved frozen non-participant resident-task benchmark, report limitations/failures, and create a bounded corrective item only if a gate fails.
 - Requirements: FR-001, FR-006, FR-008, FR-009, FR-011, NFR-004, NFR-005, NFR-006, NFR-012
 - Acceptance criteria: AC-NFR-005-02 and AC-V1-01
-- Dependencies: BL-011; human participants/consent
-- Testing: protocol dry run, raw/aggregate metric verification, de-identification review.
+- Dependencies: BL-011
+- Testing: fixture validation, raw/aggregate metric verification, repeatability, safety/source-association gates, and claim-boundary review.
 
 ## BL-013 — Controlled Supabase and Vercel production release
 

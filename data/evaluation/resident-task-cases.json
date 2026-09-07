@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0.0",
+  "evaluation_id": "resident-task-benchmark-v1",
+  "evaluation_date": "2026-09-07",
+  "status": "approved",
+  "method": "Reproducible non-participant walkthrough using frozen labeled cases, deterministic resolver results, and automated browser evidence.",
+  "human_participants": false,
+  "limitations": "This benchmark verifies designed task paths and system outcomes. It is not observed human behavior and must not be described as user research, population evidence, or proof of ease of use.",
+  "case_count": 20,
+  "case_ids": [
+    "db-alias-002-16-oz-propane-cylinder",
+    "db-alias-009-alkaline-battery",
+    "db-alias-013-car-lead-acid-battery",
+    "db-alias-022-compact-fluorescent-bulb",
+    "db-alias-038-household-chair",
+    "db-alias-042-laptop-computer",
+    "db-alias-043-large-water-dispenser",
+    "db-alias-055-old-mattress",
+    "db-alias-057-passenger-tire",
+    "db-alias-071-standalone-rechargeable-lithium-battery",
+    "db-alias-011-battery",
+    "db-unsupported-paint",
+    "db-unsupported-heavy-truck-tire",
+    "db-unsupported-propane-no-size",
+    "db-unsupported-telephone",
+    "db-unsupported-unknown-chemical",
+    "db-out-of-scope-commercial",
+    "db-invalid-empty",
+    "db-failure-stale-source",
+    "db-failure-database"
+  ],
+  "required_state_counts": {
+    "success": 10,
+    "ambiguous": 1,
+    "unsupported": 6,
+    "invalid": 1,
+    "evidence_unavailable": 1,
+    "database_error": 1
+  },
+  "gates": {
+    "correct_task_outcome_percent_minimum": 80,
+    "successful_source_association_percent_minimum": 100,
+    "critical_safe_handling_percent_minimum": 100,
+    "unsupported_claim_count_maximum": 0
+  },
+  "browser_evidence": [
+    "initial task is discoverable through one labeled input and visible submit button",
+    "success exposes a meaningful official-source link and provenance",
+    "ambiguity provides bounded choices and an unsure path without guidance",
+    "unsupported and failure states provide safe recovery without guidance",
+    "core paths remain keyboard-operable, announced, accessible, and responsive"
+  ]
+}

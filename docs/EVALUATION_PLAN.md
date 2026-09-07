@@ -1,6 +1,6 @@
 # Evaluation plan
 
-Evaluation is reproducible, versioned, and separated into deterministic behavior, optional AI classification, answer/provenance safety, and resident UX. Stage 1 defines the plan; it performs no user test or model experiment.
+Evaluation is reproducible, versioned, and separated into deterministic behavior, optional AI classification, answer/provenance safety, and resident-task behavior. Stage 1 defined the plan; later accepted decisions govern implemented evidence.
 
 ## Frozen case set
 
@@ -47,18 +47,13 @@ BL-009's recorded experiment in [BL-009_AI_VALUE_EXPERIMENT.md](BL-009_AI_VALUE_
 
 For every active category, verify that displayed action/requirements/where fields match the reviewed canonical record, all important claims have evidence, source organization/title/URL/date are correct, URLs are official and reachable at review time, and stale/unreviewed records cannot render success. Metrics: answer support rate, citation correctness, unsupported-claim rate, stale-evidence containment, and source-link success.
 
-## UX comparison
+## Resident-task benchmark
 
-Run a small moderated comparative test after the product is usable, with approximately 6–10 consenting adult participants varied in age, device comfort, and government-site familiarity. This is directional portfolio research, not representative population research. Counterbalance task/order where practical.
+ADR-012 replaces the proposed recruited-participant comparison with a frozen, reproducible non-participant benchmark. Select exactly 20 cases from the independently reviewed deterministic evaluation corpus, covering supported success, ambiguity, unsupported, invalid-input, missing-evidence, and database-failure behavior. Record stable case IDs, expected states, critical-safety designations, and the benchmark version so another reviewer can rerun the same evidence.
 
-Each participant completes comparable supported, ambiguous, and unsupported tasks using:
+The V1 outcome gate requires at least 80% expected-state completion, 100% safe handling of designated critical cases, 100% official-source association for supported success cases, and zero unsupported disposal claims. Existing automated browser checks and the completed owner accessibility review remain separate evidence for navigation, focus, announcements, reflow, touch targets, and state presentation.
 
-1. the current official-information workflow alone;
-2. the navigator workflow.
-
-Observe without coaching after the start instruction. Measure task completion/correct method, completion time, wrong actions, invalid submissions, recovery failures, initial-action comprehension, result interpretation, source-identification success, and notable accessibility/usability barriers. Do not collect sensitive personal information; report aggregate/de-identified observations.
-
-The V1 outcome gate requires no critical safety error and either a ≥15 percentage-point completion-rate gain or ≥25% lower median completion time, with navigator completion ≥80% and official-source identification ≥80%. These deliberately material thresholds reduce the chance of claiming value from small noise. Report raw counts, medians, sample/task details, and limitations.
+Report case composition, aggregate metrics, failures, configuration, and limitations. This evidence may establish repeatable designed behavior; it must not be described as observed human usability, user research, representative resident outcomes, comprehension, ease, completion time, or superiority over the official workflow. No participant recruitment, consent, observation, personal data, or de-identification process is part of BL-012.
 
 ## Accessibility and failure evaluation
 

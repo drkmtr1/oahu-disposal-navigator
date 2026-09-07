@@ -24,7 +24,7 @@ BL-008 runs deterministic evaluation. BL-009 measures whether bounded AI is usef
 
 ## M5 — Evaluation and hardening
 
-BL-011 completes security/reliability/observability/accessibility gates. BL-012 runs the small comparative user validation and creates bounded fixes. Exit: safety/accessibility gates pass and the measurable-outcome decision is reported.
+BL-011 completes security/reliability/observability/accessibility gates. BL-012 runs the frozen non-participant resident-task benchmark and creates a bounded corrective item only if a gate fails. Exit: safety/accessibility gates pass and the benchmark outcome and evidence limits are reported.
 
 ## M6 — Deployment
 

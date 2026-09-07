@@ -1,6 +1,6 @@
 # Oʻahu Household Item Disposal Navigator
 
-Status: **Stage 1 and BL-001 through BL-011 are merged. V1 is deterministic-only; BL-012 comparative resident usability validation is next and requires human participants/consent.**
+Status: **Stage 1 and BL-001 through BL-011 are merged. V1 is deterministic-only; BL-012 reproducible resident-task validation is in progress.**
 
 The Oʻahu Household Item Disposal Navigator is a small public-interest web project for residents who need to understand how to dispose of a common household item. Official guidance can require people to translate ordinary item names into government categories and combine information from several pages. V1 will provide a single plain-language lookup and return a structured, source-backed result or a clear clarification/unsupported state.
 
@@ -54,7 +54,7 @@ BL-008 establishes the human-reviewed deterministic baseline. BL-009's [AI value
 
 ## Engineering approach
 
-GitHub is the employer-facing repository. Focused branches and pull requests will connect requirements, backlog items, implementation, tests, and acceptance evidence. Supabase will hold curated relational reference data and provenance; Vercel will provide preview and production hosting. Deterministic tests, database policy tests, accessibility checks, end-to-end tests, AI regression evaluation (only if AI is used), and a small comparative user study are required before V1 is done.
+GitHub is the employer-facing repository. Focused branches and pull requests connect requirements, backlog items, implementation, tests, and acceptance evidence. Supabase will hold curated relational reference data and provenance; Vercel will provide preview and production hosting. Deterministic tests, database policy tests, accessibility checks, end-to-end tests, AI regression evaluation (only if AI is used), and a reproducible non-participant resident-task benchmark are required before V1 is done.
 
 Start with [AGENTS.md](AGENTS.md), the [project overview](docs/PROJECT_OVERVIEW.md), the [reviewed V1 canonical dataset](docs/V1_CATEGORY_DATASET.md), and the [UX design](docs/UX_DESIGN.md). The original [PROJECT_HANDOFF.md](PROJECT_HANDOFF.md) is preserved as historical context. BL-002 approval is recorded in the dataset and remains subject to its source review-by dates.
 

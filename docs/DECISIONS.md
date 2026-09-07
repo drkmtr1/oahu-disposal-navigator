@@ -108,11 +108,23 @@
 - Tradeoffs/consequences: Twenty-nine ordinary/misspelled supported descriptions remain unresolved by exact matching, so some residents must revise input or use the official fallback. V1 avoids model cost, latency, privacy exposure, provider outages, prompt injection risk, and operational complexity.
 - Revisit conditions: Only after V1 if new independently reviewed cases show a material deterministic usability barrier and a new candidate/prompt can be evaluated on a newly protected holdout without tuning to these failures. Reconsideration requires a new bounded backlog item, budget, threat review, complete evaluation gates, and explicit human approval.
 
+## ADR-012 — Replace recruited-participant study with reproducible resident-task benchmark
+
+- Status: Accepted by project owner
+- Date: 2026-09-07
+- Context: The original V1 plan required a moderated comparison with 6–10 recruited adults and informed consent. The project owner removed that requirement and directed work to proceed. BL-012 still needs auditable evidence for the one-task flow, safe failure behavior, provenance, and the V1 outcome gate without overstating what automated evidence can establish.
+- Decision: Replace the recruited-participant comparison with a frozen, versioned, non-participant benchmark of exactly 20 representative resident-task cases drawn from the independently reviewed deterministic corpus. Require at least 80% expected-state completion, 100% safe handling of designated critical cases, 100% official-source association for supported success cases, and zero unsupported disposal claims. Retain the existing automated browser/accessibility evidence and owner accessibility review as separate evidence. Collect no participant, consent, observation, demographic, or personal data. Reports must not characterize the benchmark as human usability research or claim observed comprehension, ease, speed, population outcomes, or superiority over the official workflow.
+- Alternatives considered: Keep the moderated recruited-participant study; use an informal owner-only walkthrough as outcome evidence; remove the V1 usability/outcome gate without replacement.
+- Rationale: A frozen benchmark is inexpensive, inspectable, repeatable in CI, and preserves the most safety-relevant and source-integrity outcomes while honoring the owner's removal of the human-only gate. Explicit claim limits prevent automation from masquerading as user research.
+- Tradeoffs/consequences: The benchmark verifies implemented behavior, not real-world resident comprehension, ease, speed, or comparative benefit. It has weaker external validity and may miss confusing language or interaction barriers that only use by other people would reveal. Those limits remain visible in project and release reporting; accessibility evidence continues independently.
+- Revisit conditions: Reconsider only after V1 if the owner explicitly authorizes actual participant research, appropriate recruitment/consent handling, and a separately scoped protocol. Future research supplements rather than retroactively changes this benchmark evidence.
+
 ## Decision register
 
 - OD-001: Resolved 2026-09-05; the project owner approved the 15-category BL-002 set and the live-source second pass found no material discrepancy.
 - OD-002: Resolved 2026-09-05; ADR-009 was accepted through BL-002 review.
 - OD-003: Resolved 2026-09-06 by ADR-010; use the dedicated `api` security-invoker view over non-exposed `private` tables with server-only publishable-key/anon access and no service-role lookup.
 - OD-004: Resolved 2026-09-07 by accepted ADR-011 and the merged BL-009 evidence; GPT-5.6 Luna failed the critical-safety gate, so V1 remains deterministic-only.
+- OD-007: Resolved 2026-09-07 by accepted ADR-012; V1 uses a reproducible non-participant resident-task benchmark and makes no observed-human-usability claim.
 - OD-005: Final per-source review cadence and conflict handling, informed by source behavior.
 - OD-006: Final production budgets/rate limits and backup/recovery objectives, before deployment.

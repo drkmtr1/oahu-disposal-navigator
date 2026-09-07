@@ -28,7 +28,7 @@ An item is Done only when:
 - Responsive/mobile and agreed WCAG 2.2 AA criteria pass.
 - AI is either rejected by the documented gate or bounded, validated, justified, and evaluated.
 - NFR-003 safety metrics and all release regression thresholds pass.
-- Comparative user test is complete, limitations reported, and AC-V1-01 passes or the project remains pre-V1.
+- The reproducible resident-task benchmark is complete, limitations are reported, and AC-V1-01 passes or the project remains pre-V1.
 - Security/access/privacy/dependency review has no unresolved high-severity defect.
 - Observability can diagnose a failed request without forbidden data.
 - GitHub history/CI/traceability and README/docs/known limitations are current.

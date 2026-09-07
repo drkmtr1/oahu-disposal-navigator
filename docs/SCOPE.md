@@ -13,7 +13,7 @@
 - Safe behavior for missing evidence and service/model failures.
 - Manual source freshness review and provenance history.
 - Mobile-first, keyboard-usable, screen-reader-compatible, plain-language UI.
-- Deterministic tests, security/access tests, accessibility/E2E checks, regression evaluation, comparative user testing, and public Vercel release.
+- Deterministic tests, security/access tests, accessibility/E2E checks, regression evaluation, a reproducible non-participant resident-task benchmark, and public Vercel release.
 
 The supported category list is deliberately not frozen in Stage 1. Examples in the mandate are candidates, not support promises.
 
