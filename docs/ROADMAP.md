@@ -16,7 +16,7 @@ BL-003 reproducible app/CI scaffold, BL-004 Supabase schema/access/reference dat
 
 ## M3 — Core UX and provenance
 
-BL-006 implements all four mobile/accessibility states; BL-007 completes inspectable evidence/freshness for frozen categories. Exit: a resident can complete/recover from every state and inspect an official source. **BL-006 passes automated checks and CI, and its 2026-09-06 manual 200% zoom, keyboard/focus, and Windows Narrator review reported no blocking accessibility issue. PR approval and squash merge remain pending; the local live-data path was not exercised because this workstation lacks a Docker-compatible runtime.**
+BL-006 implements all four mobile/accessibility states; BL-007 completes inspectable evidence/freshness for frozen categories. Exit: a resident can complete/recover from every state and inspect an official source. **BL-006 is merged at `9853528`. BL-007's implementation candidate exposes stored evidence and freshness, adds manual source-review behavior, and adds full canonical regression coverage; CI and human merge review remain pending.**
 
 ## M4 — Measured baseline and conditional AI
 

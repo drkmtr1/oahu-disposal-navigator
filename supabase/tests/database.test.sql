@@ -2,7 +2,7 @@ begin;
 
 create extension if not exists pgtap with schema extensions;
 
-select plan(48);
+select plan(51);
 
 select has_schema('private', 'BL-004 creates the non-exposed data schema');
 select has_schema('api', 'BL-004 creates the dedicated Data API schema');
@@ -367,6 +367,66 @@ select results_eq(
   $$select count(*) from api.disposal_lookup where category_id = 'green-waste'$$,
   array[0::bigint],
   'Conflicted evidence cannot support an anonymous production lookup'
+);
+reset role;
+
+update private.source_evidence
+set review_status = 'approved'
+where stable_id = 'ev-green-waste';
+
+update private.official_sources
+set review_status = 'conflict'
+where stable_id = 'src-hnl-city-ewaste';
+
+set local role anon;
+select results_eq(
+  $$select count(*) from api.disposal_lookup where source_id = 'src-hnl-city-ewaste'$$,
+  array[0::bigint],
+  'A conflicted source cannot support an anonymous production lookup'
+);
+reset role;
+
+update private.official_sources
+set review_status = 'expired'
+where stable_id = 'src-hnl-resident-drop-off';
+
+set local role anon;
+select results_eq(
+  $$select count(*) from api.disposal_lookup where source_id = 'src-hnl-resident-drop-off'$$,
+  array[0::bigint],
+  'An explicitly expired source cannot support an anonymous production lookup'
+);
+reset role;
+
+insert into private.source_verifications (
+  id,
+  source_id,
+  verified_on,
+  result,
+  notes,
+  apparent_updated_on,
+  reviewer_ref
+)
+select
+  '00000000-0000-5000-8000-000000000004'::uuid,
+  id,
+  date '2026-09-06',
+  'unavailable',
+  'Synthetic BL-007 unavailable-source review.',
+  apparent_updated_on,
+  'test-reviewer'
+from private.official_sources
+where stable_id = 'src-hnl-household-hazardous-waste';
+
+update private.official_sources
+set review_status = 'expired'
+where stable_id = 'src-hnl-household-hazardous-waste';
+
+set local role anon;
+select results_eq(
+  $$select count(*) from api.disposal_lookup where source_id = 'src-hnl-household-hazardous-waste'$$,
+  array[0::bigint],
+  'A source recorded unavailable and made ineligible cannot support production lookup'
 );
 reset role;
 

@@ -118,14 +118,14 @@ const evidenceRows = dataset.evidence.map((evidence) => [
   sqlText(evidence.review_status),
 ]);
 
-const verificationRows = dataset.sources.map((source) => [
-  sqlText(stableUuid(`verification/${source.id}/${source.last_human_verified_on}`)),
-  sqlText(sourceUuid.get(source.id)),
-  sqlDate(source.last_human_verified_on),
-  sqlText("confirmed"),
-  sqlText(source.verification_notes),
-  sqlDate(source.apparent_updated_on),
-  sqlText(dataset.approval.reviewer_ref),
+const verificationRows = dataset.source_verifications.map((verification) => [
+  sqlText(stableUuid(`verification/${verification.source_id}/${verification.verified_on}`)),
+  sqlText(sourceUuid.get(verification.source_id)),
+  sqlDate(verification.verified_on),
+  sqlText(verification.result),
+  sqlText(verification.notes),
+  sqlDate(verification.apparent_updated_on),
+  sqlText(verification.reviewer_ref),
 ]);
 
 const sections = [
@@ -221,5 +221,5 @@ if (checkOnly) {
 }
 
 console.log(
-  `${checkOnly ? "Verified" : "Generated"} ${fileURLToPath(OUTPUT_URL)} with ${categoryRows.length} categories, ${aliasRows.length} aliases, ${sourceRows.length} sources, and ${evidenceRows.length} evidence records.`,
+  `${checkOnly ? "Verified" : "Generated"} ${fileURLToPath(OUTPUT_URL)} with ${categoryRows.length} categories, ${aliasRows.length} aliases, ${sourceRows.length} sources, ${evidenceRows.length} evidence records, and ${verificationRows.length} source verifications.`,
 );

@@ -22,8 +22,19 @@ const successResponse = {
     organization: "City and County of Honolulu Department of Environmental Services",
     title: "Rules and Guidelines for Residents",
     url: fallback.url,
+    apparentUpdatedOn: "2025-04-22",
     verifiedOn: "2026-09-05",
+    reviewBy: "2026-12-04",
   },
+  evidence: [
+    {
+      id: "ev-mattresses-drop-off",
+      summary: "The reviewed source lists mattresses as regular refuse.",
+      locator: "Regular Refuse",
+      claimScope: "Oʻahu residential mattress drop-off.",
+      reviewedOn: "2026-09-05",
+    },
+  ],
   trustMessage: "Disposal rules come from official sources.",
 } as const;
 
@@ -182,7 +193,7 @@ test("BL-006 / AC-NFR-004-01 announces loading and prevents duplicate submission
   await expect(page.getByRole("heading", { name: "Mattresses" })).toBeFocused();
 });
 
-test("BL-006 / AC-FR-006-01, AC-FR-011-01, and AC-FR-012-01 render a source-backed success and recovery controls", async ({
+test("BL-006/007 / AC-FR-006-01, AC-FR-007-01, AC-FR-011-01, and AC-FR-012-01 render inspectable provenance and recovery controls", async ({
   page,
 }) => {
   await mockApi(page);
@@ -201,6 +212,15 @@ test("BL-006 / AC-FR-006-01, AC-FR-011-01, and AC-FR-012-01 render a source-back
     fallback.url,
   );
   await expect(page.getByText("Project verified: September 5, 2026")).toBeVisible();
+  await expect(page.getByText("Review due by: December 4, 2026")).toBeVisible();
+  await expect(page.getByText("Source page date: April 22, 2025")).toBeVisible();
+  const evidence = page.getByText("Evidence supporting this guidance");
+  await expect(evidence).toBeVisible();
+  await evidence.click();
+  await expect(page.getByText(successResponse.evidence[0].summary)).toBeVisible();
+  await expect(page.getByText(`Claim covered: ${successResponse.evidence[0].claimScope}`)).toBeVisible();
+  await expect(page.getByText("Source location: Regular Refuse")).toBeVisible();
+  await expect(page.getByText("Evidence reviewed: September 5, 2026")).toBeVisible();
   await expect(page.getByText(successResponse.trustMessage)).toBeVisible();
 
   await page.getByRole("button", { name: "Edit description" }).click();

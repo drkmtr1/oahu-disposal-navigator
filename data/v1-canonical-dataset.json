@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "dataset_kind": "v1_canonical_dataset",
   "data_version": "2026-09-05.bl-002-approved.1",
   "scope": "Oʻahu residential household disposal only",
@@ -112,6 +112,35 @@
       "review_cadence_days": 30,
       "review_status": "approved",
       "verification_notes": "Project-owner approval and second-pass live-source verification were completed on 2026-09-05; durable guidance excludes changing event dates and requires live registration details to be checked."
+    }
+  ],
+  "source_verifications": [
+    {
+      "id": "sv-hnl-resident-drop-off-2026-09-05",
+      "source_id": "src-hnl-resident-drop-off",
+      "verified_on": "2026-09-05",
+      "result": "confirmed",
+      "notes": "Project-owner approval and second-pass live-source verification were completed on 2026-09-05; all cited sections remained supported.",
+      "apparent_updated_on": "2025-04-22",
+      "reviewer_ref": "project-owner-human-review"
+    },
+    {
+      "id": "sv-hnl-city-ewaste-2026-09-05",
+      "source_id": "src-hnl-city-ewaste",
+      "verified_on": "2026-09-05",
+      "result": "confirmed",
+      "notes": "Project-owner approval and second-pass live-source verification were completed on 2026-09-05; the accepted-item, excluded-item, and destination lists remain supported, and the VOIP/telephone contradiction remains excluded.",
+      "apparent_updated_on": null,
+      "reviewer_ref": "project-owner-human-review"
+    },
+    {
+      "id": "sv-hnl-household-hazardous-waste-2026-09-05",
+      "source_id": "src-hnl-household-hazardous-waste",
+      "verified_on": "2026-09-05",
+      "result": "confirmed",
+      "notes": "Project-owner approval and second-pass live-source verification were completed on 2026-09-05; durable guidance excludes changing event dates and requires live registration details to be checked.",
+      "apparent_updated_on": null,
+      "reviewer_ref": "project-owner-human-review"
     }
   ],
   "categories": [

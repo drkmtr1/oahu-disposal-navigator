@@ -95,6 +95,8 @@ The independent review gate was completed as follows:
 
 This completes BL-002's dataset and provenance evidence for AC-FR-005-01, AC-FR-007-01, AC-FR-013-01, AC-NFR-001-01, and AC-NFR-002-01. Later application/database tasks must still enforce and test the runtime behavior those criteria describe.
 
+BL-007 adds an explicit append-only `source_verifications` array to the canonical serialization without changing the approved category set or factual guidance. Current source fields are a latest-state snapshot; verification records preserve the review history. Follow [SOURCE_REVIEW_RUNBOOK.md](SOURCE_REVIEW_RUNBOOK.md) for subsequent checks.
+
 ## Validation and traceability
 
 The dependency-free validator checks category count and exact IDs, ID/reference uniqueness, source authority/HTTPS, required guidance and evidence, deterministic alias normalization and eligibility qualifiers, undeclared collisions, approval metadata, review cadence and expiry, exclusions, and production eligibility. The older five-record pilot and its validator remain intact for audit history.
