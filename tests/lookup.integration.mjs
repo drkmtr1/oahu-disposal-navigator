@@ -10,6 +10,8 @@ const dataset = JSON.parse(
   await readFile(new URL("../data/v1-canonical-dataset.json", import.meta.url), "utf8"),
 );
 const handler = createDisposalPostHandler({
+  eventLogger: () => {},
+  rateLimiter: () => ({ allowed: true }),
   requestIdFactory: () => "integration-request",
   today: () => "2026-09-06",
 });
