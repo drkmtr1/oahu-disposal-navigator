@@ -97,11 +97,22 @@
 - Tradeoffs/consequences: The view returns one row per approved alias/evidence relationship and the later server slice must group/validate rows. `anon`/`authenticated` need database-level SELECT and schema-usage grants on private dependencies for a security-invoker view, but those tables are not in an exposed Data API schema. BL-013 must explicitly configure hosted Data API exposure to `api` only and verify platform settings because local `config.toml` does not change a hosted project. Curation continues through reviewed migrations/seeds under owner privileges.
 - Revisit conditions: Reconsider only if hosted Data API behavior cannot preserve the dedicated-schema boundary, a measured query/performance limit appears, or an approved curation capability needs a separate write path. Any service-role, security-definer, direct-database, or browser-access change requires a new threat review, tests, and superseding ADR.
 
+## ADR-011 — Deterministic-only V1 after AI value experiment
+
+- Status: Proposed pending human review and BL-009 merge
+- Date: 2026-09-07
+- Context: BL-008 measured 29 deterministic-unresolved supported descriptions. BL-009 tested the lowest-cost suitable structured-output model against 60 unresolved supported, ambiguous, unsupported, hazardous, out-of-scope, and injection cases over three controlled runs. GPT-5.6 Luna achieved 97.70% hard-supported accuracy, 98.04% holdout-supported accuracy, 100% structured validity, 1.674-second p95 API latency, and an estimated $0.044361 cost. However, it falsely matched two critical unsupported inputs in every run, yielding only 92.86% critical safe handling versus the mandatory 100% gate.
+- Decision: V1 remains deterministic-only. FR-004 stays disabled under AC-FR-004-01, no model credential is required in deployed environments, and conditional BL-010 closes as not justified. The model experiment is evidence, not production implementation.
+- Alternatives considered: implement GPT-5.6 Luna despite the failed gate; tune against the frozen failures; spend the remaining budget comparing larger models; postpone V1 for AI work.
+- Rationale: The public-interest safety gate is deliberately conjunctive. Accuracy, schema validity, speed, and low cost do not compensate for repeatable false-supported critical classifications. Deterministic abstention is safer and already satisfies the project boundary.
+- Tradeoffs/consequences: Twenty-nine ordinary/misspelled supported descriptions remain unresolved by exact matching, so some residents must revise input or use the official fallback. V1 avoids model cost, latency, privacy exposure, provider outages, prompt injection risk, and operational complexity.
+- Revisit conditions: Only after V1 if new independently reviewed cases show a material deterministic usability barrier and a new candidate/prompt can be evaluated on a newly protected holdout without tuning to these failures. Reconsideration requires a new bounded backlog item, budget, threat review, complete evaluation gates, and explicit human approval.
+
 ## Decision register
 
 - OD-001: Resolved 2026-09-05; the project owner approved the 15-category BL-002 set and the live-source second pass found no material discrepancy.
 - OD-002: Resolved 2026-09-05; ADR-009 was accepted through BL-002 review.
 - OD-003: Resolved 2026-09-06 by ADR-010; use the dedicated `api` security-invoker view over non-exposed `private` tables with server-only publishable-key/anon access and no service-role lookup.
-- OD-004: Whether AI clears the need/value gate and, only then, provider/model/configuration.
+- OD-004: Resolved 2026-09-07 by proposed ADR-011 and the BL-009 evidence; GPT-5.6 Luna failed the critical-safety gate, so V1 remains deterministic-only pending human approval/merge.
 - OD-005: Final per-source review cadence and conflict handling, informed by source behavior.
 - OD-006: Final production budgets/rate limits and backup/recovery objectives, before deployment.

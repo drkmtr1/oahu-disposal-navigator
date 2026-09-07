@@ -50,6 +50,8 @@ Measure exact/synonym/colloquial/misspelling accuracy, ambiguity and unsupported
 
 Release gates are in EVALUATION_PLAN: 0 unsupported claims, 100% critical safe handling, 100% citation association, and a justified improvement over the deterministic baseline. If the gate fails, V1 ships deterministic-only.
 
+BL-009 tested GPT-5.6 Luna over three controlled runs. It improved classification coverage but achieved only 92.86% critical safe handling because it falsely matched two critical inputs in every run. Proposed ADR-011 therefore keeps V1 deterministic-only and closes conditional BL-010 as not justified; no model adapter or runtime model call is implemented.
+
 ## Known limitations
 
 Classification is limited to English V1 wording and frozen categories; ordinary terms may remain ambiguous; model behavior can drift; provider outages/latency exist; model confidence is not calibrated authority; current official data may still change between manual reviews. Human authorities remain responsible for unusual, chemical, hazardous, eligibility, and facility-specific questions.

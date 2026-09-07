@@ -18,6 +18,7 @@ test("BL-003 / AC-NFR-012-01: package scripts and dependency versions are reprod
     "typecheck",
     "validate:data",
     "validate:evaluation",
+    "validate:ai-experiment",
   ];
 
   for (const script of requiredScripts) {
@@ -76,6 +77,7 @@ test("BL-003 / AC-NFR-012-01: CI gates every implemented validation layer", asyn
     "npm run evaluation:verify-cases",
     "npm run validate:evaluation",
     "npm run evaluate:deterministic",
+    "npm run validate:ai-experiment",
     "npm run check:secrets",
     "npm run build",
     "npm run audit:dependencies",

@@ -1,6 +1,6 @@
 # BL-008 deterministic baseline evaluation
 
-Status: **Evaluation candidate pending independent human label review and pull-request approval.** Results below are reproducible implementation evidence, not an approved frozen benchmark.
+Status: **Complete and human-reviewed; squash-merged at `23ef468`.**
 
 ## Technical summary
 
@@ -49,7 +49,7 @@ GitHub Actions run `34083742718` passed both the Foundation job containing this 
 
 ## Limitations and robustness
 
-- The curated labels and critical-safety designations are pending independent human review; they are not frozen merely because validation passes.
+- The project owner completed independent review of the curated labels and critical-safety designations before approving and merging PR #6.
 - The development/holdout split is deterministic and versioned, not statistically representative of Oʻahu residents.
 - The 29 unresolved inputs measure exact matching limitations. They are not authorization to broaden aliases where type, size, chemistry, quantity, or condition affects safety.
 - Latency is in-process only. Hosted end-to-end performance belongs to later hardening/release work.

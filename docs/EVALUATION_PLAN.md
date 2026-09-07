@@ -18,7 +18,7 @@ Create versioned cases only after the V1 category/source set is reviewed. Each c
 
 No test label is generated solely by the model. A human reviews labels and critical cases.
 
-BL-008 implements the candidate case schema, generator, validator, runner, and measured results in [BL-008_DETERMINISTIC_BASELINE.md](BL-008_DETERMINISTIC_BASELINE.md). The committed set remains `pending_human_review` until an independent person approves its curated labels and critical-safety flags; automated validation does not substitute for that review.
+BL-008 implements the approved case schema, generator, validator, runner, and measured results in [BL-008_DETERMINISTIC_BASELINE.md](BL-008_DETERMINISTIC_BASELINE.md). The project owner completed independent review of its curated labels and critical-safety flags before approving and merging PR #6 at `23ef468`.
 
 ## Deterministic baseline
 
@@ -40,6 +40,8 @@ AI may advance to implementation only if it:
 8. creates no material regression in deterministic cases.
 
 Failing the gate means deterministic-only V1, not a postponed release.
+
+BL-009's recorded experiment in [BL-009_AI_VALUE_EXPERIMENT.md](BL-009_AI_VALUE_EXPERIMENT.md) failed gate 3 with 92.86% critical safe handling despite passing the other measured gates. Proposed ADR-011 therefore selects deterministic-only V1. The live runner remains manual and budgeted; normal CI validates only the bounded recorded artifact.
 
 ## Answer and provenance evaluation
 

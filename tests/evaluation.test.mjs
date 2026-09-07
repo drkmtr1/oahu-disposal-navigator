@@ -27,7 +27,7 @@ test("BL-008 / AC-NFR-003-01: the versioned baseline repeats deterministically",
 
   assert.deepEqual(stableResult(first), stableResult(second));
   assert.equal(first.caseCount, 155);
-  assert.equal(first.evaluationStatus, "pending_human_review");
+  assert.equal(first.evaluationStatus, "approved");
 });
 
 test("BL-008 / AC-FR-003-01/02 and AC-FR-009-01: deterministic safety gates pass", async () => {
