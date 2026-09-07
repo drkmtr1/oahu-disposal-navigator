@@ -20,7 +20,7 @@ BL-006 implements all four mobile/accessibility states; BL-007 completes inspect
 
 ## M4 — Measured baseline and conditional AI
 
-BL-008 runs deterministic evaluation. BL-009 measures whether bounded AI is useful. BL-010 implements an AI adapter only if the gate passes; otherwise it closes as “not justified.” Exit: frozen regression evidence and explicit AI/no-AI decision. **BL-008 is complete at `23ef468`. BL-009's candidate evidence fails the mandatory critical-safety gate and proposes deterministic-only V1; BL-010 is therefore not justified, pending ADR-011 review and merge.**
+BL-008 runs deterministic evaluation. BL-009 measures whether bounded AI is useful. BL-010 implements an AI adapter only if the gate passes; otherwise it closes as “not justified.” Exit: frozen regression evidence and explicit AI/no-AI decision. **BL-008 is complete at `23ef468`. BL-009 was approved and merged at `75b8d0e`; its failed mandatory safety gate makes V1 deterministic-only and closes BL-010 as not justified.**
 
 ## M5 — Evaluation and hardening
 

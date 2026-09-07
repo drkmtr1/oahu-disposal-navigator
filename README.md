@@ -1,6 +1,6 @@
 # Oʻahu Household Item Disposal Navigator
 
-Status: **Stage 1 and BL-001 through BL-008 are merged. BL-009's bounded model experiment failed the mandatory critical-safety gate and proposes deterministic-only V1; local checks and GitHub CI pass on PR #7, pending human review.**
+Status: **Stage 1 and BL-001 through BL-009 are merged. The approved BL-009 experiment failed the mandatory critical-safety gate, so V1 is deterministic-only and conditional BL-010 is closed as not justified. BL-011 hardening is in progress.**
 
 The Oʻahu Household Item Disposal Navigator is a small public-interest web project for residents who need to understand how to dispose of a common household item. Official guidance can require people to translate ordinary item names into government categories and combine information from several pages. V1 will provide a single plain-language lookup and return a structured, source-backed result or a clear clarification/unsupported state.
 
@@ -50,7 +50,7 @@ npm run db:stop
 
 BL-006 adds the resident form and the initial, structured-success, clarification, and unsupported/error experiences. It includes visible source/trust information, edit/search-again controls, keyboard focus and status handling, responsive 44-pixel controls, one user-initiated transient retry, and safe abstention when a resident is unsure. On 2026-09-06, the project owner reported that 200% zoom, keyboard/focus operation, and Windows Narrator worked without a blocking accessibility issue. BL-007 adds progressively disclosed stored evidence, source update/verification/review-by dates, explicit append-only source-verification history, the [manual source review runbook](docs/SOURCE_REVIEW_RUNBOOK.md), and full canonical provenance/freshness regression coverage. Docker-backed CI exercises the local Supabase path because this workstation has no compatible local runtime. No Supabase/Vercel resource has been linked or deployed.
 
-BL-008 establishes the human-reviewed deterministic baseline. BL-009's [AI value experiment](docs/BL-009_AI_VALUE_EXPERIMENT.md) found that GPT-5.6 Luna improved ordinary-language classification but repeatedly false-matched two critical inputs, so the mandatory gate failed and proposed ADR-011 keeps V1 deterministic-only. Live model calls remain outside normal CI and are not part of the application.
+BL-008 establishes the human-reviewed deterministic baseline. BL-009's [AI value experiment](docs/BL-009_AI_VALUE_EXPERIMENT.md) found that GPT-5.6 Luna improved ordinary-language classification but repeatedly false-matched two critical inputs, so the mandatory gate failed and accepted ADR-011 keeps V1 deterministic-only. Live model calls remain outside normal CI and are not part of the application.
 
 ## Engineering approach
 

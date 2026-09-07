@@ -1,6 +1,6 @@
 # BL-009 AI value and need experiment
 
-Status: **Recorded experiment candidate pending human review and pull-request approval. The mandatory AI gate failed; deterministic-only V1 is recommended.**
+Status: **Human-reviewed and squash-merged at `75b8d0e`. The mandatory AI gate failed; deterministic-only V1 is approved.**
 
 GitHub Actions run `34158975816` passed both Foundation and Docker-backed Database jobs on PR #7.
 

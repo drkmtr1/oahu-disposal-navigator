@@ -66,6 +66,9 @@ jobs:
       - name: Build production application
         run: npm run build
 
+      - name: Inspect client bundle for server credentials
+        run: npm run check:client-bundle
+
       - name: Install browser for resident-flow checks
         run: npx playwright install --with-deps chromium
 

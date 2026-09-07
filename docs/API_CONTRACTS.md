@@ -91,6 +91,8 @@ Target total time is 1.5 s p95 deterministic and 5 s p95 AI-assisted. BL-005 giv
 
 Enforce body/input limits and rate controls at the server/platform boundary. Avoid user fingerprinting. A 429 response contains a safe retry suggestion. Do not expose a bulk/list endpoint in V1.
 
+BL-011 implements the server-side portion as a bounded in-memory limiter keyed by an ephemeral process-salted digest of the Vercel-forwarded client address (or one shared local key). It stores and logs neither the address nor digest. This protects each application instance; BL-013 must add and verify the complementary distributed Vercel control. All responses include `X-Request-Id`; 429 responses also include integer `Retry-After` seconds.
+
 ## Supabase/PostgreSQL interface
 
 The server queries only active reviewed records through parameterized library calls or prepared SQL. It must retrieve the complete category → guidance → evidence → source/freshness projection atomically enough that incomplete provenance cannot pass. Anonymous writes are denied. Database result schemas are validated before response assembly.

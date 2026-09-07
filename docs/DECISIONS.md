@@ -99,7 +99,7 @@
 
 ## ADR-011 — Deterministic-only V1 after AI value experiment
 
-- Status: Proposed pending human review and BL-009 merge
+- Status: Accepted through human approval and BL-009 squash merge on 2026-09-07
 - Date: 2026-09-07
 - Context: BL-008 measured 29 deterministic-unresolved supported descriptions. BL-009 tested the lowest-cost suitable structured-output model against 60 unresolved supported, ambiguous, unsupported, hazardous, out-of-scope, and injection cases over three controlled runs. GPT-5.6 Luna achieved 97.70% hard-supported accuracy, 98.04% holdout-supported accuracy, 100% structured validity, 1.674-second p95 API latency, and an estimated $0.044361 cost. However, it falsely matched two critical unsupported inputs in every run, yielding only 92.86% critical safe handling versus the mandatory 100% gate.
 - Decision: V1 remains deterministic-only. FR-004 stays disabled under AC-FR-004-01, no model credential is required in deployed environments, and conditional BL-010 closes as not justified. The model experiment is evidence, not production implementation.
@@ -113,6 +113,6 @@
 - OD-001: Resolved 2026-09-05; the project owner approved the 15-category BL-002 set and the live-source second pass found no material discrepancy.
 - OD-002: Resolved 2026-09-05; ADR-009 was accepted through BL-002 review.
 - OD-003: Resolved 2026-09-06 by ADR-010; use the dedicated `api` security-invoker view over non-exposed `private` tables with server-only publishable-key/anon access and no service-role lookup.
-- OD-004: Resolved 2026-09-07 by proposed ADR-011 and the BL-009 evidence; GPT-5.6 Luna failed the critical-safety gate, so V1 remains deterministic-only pending human approval/merge.
+- OD-004: Resolved 2026-09-07 by accepted ADR-011 and the merged BL-009 evidence; GPT-5.6 Luna failed the critical-safety gate, so V1 remains deterministic-only.
 - OD-005: Final per-source review cadence and conflict handling, informed by source behavior.
 - OD-006: Final production budgets/rate limits and backup/recovery objectives, before deployment.

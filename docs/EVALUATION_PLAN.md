@@ -41,7 +41,7 @@ AI may advance to implementation only if it:
 
 Failing the gate means deterministic-only V1, not a postponed release.
 
-BL-009's recorded experiment in [BL-009_AI_VALUE_EXPERIMENT.md](BL-009_AI_VALUE_EXPERIMENT.md) failed gate 3 with 92.86% critical safe handling despite passing the other measured gates. Proposed ADR-011 therefore selects deterministic-only V1. The live runner remains manual and budgeted; normal CI validates only the bounded recorded artifact.
+BL-009's recorded experiment in [BL-009_AI_VALUE_EXPERIMENT.md](BL-009_AI_VALUE_EXPERIMENT.md) failed gate 3 with 92.86% critical safe handling despite passing the other measured gates. Accepted ADR-011 therefore selects deterministic-only V1. The live runner remains manual and budgeted; normal CI validates only the bounded recorded artifact.
 
 ## Answer and provenance evaluation
 

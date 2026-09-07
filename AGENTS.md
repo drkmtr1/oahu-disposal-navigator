@@ -2,7 +2,7 @@
 
 This file and approved documents in docs are authoritative after Stage 1. PROJECT_HANDOFF.md remains historical context. If guidance conflicts, use the newest approved requirement or ADR and report the conflict.
 
-Current lifecycle status: Stage 1 and BL-001 through BL-008 are merged to `main`, with BL-008 squash-merged at `23ef468`. Stage 2 proceeds through one bounded backlog item at a time. BL-009's bounded live experiment candidate fails the mandatory critical-safety AI gate and proposes deterministic-only V1; local checks and GitHub CI pass on PR #7, which is pending human review. The live-data path is exercised by Docker-backed CI because this workstation has no compatible local runtime. No hosted Supabase or Vercel resource exists for this application.
+Current lifecycle status: Stage 1 and BL-001 through BL-009 are merged to `main`, with BL-009 squash-merged at `75b8d0e`. ADR-011 keeps V1 deterministic-only and closes conditional BL-010 as not justified. BL-011 hardening is the current focused feature branch. The live-data path is exercised by Docker-backed CI because this workstation has no compatible local runtime. No hosted Supabase or Vercel resource exists for this application.
 
 ## Objective and Level 1 boundary
 

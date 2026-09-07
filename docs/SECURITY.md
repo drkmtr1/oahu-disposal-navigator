@@ -32,6 +32,8 @@ Keep local secrets in ignored environment files; commit only a placeholder descr
 - Limit retry, category candidates, database rows, and model tokens.
 - Do not create bulk enumeration or write APIs in V1.
 
+BL-011 adds a dependency-free application-layer fixed-window limit of 60 requests per minute per ephemeral, process-salted client-address digest. The digest is never logged or returned, state is capped at 1,000 entries, and excess requests return a generic `429` plus `Retry-After` before parsing or database access. This is defense in depth, not a distributed quota: BL-013 must configure and verify Vercel platform rate protection for multi-instance production traffic without adding resident tracking.
+
 ## AI-specific controls
 
 Treat prompts, source text, and model output as untrusted. The model has no tools, browsing, secrets, database access, or disposal-rule responsibility. Use fixed instructions, minimal allowlisted category descriptors, strict structured output, allowlist/schema validation, no free-form advice fields, and deterministic fallback. Ignore attempted instruction override, indirect source instructions, tool requests, and extra output. Missing evidence always abstains.
@@ -49,6 +51,8 @@ Use the fewest dependencies, exact compatible versions/lockfile, automated vulne
 ## Errors and response exposure
 
 Return bounded reason codes and helpful generic messages. Keep SQL/provider payloads, schema details, internal paths, stack traces, environment names, and security policy detail server-side. Logs themselves use access control and retention.
+
+BL-011 applies CSP, referrer, MIME-sniffing, framing, and browser-feature headers to all paths and removes the framework identity header. The CSP permits framework-required inline scripts/styles in this Next.js version; reviewed React rendering and the prohibition on injected HTML remain necessary controls. A future nonce-based CSP is a defense-in-depth improvement, not a V1 architecture change.
 
 ## Security review gate
 

@@ -150,7 +150,11 @@ async function expectPrimaryTargetsAtLeast44Pixels(page: Page) {
 test("BL-006 / AC-FR-001-01 and AC-NFR-004-01 provide a labeled keyboard-first initial state", async ({
   page,
 }) => {
-  await page.goto("/");
+  const response = await page.goto("/");
+  expect(response?.headers()["content-security-policy"]).toContain("frame-ancestors 'none'");
+  expect(response?.headers()["referrer-policy"]).toBe("strict-origin-when-cross-origin");
+  expect(response?.headers()["x-content-type-options"]).toBe("nosniff");
+  expect(response?.headers()["x-powered-by"]).toBeUndefined();
 
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Find out how to dispose of a household item",
