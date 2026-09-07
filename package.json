@@ -23,6 +23,8 @@
     "evaluate:deterministic": "node --no-warnings --experimental-strip-types scripts/run-deterministic-evaluation.mjs",
     "evaluate:ai:live": "node --no-warnings --experimental-strip-types scripts/run-ai-value-experiment.mjs",
     "validate:ai-experiment": "node scripts/validate-ai-experiment-results.mjs",
+    "validate:resident-tasks": "node scripts/validate-resident-task-evaluation.mjs",
+    "evaluate:resident-tasks": "node --no-warnings --experimental-strip-types scripts/run-resident-task-evaluation.mjs",
     "validate:data": "node scripts/validate-source-inventory.mjs && node scripts/validate-v1-dataset.mjs",
     "db:generate-seed": "node scripts/generate-supabase-seed.mjs",
     "db:verify-seed": "node scripts/generate-supabase-seed.mjs --check",

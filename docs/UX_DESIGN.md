@@ -144,10 +144,10 @@ The following existing criteria provide the UX evidence:
 | Complete the core flow with keyboard and assistive semantics | NFR-004; AC-NFR-004-01, AC-NFR-004-03 |
 | Retain usable information and controls at 200% zoom | NFR-004; AC-NFR-004-02 |
 | Use visible text actions and 44 by 44 CSS-pixel primary targets | NFR-005; AC-NFR-005-01 |
-| At least 80% begin correctly without instruction and identify the source | NFR-005; AC-NFR-005-02 |
+| At least 80% of frozen resident-task cases reach the expected state and every supported success retains its official source | NFR-005; AC-NFR-005-02 |
 | No horizontal scrolling/obscured controls at representative widths | NFR-006; AC-NFR-006-01 |
 | Complete the one-input and four-state resident journey | FR-001, FR-006, FR-008, FR-009, FR-011, FR-012 and their mapped ACs |
-| Demonstrate material improvement over the official workflow | AC-V1-01 and EVALUATION_PLAN |
+| Preserve 100% critical safe handling, 100% supported source association, and zero unsupported claims in the frozen benchmark | AC-V1-01 and EVALUATION_PLAN |
 
 Also record invalid-submission rate, ambiguity recovery, task errors, recovery failures, source-identification success, completion time, and observed accessibility barriers. The small user study is directional and may not be generalized to all Oʻahu residents.
 

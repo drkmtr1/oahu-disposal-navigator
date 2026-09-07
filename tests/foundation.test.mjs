@@ -20,6 +20,8 @@ test("BL-003 / AC-NFR-012-01: package scripts and dependency versions are reprod
     "validate:data",
     "validate:evaluation",
     "validate:ai-experiment",
+    "validate:resident-tasks",
+    "evaluate:resident-tasks",
   ];
 
   for (const script of requiredScripts) {
@@ -79,6 +81,8 @@ test("BL-003 / AC-NFR-012-01: CI gates every implemented validation layer", asyn
     "npm run validate:evaluation",
     "npm run evaluate:deterministic",
     "npm run validate:ai-experiment",
+    "npm run validate:resident-tasks",
+    "npm run evaluate:resident-tasks",
     "npm run check:secrets",
     "npm run build",
     "npm run check:client-bundle",

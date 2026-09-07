@@ -33,7 +33,7 @@ UX criteria below operationalize the presentation and interaction model in [UX_D
 - **AC-NFR-004-02:** At 200% browser zoom, content and controls remain usable without lost information or two-dimensional scrolling at a 1280 CSS-pixel viewport.
 - **AC-NFR-004-03:** Automated accessibility checks report no serious/critical findings; manual screen-reader and focus checks have no blocking defect.
 - **AC-NFR-005-01:** Primary input/action and clarification targets are at least 44 by 44 CSS pixels; critical actions have visible text, and no step requires hover.
-- **AC-NFR-005-02:** In moderated testing, at least 80% of participants begin the correct task without instruction and at least 80% identify the official source after a result.
+- **AC-NFR-005-02:** In the frozen non-participant resident-task benchmark, at least 80% of cases complete the expected task state and every supported success case retains an inspectable official-source association.
 - **AC-NFR-006-01:** At 320, 375, 768, and 1280 CSS-pixel viewports, all four states have no page-level horizontal scrolling or obscured control.
 - **AC-NFR-007-01:** A representative measurement reports deterministic p95 ≤1.5 s and, if present, AI-path p95 ≤5 s; breaches are visible and timeout behavior remains safe.
 - **AC-NFR-008-01:** Secret scanning and bundle inspection find no elevated Supabase/model secret; anonymous database tests allow only intended reads and deny insert/update/delete.
@@ -46,7 +46,7 @@ UX criteria below operationalize the presentation and interaction model in [UX_D
 
 ## V1 product outcome gate
 
-- **AC-V1-01:** In the comparative pilot, the navigator has no critical safety error and achieves either at least a 15 percentage-point task-completion improvement or at least a 25% lower median completion time than the official workflow, while navigator completion is at least 80%.
+- **AC-V1-01:** In the frozen non-participant resident-task benchmark, expected-state completion is at least 80%, designated critical cases are handled safely at 100%, supported success cases retain official-source association at 100%, and unsupported disposal-claim count is zero.
 - **AC-V1-02:** All applicable backlog and V1 Definition of Done checks are evidenced; deployment alone is insufficient.
 
-The effect threshold is intentionally large enough to be meaningful in a small directional pilot. Results will be reported with sample size and raw task outcomes, not generalized to all residents.
+Results are reported with case composition and raw task outcomes. This benchmark verifies designed behavior; it is not evidence of observed human comprehension, ease, speed, population outcomes, or superiority over an official workflow.

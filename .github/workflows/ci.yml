@@ -57,6 +57,9 @@ jobs:
       - name: Validate recorded AI value experiment
         run: npm run validate:ai-experiment
 
+      - name: Validate and run resident-task benchmark
+        run: npm run validate:resident-tasks && npm run evaluate:resident-tasks
+
       - name: Verify generated database seed
         run: npm run db:verify-seed
 

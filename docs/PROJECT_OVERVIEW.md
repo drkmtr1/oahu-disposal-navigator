@@ -8,7 +8,7 @@ The target user is any OÊ»ahu resident, across ages, devices, reading abilities,
 
 ## Current workaround and value
 
-The mandate identifies the current workaround as navigating official City and County of Honolulu information and translating an item into government terminology. This is a project hypothesis, not yet validated user-research evidence. Stage 2 source discovery and later comparative user testing will establish how many pages/actions are normally required and whether the navigator improves correctness, completion, or speed.
+The mandate identifies the current workaround as navigating official City and County of Honolulu information and translating an item into government terminology. This remains a project hypothesis, not user-research evidence. The V1 non-participant benchmark verifies bounded system behavior but cannot establish observed resident comprehension, ease, speed, or superiority over the official workflow.
 
 The value proposition is: enter one ordinary-language item description and receive a structured, authoritative answer, a small clarification choice, or a safe unsupported response.
 
@@ -55,4 +55,4 @@ The portfolio evidence should demonstrate traceable product judgment: problem â†
 
 ## Current status
 
-Stage 1 and BL-001 through BL-007 are merged to `main`; BL-007 squash-merged at `745dece`. The resident-facing four-state UI, clarification selection, recovery behavior, provenance/freshness behavior, and browser accessibility/responsive checks pass, and the project owner reported no blocking issue during the 2026-09-06 manual 200% zoom, keyboard/focus, and Windows Narrator review. BL-008's deterministic baseline is an implementation candidate pending independent human label review, GitHub CI, approval, and merge. Docker-backed CI exercises the local Supabase path because this workstation lacks a compatible runtime. The application-specific hosted Supabase/Vercel project, deployment, AI integration, approved frozen baseline evaluation, and comparative user test have not been created or completed.
+Stage 1 and BL-001 through BL-011 are merged to `main`; BL-011 squash-merged at `95e2744`. The resident-facing four-state UI, clarification selection, recovery behavior, provenance/freshness behavior, deterministic evaluation, and browser accessibility/responsive checks pass, and the project owner reported no blocking issue during the 2026-09-06 manual 200% zoom, keyboard/focus, and Windows Narrator review. ADR-011 keeps V1 deterministic-only after the bounded model experiment failed its critical-safety gate. Docker-backed CI exercises the local Supabase path because this workstation lacks a compatible runtime. The application-specific hosted Supabase/Vercel project, production deployment, BL-012 resident-task benchmark, and release audit are not yet complete.

@@ -2,7 +2,7 @@
 
 This file and approved documents in docs are authoritative after Stage 1. PROJECT_HANDOFF.md remains historical context. If guidance conflicts, use the newest approved requirement or ADR and report the conflict.
 
-Current lifecycle status: Stage 1 and BL-001 through BL-011 are merged to `main`, with BL-011 squash-merged at `95e2744`; conditional BL-010 was closed as not justified. BL-012 comparative resident usability validation is next and requires human participants/consent. The live-data path is exercised by Docker-backed CI because this workstation has no compatible local runtime. No hosted Supabase or Vercel resource exists for this application.
+Current lifecycle status: Stage 1 and BL-001 through BL-011 are merged to `main`, with BL-011 squash-merged at `95e2744`; conditional BL-010 was closed as not justified. BL-012 reproducible resident-task validation is next. ADR-012 removes recruited-participant and consent requirements while preserving explicit non-participant evidence limits. The live-data path is exercised by Docker-backed CI because this workstation has no compatible local runtime. No hosted Supabase or Vercel resource exists for this application.
 
 ## Objective and Level 1 boundary
 
@@ -17,7 +17,7 @@ Build a small, finishable public-interest tool that helps an Oʻahu resident fin
 - Deterministic alias/category matching first.
 - Curated government guidance, visible sources, evidence, and freshness metadata.
 - Responsive, broadly accessible, low-friction experience.
-- Reproducible tests, evaluation, a small comparative user test, and a simple public release.
+- Reproducible tests, a non-participant resident-task benchmark, and a simple public release.
 
 Excluded unless an approved requirement changes scope: accounts/auth, profiles/history, maps/geolocation/routing, booking, illegal-dumping reports, commercial or construction waste, exhaustive item coverage, native apps, image recognition, multilingual support, general chat, autonomous agents, microservices, queues, real-time features, vector search, model training/fine-tuning, Kubernetes, and elaborate analytics/design systems.
 
