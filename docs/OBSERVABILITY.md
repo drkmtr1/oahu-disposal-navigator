@@ -33,6 +33,10 @@ Use structured events such as lookup_completed, lookup_ambiguous, lookup_unsuppo
 
 Never imply that an open port, successful build, or healthy deployment proves the resident flow or data correctness.
 
+BL-011 implements one JSON event per lookup response in `lib/disposal/operations.ts`. The event contract uses bounded names/enums and includes the minimum fields above. It records no item text, IP address/digest, arbitrary header, database/provider payload, evidence passage, or exception message. `X-Request-Id` mirrors the random response identifier so a resident can report a safe reference. Logging failure is contained and cannot alter the safe response.
+
+For this deterministic-only V1, `modelAttempted` is always false. `sourceDataVersion` is the reviewed source verification date for a successful result; it is null otherwise. The application version uses the validated Vercel Git commit SHA when present, and environment uses a bounded Vercel/Node value. Unknown metadata is explicitly `unknown`, never guessed.
+
 ## Forbidden data
 
 Never log secrets, API keys, passwords, database URLs with credentials, authorization tokens, service-role keys, full provider requests/responses, unnecessary raw item text, names/addresses/precise location, sensitive material descriptions, complete evidence passages, client stack traces, or arbitrary headers. Default to no raw input retention.
@@ -44,3 +48,5 @@ Stage 1 defines no paging vendor. Before release, set practical owner-reviewed s
 ## Incident drill
 
 Given a request ID from a generic error, the maintainer should locate the deployment/commit, operation, safe error class, dependency participation, duration, data version, and fallback outcome, then reproduce with a synthetic input. If this cannot be done without raw resident data, observability is insufficiently designed.
+
+BL-011's synthetic database-failure drill verifies that a single `lookup_failed` event identifies the request, route, retrieve operation, database participation, duration, deterministic path, database error class, and retry fallback while the response contains no guidance. The test also proves neither the synthetic raw item nor the thrown dependency detail appears in the event or response. Hosted log search and retention remain BL-013 production verification.

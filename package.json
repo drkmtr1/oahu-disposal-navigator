@@ -32,6 +32,7 @@
     "db:test": "supabase test db --local",
     "db:stop": "supabase stop --no-backup",
     "check:secrets": "node scripts/check-secrets.mjs",
+    "check:client-bundle": "node scripts/check-client-bundle.mjs",
     "audit:dependencies": "npm audit --audit-level=high"
   },
   "dependencies": {

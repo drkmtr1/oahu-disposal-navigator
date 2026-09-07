@@ -126,13 +126,13 @@ AC-V1-01 belongs to BL-012 and BL-014; AC-V1-02 belongs to BL-014. Every row mus
 
 ## BL-009 — AI value/need experiment and ADR
 
-- Status/Priority/Complexity: Experiment candidate complete; mandatory AI gate failed; local and GitHub CI checks pass; pending human review, PR approval, and merge / P1 / M
+- Status/Priority/Complexity: Complete; mandatory AI gate failed and deterministic-only decision approved; squash-merged to `main` at `75b8d0e` / P1 / M
 - Description: Compare bounded provider candidates to baseline on frozen hard/holdout cases; decide implement or deterministic-only.
 - Requirements: FR-004, NFR-003, NFR-007, NFR-010, NFR-012
 - Acceptance criteria: AC-FR-004-01/02 and every AI gate in EVALUATION_PLAN
 - Dependencies: BL-008 and explicit live-call budget/credential
 - Testing: repeated live evaluation, structured validity, containment, latency/token/cost report.
-- Evidence: [BL-009_AI_VALUE_EXPERIMENT.md](BL-009_AI_VALUE_EXPERIMENT.md) records three runs and 180 calls of GPT-5.6 Luna for an estimated $0.044361. Accuracy, structure, latency, cost, containment, and no-guidance gates passed, but repeatable false matches on two critical inputs produced only 92.86% critical safe handling. Proposed ADR-011 therefore selects deterministic-only V1. Local validation and GitHub Actions run `34158975816` pass; human review and merge remain required.
+- Evidence: [BL-009_AI_VALUE_EXPERIMENT.md](BL-009_AI_VALUE_EXPERIMENT.md) records three runs and 180 calls of GPT-5.6 Luna for an estimated $0.044361. Accuracy, structure, latency, cost, containment, and no-guidance gates passed, but repeatable false matches on two critical inputs produced only 92.86% critical safe handling. Accepted ADR-011 therefore selects deterministic-only V1. Local validation and GitHub Actions run `34158975816` passed; human approval and squash merge completed at `75b8d0e`.
 
 ## BL-010 — Conditional bounded AI adapter
 
@@ -145,12 +145,13 @@ AC-V1-01 belongs to BL-012 and BL-014; AC-V1-02 belongs to BL-014. Every row mus
 
 ## BL-011 — Security, reliability, accessibility, and observability hardening
 
-- Status/Priority/Complexity: Blocked by core product / P0 / L
+- Status/Priority/Complexity: Implementation and local validation complete; pending PR/CI review and squash merge / P0 / L
 - Description: Close platform/access, error, rate, logging, privacy, performance, accessibility, and incident-diagnostic gates.
 - Requirements: FR-010, NFR-004, NFR-007, NFR-008, NFR-009, NFR-010, NFR-011, NFR-012
 - Acceptance criteria: all corresponding NFR ACs
 - Dependencies: BL-006/007 and BL-010 if used
 - Testing: threat controls, secret/bundle scan, policy tests, failure injection, logs, performance, accessibility manual/automated.
+- Evidence: [BL-011 hardening review](BL-011_HARDENING_REVIEW.md), dependency-free application rate control, bounded structured diagnostic events, response/security headers, post-build client-bundle scan, and focused failure/privacy/rate/header tests. Existing database policy/integration, deterministic safety/latency, Playwright/axe/reflow, and the completed owner accessibility review remain applicable. Distributed platform rate control, hosted-log drill, and representative production p95 are verified in BL-013 rather than claimed locally.
 
 ## BL-012 — Comparative resident usability validation
 

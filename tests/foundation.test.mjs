@@ -10,6 +10,7 @@ test("BL-003 / AC-NFR-012-01: package scripts and dependency versions are reprod
   const packageJson = JSON.parse(await read("package.json"));
   const requiredScripts = [
     "build",
+    "check:client-bundle",
     "check:secrets",
     "evaluate:deterministic",
     "evaluation:verify-cases",
@@ -80,6 +81,7 @@ test("BL-003 / AC-NFR-012-01: CI gates every implemented validation layer", asyn
     "npm run validate:ai-experiment",
     "npm run check:secrets",
     "npm run build",
+    "npm run check:client-bundle",
     "npm run audit:dependencies",
   ]) {
     assert.ok(workflow.includes(command), `CI must run ${command}`);

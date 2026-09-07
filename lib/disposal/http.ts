@@ -6,11 +6,22 @@ import {
   type LookupRows,
 } from "./domain.ts";
 import { createSupabaseLookupRows } from "./supabase.ts";
+import {
+  createInMemoryRateLimiter,
+  logLookupEvent,
+  runtimeContext,
+  type EventLogger,
+  type LookupEvent,
+  type RateLimiter,
+} from "./operations.ts";
 
 const MAX_REQUEST_BODY_BYTES = 4_096;
 
 type HandlerDependencies = {
+  eventLogger?: EventLogger;
   lookupRows?: LookupRows;
+  now?: () => number;
+  rateLimiter?: RateLimiter;
   requestIdFactory?: () => string;
   today?: () => string;
 };
@@ -33,6 +44,13 @@ type InternalErrorResponse = {
   message: string;
 };
 
+type RateLimitedResponse = {
+  status: "error";
+  reasonCode: "RATE_LIMITED";
+  retryable: true;
+  message: string;
+};
+
 class RequestBodyError extends Error {
   readonly httpStatus: 400 | 413;
 
@@ -45,12 +63,49 @@ class RequestBodyError extends Error {
   }
 }
 
+const defaultRateLimiter = createInMemoryRateLimiter();
+
 export function createDisposalPostHandler(dependencies: HandlerDependencies = {}) {
+  const eventLogger = dependencies.eventLogger ?? logLookupEvent;
+  const now = dependencies.now ?? Date.now;
+  const rateLimiter = dependencies.rateLimiter ?? defaultRateLimiter;
   const requestIdFactory = dependencies.requestIdFactory ?? randomUUID;
   const today = dependencies.today ?? (() => new Date().toISOString().slice(0, 10));
 
   return async function POST(request: Request): Promise<Response> {
     const requestId = requestIdFactory();
+    const startedAt = now();
+    const rateDecision = rateLimiter(request, startedAt);
+
+    if (!rateDecision.allowed) {
+      emitEvent(eventLogger, requestId, startedAt, now(), {
+        event: "rate_limited",
+        operation: "rate_limit",
+        outcome: "rate_limited",
+        reasonCode: "RATE_LIMITED",
+        databaseAttempted: false,
+        modelAttempted: false,
+        databaseDurationMs: null,
+        validationResult: "not_attempted",
+        classificationPath: "none",
+        categoryId: null,
+        sourceDataVersion: null,
+        sourceReviewOutcome: "not_applicable",
+        errorClass: "rate_limit",
+        fallbackOutcome: "retry",
+      });
+      return jsonResponse(
+        {
+          requestId,
+          status: "error",
+          reasonCode: "RATE_LIMITED",
+          retryable: true,
+          message: "Too many requests. Please wait a moment and try again.",
+        },
+        429,
+        { "Retry-After": String(rateDecision.retryAfterSeconds) },
+      );
+    }
 
     try {
       const body = await parseRequestBody(request);
@@ -62,6 +117,7 @@ export function createDisposalPostHandler(dependencies: HandlerDependencies = {}
       });
 
       if ("ok" in outcome) {
+        emitEvent(eventLogger, requestId, startedAt, now(), eventFields("INVALID_INPUT", false));
         return jsonResponse(
           {
             requestId,
@@ -76,9 +132,11 @@ export function createDisposalPostHandler(dependencies: HandlerDependencies = {}
 
       const response = { requestId, ...outcome } as ApiResponse;
       const httpStatus = response.status === "error" ? 503 : 200;
+      emitEvent(eventLogger, requestId, startedAt, now(), outcomeEventFields(outcome));
       return jsonResponse(response, httpStatus);
     } catch (error) {
       if (error instanceof RequestBodyError) {
+        emitEvent(eventLogger, requestId, startedAt, now(), eventFields("INVALID_INPUT", false));
         return jsonResponse(
           {
             requestId,
@@ -91,6 +149,10 @@ export function createDisposalPostHandler(dependencies: HandlerDependencies = {}
         );
       }
 
+      emitEvent(eventLogger, requestId, startedAt, now(), {
+        ...eventFields("INTERNAL", false),
+        errorClass: "internal",
+      });
       return jsonResponse(
         {
           requestId,
@@ -197,13 +259,107 @@ async function readBoundedText(request: Request): Promise<string> {
   }
 }
 
-function jsonResponse(body: ApiResponse, status: number): Response {
+function jsonResponse(
+  body: ApiResponse | RateLimitedResponse & { requestId: string },
+  status: number,
+  additionalHeaders: Record<string, string> = {},
+): Response {
   return Response.json(body, {
     status,
     headers: {
       "Cache-Control": "no-store",
+      "X-Request-Id": body.requestId,
+      ...additionalHeaders,
     },
   });
+}
+
+function eventFields(reasonCode: string, databaseAttempted: boolean): Omit<LookupEvent,
+  "timestamp" | "requestId" | "applicationVersion" | "environment" | "route" | "totalDurationMs"
+> {
+  return {
+    event: "lookup_failed",
+    operation: databaseAttempted ? "retrieve" : "validate",
+    outcome: "error",
+    reasonCode,
+    databaseAttempted,
+    modelAttempted: false,
+    databaseDurationMs: databaseAttempted ? 0 : null,
+    validationResult: databaseAttempted ? "accepted" : "rejected",
+    classificationPath: databaseAttempted ? "deterministic" : "none",
+    categoryId: null,
+    sourceDataVersion: null,
+    sourceReviewOutcome: "not_applicable",
+    errorClass: databaseAttempted ? "database" : "validation",
+    fallbackOutcome: databaseAttempted ? "retry" : "none",
+  };
+}
+
+function outcomeEventFields(outcome: LookupOutcome): ReturnType<typeof eventFields> {
+  if (outcome.status === "success") {
+    return {
+      ...eventFields("MATCHED", true),
+      event: "lookup_completed",
+      operation: "assemble",
+      outcome: "success",
+      databaseDurationMs: 0,
+      categoryId: outcome.category.id,
+      sourceDataVersion: outcome.source.verifiedOn,
+      sourceReviewOutcome: "eligible",
+      errorClass: null,
+      fallbackOutcome: "guidance",
+    };
+  }
+  if (outcome.status === "ambiguous") {
+    return {
+      ...eventFields("AMBIGUOUS", true),
+      event: "lookup_ambiguous",
+      operation: "classify",
+      outcome: "ambiguous",
+      databaseDurationMs: 0,
+      errorClass: null,
+      fallbackOutcome: "clarification",
+    };
+  }
+  if (outcome.status === "unsupported") {
+    const evidenceRejected = outcome.reasonCode === "EVIDENCE_UNAVAILABLE";
+    return {
+      ...eventFields(outcome.reasonCode, true),
+      event: evidenceRejected ? "evidence_rejected" : "lookup_unsupported",
+      operation: evidenceRejected ? "assemble" : "classify",
+      outcome: "unsupported",
+      databaseDurationMs: 0,
+      sourceReviewOutcome: evidenceRejected ? "rejected" : "not_applicable",
+      errorClass: evidenceRejected ? "evidence" : null,
+      fallbackOutcome: "official_fallback",
+    };
+  }
+  return eventFields(outcome.reasonCode, true);
+}
+
+function emitEvent(
+  logger: EventLogger,
+  requestId: string,
+  startedAt: number,
+  endedAt: number,
+  fields: Omit<LookupEvent,
+    "timestamp" | "requestId" | "applicationVersion" | "environment" | "route" | "totalDurationMs"
+  >,
+): void {
+  const totalDurationMs = Math.max(0, Math.round(endedAt - startedAt));
+  try {
+    logger({
+      ...runtimeContext(),
+      ...fields,
+      timestamp: new Date().toISOString(),
+      requestId,
+      route: "/api/disposal-options",
+      totalDurationMs,
+      databaseDurationMs: fields.databaseDurationMs === null ? null : totalDurationMs,
+    });
+  } catch {
+    // Diagnostics must never change the safe resident response.
+  }
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
