@@ -2,7 +2,7 @@
 
 This file and approved documents in docs are authoritative after Stage 1. PROJECT_HANDOFF.md remains historical context. If guidance conflicts, use the newest approved requirement or ADR and report the conflict.
 
-Current lifecycle status: Stage 1 and BL-001 through BL-009 are merged to `main`, with BL-009 squash-merged at `75b8d0e`. ADR-011 keeps V1 deterministic-only and closes conditional BL-010 as not justified. BL-011 hardening is the current focused feature branch. The live-data path is exercised by Docker-backed CI because this workstation has no compatible local runtime. No hosted Supabase or Vercel resource exists for this application.
+Current lifecycle status: Stage 1 and BL-001 through BL-011 are merged to `main`, with BL-011 squash-merged at `95e2744`; conditional BL-010 was closed as not justified. BL-012 comparative resident usability validation is next and requires human participants/consent. The live-data path is exercised by Docker-backed CI because this workstation has no compatible local runtime. No hosted Supabase or Vercel resource exists for this application.
 
 ## Objective and Level 1 boundary
 

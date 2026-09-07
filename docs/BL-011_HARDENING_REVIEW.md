@@ -2,7 +2,7 @@
 
 ## Scope and result
 
-BL-011 closes the pre-deployment application hardening gates for FR-010 and NFR-004/007/008/009/010/011/012. It adds no resident feature, category, disposal claim, AI path, external resource, or dependency. Production-only platform verification remains explicitly assigned to BL-013.
+BL-011 closes the pre-deployment application hardening gates for FR-010 and NFR-004/007/008/009/010/011/012. GitHub Actions run `34162170691` passed Foundation and Docker-backed Database jobs, and PR #8 was squash-merged at `95e2744`. It adds no resident feature, category, disposal claim, AI path, external resource, or dependency. Production-only platform verification remains explicitly assigned to BL-013.
 
 ## Control evidence
 
