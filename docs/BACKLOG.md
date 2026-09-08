@@ -175,7 +175,7 @@ AC-V1-01 belongs to BL-012 and BL-014; AC-V1-02 belongs to BL-014. Every row mus
 
 ## BL-014 — V1 release audit and tag
 
-- Status/Priority/Complexity: Next eligible / P0 / M
+- Status/Priority/Complexity: In progress / P0 / M
 - Description: Audit every requirement/AC, source freshness, risk, known limitation, documentation, production behavior, and V1 DoD; tag only if all gates pass.
 - Requirements: all FR-001–FR-013 and NFR-001–NFR-014
 - Acceptance criteria: all functional/nonfunctional ACs, AC-V1-01, AC-V1-02

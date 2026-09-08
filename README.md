@@ -1,6 +1,6 @@
 # Oʻahu Household Item Disposal Navigator
 
-Status: **Stage 1 and BL-001 through BL-013 are merged. V1 is deterministic-only and has a controlled production deployment; BL-014 V1 release audit and tag is next.**
+Status: **Stage 1 and BL-001 through BL-013 are merged. V1 is deterministic-only and has a controlled production deployment; BL-014 V1 release audit and tag is in progress.**
 
 The Oʻahu Household Item Disposal Navigator is a small public-interest web project for residents who need to understand how to dispose of a common household item. Official guidance can require people to translate ordinary item names into government categories and combine information from several pages. V1 will provide a single plain-language lookup and return a structured, source-backed result or a clear clarification/unsupported state.
 
