@@ -1,6 +1,6 @@
 # Oʻahu Household Item Disposal Navigator
 
-Status: **Stage 1 and BL-001 through BL-012 are merged. V1 is deterministic-only; BL-013 controlled production release is next and requires owner authorization and platform credentials.**
+Status: **Stage 1 and BL-001 through BL-012 are merged. V1 is deterministic-only; BL-013 has a live controlled production deployment, with its destructive backup/restore drill still pending explicit authorization.**
 
 The Oʻahu Household Item Disposal Navigator is a small public-interest web project for residents who need to understand how to dispose of a common household item. Official guidance can require people to translate ordinary item names into government categories and combine information from several pages. V1 will provide a single plain-language lookup and return a structured, source-backed result or a clear clarification/unsupported state.
 
@@ -12,7 +12,7 @@ V1 excludes accounts, authentication, saved history, maps, geolocation, booking,
 
 ## Architecture
 
-The implementation is one TypeScript web application, using Next.js as the minimal full-stack framework, intended for Vercel and connected through server-side application routes to Supabase PostgreSQL. BL-004 keeps curated tables in a non-exposed `private` schema and exposes one read-only, freshness-filtered `api.disposal_lookup` view. BL-005 adds the same-origin `POST /api/disposal-options` route, deterministic exact-alias matching, runtime database-response validation, and safe ambiguity/unsupported/error responses. Browser code receives only validated response data. No application-specific Supabase or Vercel hosted project has been linked or verified.
+The implementation is one TypeScript web application, using Next.js as the minimal full-stack framework, hosted on Vercel and connected through server-side application routes to Supabase PostgreSQL. BL-004 keeps curated tables in a non-exposed `private` schema and exposes one read-only, freshness-filtered `api.disposal_lookup` view. BL-005 adds the same-origin `POST /api/disposal-options` route, deterministic exact-alias matching, runtime database-response validation, and safe ambiguity/unsupported/error responses. Browser code receives only validated response data. The controlled production deployment is live; its remaining release gate is documented in [the BL-013 release record](docs/BL-013_PRODUCTION_RELEASE.md).
 
 The interface is a mobile-first, single-column public-service lookup with four states: initial, success, ambiguous, and unsupported/error. Semantic HTML, keyboard operation, visible focus, strong contrast, plain language, scalable text, and generous touch targets are normal acceptance requirements.
 
@@ -48,7 +48,7 @@ npm run db:test
 npm run db:stop
 ~~~
 
-BL-006 adds the resident form and the initial, structured-success, clarification, and unsupported/error experiences. It includes visible source/trust information, edit/search-again controls, keyboard focus and status handling, responsive 44-pixel controls, one user-initiated transient retry, and safe abstention when a resident is unsure. On 2026-09-06, the project owner reported that 200% zoom, keyboard/focus operation, and Windows Narrator worked without a blocking accessibility issue. BL-007 adds progressively disclosed stored evidence, source update/verification/review-by dates, explicit append-only source-verification history, the [manual source review runbook](docs/SOURCE_REVIEW_RUNBOOK.md), and full canonical provenance/freshness regression coverage. Docker-backed CI exercises the local Supabase path because this workstation has no compatible local runtime. No Supabase/Vercel resource has been linked or deployed.
+BL-006 adds the resident form and the initial, structured-success, clarification, and unsupported/error experiences. It includes visible source/trust information, edit/search-again controls, keyboard focus and status handling, responsive 44-pixel controls, one user-initiated transient retry, and safe abstention when a resident is unsure. On 2026-09-06, the project owner reported that 200% zoom, keyboard/focus operation, and Windows Narrator worked without a blocking accessibility issue. BL-007 adds progressively disclosed stored evidence, source update/verification/review-by dates, explicit append-only source-verification history, the [manual source review runbook](docs/SOURCE_REVIEW_RUNBOOK.md), and full canonical provenance/freshness regression coverage. Docker-backed CI exercises the local Supabase path because this workstation has no compatible local runtime. BL-013 now verifies the actual browser → server → Supabase path in production; it does not alter the local-runtime limitation.
 
 BL-008 establishes the human-reviewed deterministic baseline. BL-009's [AI value experiment](docs/BL-009_AI_VALUE_EXPERIMENT.md) found that GPT-5.6 Luna improved ordinary-language classification but repeatedly false-matched two critical inputs, so the mandatory gate failed and accepted ADR-011 keeps V1 deterministic-only. Live model calls remain outside normal CI and are not part of the application.
 

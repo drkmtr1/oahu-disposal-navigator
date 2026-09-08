@@ -165,12 +165,13 @@ AC-V1-01 belongs to BL-012 and BL-014; AC-V1-02 belongs to BL-014. Every row mus
 
 ## BL-013 — Controlled Supabase and Vercel production release
 
-- Status/Priority/Complexity: Blocked by all release gates / P0 / L
+- Status/Priority/Complexity: In progress; blocked only by the explicitly authorized backup/restore drill / P0 / L
 - Description: Create authorized external resources, apply approved schema/data, configure environment secrets, connect GitHub/Vercel, deploy, smoke test, and record rollback/operations evidence.
 - Requirements: NFR-007, NFR-008, NFR-011, NFR-014
 - Acceptance criteria: AC-NFR-007-01, AC-NFR-008-01, AC-NFR-011-01, AC-NFR-014-01
 - Dependencies: BL-011, BL-012 and credentials/owner approval
 - Testing: migration/access, full production E2E, HTTPS/security, log diagnosis, rollback drill.
+- Evidence: [BL-013 production release record](BL-013_PRODUCTION_RELEASE.md) records the 2026-09-08 hosted migration/seed load, live browser states, HTTPS/headers, 20-sample p95 of 582.5 ms, sanitized log diagnosis, Vercel IP rate rule, and read-only Data API access verification. The initial Data API object-exposure configuration reintroduced anonymous write grants on the exposed view; reviewed migration `20260908063946_bl_013_api_view_read_only` corrected this and hosted verification now shows SELECT-only access. The remaining gate is a destructive logical export/restore drill, which has not been performed because it requires distinct owner authorization.
 
 ## BL-014 — V1 release audit and tag
 
