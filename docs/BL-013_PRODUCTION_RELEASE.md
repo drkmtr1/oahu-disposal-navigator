@@ -2,7 +2,7 @@
 
 ## Status and boundary
 
-**Status: in progress.** The controlled production lookup is live, but BL-013 is not complete and V1 is not release-audited. The remaining human-only gate is a destructive logical export/restore drill; it has not been run or authorized.
+**Status: complete.** The controlled production lookup is live. The project owner removed the destructive logical export/restore drill from V1 release requirements on 2026-09-08. The drill has not been run and is not claimed as release evidence.
 
 - Release owner and recovery owner: `drkmtr1`
 - Recovery-time objective: 24 hours
@@ -52,7 +52,7 @@ The Supabase dashboard shows a current physical backup and states that project d
 
 Application rollback uses Vercel's last verified READY deployment. Data/schema rollback uses a reviewed forward corrective migration or approved data correction; production reset is prohibited. The Vercel redeploy control was exercised while applying the repaired configuration. A rollback to a distinct earlier verified artifact is not claimed because no such production artifact exists yet.
 
-The required tested logical export/restore path is intentionally **not** claimed. Performing it could restore a database or create a temporary restore project. It requires a separate owner decision covering target, cost, data handling, and cleanup. Until that drill is authorized and documented, BL-013 and the V1 release audit remain blocked.
+No logical export/restore drill is claimed. Performing one could restore a database or create a temporary restore project, so it remains an optional future exercise requiring a separate owner decision covering target, cost, data handling, and cleanup. V1 recovery evidence is limited to verified provider backup availability, a named recovery owner/objective, the controlled Vercel rollback path, and reviewed forward-correction procedures for data/schema.
 
 ## Known operational notes
 
@@ -69,4 +69,4 @@ The required tested logical export/restore path is intentionally **not** claimed
 | NFR-011 | AC-NFR-011-01 | Sanitized production failure event is diagnosable with minimum structured fields and no raw input or secret. |
 | NFR-014 | AC-NFR-014-01 | GitHub `main` → Vercel production → same-origin server route → Supabase topology, HTTPS/headers, and Preview separation verified. |
 
-The unfulfilled recovery drill prevents marking any of these release gates, BL-013, or BL-014 complete.
+The removal of the destructive drill does not weaken the verified access, source, privacy, performance, observability, or rollback controls above. BL-014 must still independently audit all V1 Definition of Done and acceptance gates before tagging a release.

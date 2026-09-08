@@ -1,6 +1,6 @@
 # Oʻahu Household Item Disposal Navigator
 
-Status: **Stage 1 and BL-001 through BL-012 are merged. V1 is deterministic-only; BL-013 has a live controlled production deployment, with its destructive backup/restore drill still pending explicit authorization.**
+Status: **Stage 1 and BL-001 through BL-013 are merged. V1 is deterministic-only and has a controlled production deployment; BL-014 V1 release audit and tag is next.**
 
 The Oʻahu Household Item Disposal Navigator is a small public-interest web project for residents who need to understand how to dispose of a common household item. Official guidance can require people to translate ordinary item names into government categories and combine information from several pages. V1 will provide a single plain-language lookup and return a structured, source-backed result or a clear clarification/unsupported state.
 
@@ -12,7 +12,7 @@ V1 excludes accounts, authentication, saved history, maps, geolocation, booking,
 
 ## Architecture
 
-The implementation is one TypeScript web application, using Next.js as the minimal full-stack framework, hosted on Vercel and connected through server-side application routes to Supabase PostgreSQL. BL-004 keeps curated tables in a non-exposed `private` schema and exposes one read-only, freshness-filtered `api.disposal_lookup` view. BL-005 adds the same-origin `POST /api/disposal-options` route, deterministic exact-alias matching, runtime database-response validation, and safe ambiguity/unsupported/error responses. Browser code receives only validated response data. The controlled production deployment is live; its remaining release gate is documented in [the BL-013 release record](docs/BL-013_PRODUCTION_RELEASE.md).
+The implementation is one TypeScript web application, using Next.js as the minimal full-stack framework, hosted on Vercel and connected through server-side application routes to Supabase PostgreSQL. BL-004 keeps curated tables in a non-exposed `private` schema and exposes one read-only, freshness-filtered `api.disposal_lookup` view. BL-005 adds the same-origin `POST /api/disposal-options` route, deterministic exact-alias matching, runtime database-response validation, and safe ambiguity/unsupported/error responses. Browser code receives only validated response data. The controlled production deployment is live; its operational evidence is in [the BL-013 release record](docs/BL-013_PRODUCTION_RELEASE.md).
 
 The interface is a mobile-first, single-column public-service lookup with four states: initial, success, ambiguous, and unsupported/error. Semantic HTML, keyboard operation, visible focus, strong contrast, plain language, scalable text, and generous touch targets are normal acceptance requirements.
 

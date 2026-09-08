@@ -1,6 +1,6 @@
 # Deployment
 
-This document defines the reproducible operating path. Stage 1 created no hosted resource; BL-013 has since created the application-specific Supabase project and Vercel production deployment. The controlled deployment is live but BL-013 is not complete until the explicitly authorized backup/restore drill is recorded. Current evidence and known limits are in [BL-013_PRODUCTION_RELEASE.md](BL-013_PRODUCTION_RELEASE.md).
+This document defines the reproducible operating path. Stage 1 created no hosted resource; BL-013 has since created the application-specific Supabase project and Vercel production deployment. The controlled deployment is live. Current evidence, backup/recovery boundaries, and known limits are in [BL-013_PRODUCTION_RELEASE.md](BL-013_PRODUCTION_RELEASE.md).
 
 ## Local development
 
@@ -18,7 +18,7 @@ Use focused backlog branches and PRs. CI grows with implementation and gates rep
 
 Use local/test data during development and one production Supabase project only when the deployment backlog authorizes it. BL-004 did not create a hosted project. In BL-013 the hosted Data API uses an explicit allowlist: `api` is the only exposed schema and `api.disposal_lookup` is the only exposed object; `private` is not exposed. Vercel's two Supabase variables are Production-only, so Preview has no production Supabase credential or data path. Apply reviewed migrations through a controlled release step; verify migration order/status and access policies before application promotion. Version reference seeds/data changes.
 
-Before production, document provider backup availability, a tested logical export/restore path appropriate to the plan, responsible owner, and recovery objective. Roll back deployed schema by a reviewed forward corrective migration; never reset a production database.
+Before production, document provider backup availability, responsible owner, recovery objective, and application/data rollback paths. A destructive logical export/restore drill is not a V1 release requirement. Roll back deployed schema by a reviewed forward corrective migration; never reset a production database.
 
 ## Vercel
 
