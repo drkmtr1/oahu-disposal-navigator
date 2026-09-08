@@ -32,7 +32,7 @@ BL-013 creates authorized Supabase/Vercel production resources, applies reviewed
 
 ## M7 — V1.0
 
-BL-014 audits requirements, AC-V1 gates, known limitations, source freshness, security, operations, README, and release evidence; tag v1.0.0 only if DEFINITION_OF_DONE passes. **In progress.**
+BL-014 audits requirements, AC-V1 gates, known limitations, source freshness, security, operations, README, and release evidence; tag v1.0.0 only if DEFINITION_OF_DONE passes. **Complete at `v1.0.0`.**
 
 ## M8 — Retrospective
 

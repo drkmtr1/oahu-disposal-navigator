@@ -2,7 +2,7 @@
 
 ## Audit status and boundary
 
-**Status: in progress.** This is the V1 release-audit record for the Oʻahu Household Item Disposal Navigator. It evaluates the frozen 15-category, deterministic-only product against the approved requirements, acceptance criteria, production evidence, source-freshness records, risks, and [Definition of Done](DEFINITION_OF_DONE.md). It does not add a category, disposal claim, AI path, data source, or application feature.
+**Status: complete.** This is the V1 release-audit record for the Oʻahu Household Item Disposal Navigator. It evaluates the frozen 15-category, deterministic-only product against the approved requirements, acceptance criteria, production evidence, source-freshness records, risks, and [Definition of Done](DEFINITION_OF_DONE.md). It does not add a category, disposal claim, AI path, data source, or application feature.
 
 - Audit branch: `codex/BL-014-v1-release-audit`
 - Production URL: <https://oahu-disposal-navigator.vercel.app/>
@@ -42,7 +42,7 @@ The release remains within the Level 1 contract:
 | Observability and CI | NFR-011, NFR-012; AC-NFR-011-01, AC-NFR-012-01 | Sanitized structured-event drill, current local validation, and required GitHub Foundation/Database CI jobs. | Pass |
 | Traceability and topology | NFR-013, NFR-014; AC-NFR-013-01, AC-NFR-014-01 | Backlog/requirements/AC mapping, focused PR history, ADRs, GitHub → Vercel → same-origin server → Supabase review, HTTPS and environment separation. | Pass |
 | Product outcome | AC-V1-01 | Frozen 20-case non-participant benchmark: expected-state completion 20/20, source association 10/10, critical safe handling 8/8, unsupported claims 0. | Pass |
-| V1 release readiness | AC-V1-02 | This audit, BL-013 production record, requirement/AC mapping, source freshness status, risk review, DoD review, and final CI/PR evidence. | Pending final CI/merge |
+| V1 release readiness | AC-V1-02 | This audit, BL-013 production record, requirement/AC mapping, source freshness status, risk review, DoD review, and final CI/PR evidence. | Pass |
 
 ## Current production recheck
 
@@ -71,4 +71,4 @@ The risk register's high-severity source integrity, safety, accessibility, datab
 
 ## Release decision
 
-BL-014 may be marked complete and `v1.0.0` may be tagged only after this branch's required CI is green, the full diff is reviewed for scope creep, and this audit is merged. Until then, this document is a release-audit candidate rather than a release claim.
+The required CI and preview checks passed, the full audit diff was reviewed for scope creep, and BL-014 was squash-merged. The annotated `v1.0.0` tag identifies the merged V1 release-audit commit.
