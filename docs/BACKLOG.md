@@ -165,16 +165,17 @@ AC-V1-01 belongs to BL-012 and BL-014; AC-V1-02 belongs to BL-014. Every row mus
 
 ## BL-013 — Controlled Supabase and Vercel production release
 
-- Status/Priority/Complexity: Blocked by all release gates / P0 / L
+- Status/Priority/Complexity: Complete / P0 / L
 - Description: Create authorized external resources, apply approved schema/data, configure environment secrets, connect GitHub/Vercel, deploy, smoke test, and record rollback/operations evidence.
 - Requirements: NFR-007, NFR-008, NFR-011, NFR-014
 - Acceptance criteria: AC-NFR-007-01, AC-NFR-008-01, AC-NFR-011-01, AC-NFR-014-01
 - Dependencies: BL-011, BL-012 and credentials/owner approval
-- Testing: migration/access, full production E2E, HTTPS/security, log diagnosis, rollback drill.
+- Testing: migration/access, full production E2E, HTTPS/security, log diagnosis, and documented backup/recovery and rollback controls.
+- Evidence: [BL-013 production release record](BL-013_PRODUCTION_RELEASE.md) records the 2026-09-08 hosted migration/seed load, live browser states, HTTPS/headers, 20-sample p95 of 582.5 ms, sanitized log diagnosis, Vercel IP rate rule, documented daily backup availability/recovery owner and objective, and read-only Data API access verification. The initial Data API object-exposure configuration reintroduced anonymous write grants on the exposed view; reviewed migration `20260908063946_bl_013_api_view_read_only` corrected this and hosted verification now shows SELECT-only access. The project owner removed the destructive logical export/restore drill from V1 release requirements on 2026-09-08; no such drill is claimed as evidence.
 
 ## BL-014 — V1 release audit and tag
 
-- Status/Priority/Complexity: Blocked by BL-013 / P0 / M
+- Status/Priority/Complexity: Next eligible / P0 / M
 - Description: Audit every requirement/AC, source freshness, risk, known limitation, documentation, production behavior, and V1 DoD; tag only if all gates pass.
 - Requirements: all FR-001–FR-013 and NFR-001–NFR-014
 - Acceptance criteria: all functional/nonfunctional ACs, AC-V1-01, AC-V1-02

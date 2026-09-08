@@ -2,7 +2,7 @@
 
 This file and approved documents in docs are authoritative after Stage 1. PROJECT_HANDOFF.md remains historical context. If guidance conflicts, use the newest approved requirement or ADR and report the conflict.
 
-Current lifecycle status: Stage 1 and BL-001 through BL-012 are merged to `main`, with BL-012 squash-merged at `6fbf275`; conditional BL-010 was closed as not justified. ADR-012 removed recruited-participant and consent requirements while preserving explicit non-participant evidence limits. BL-013 controlled production release is next and requires owner authorization plus Supabase and Vercel credentials. The live-data path is exercised by Docker-backed CI because this workstation has no compatible local runtime. No hosted Supabase or Vercel resource exists for this application.
+Current lifecycle status: Stage 1 and BL-001 through BL-012 are merged to `main`, with BL-012 squash-merged at `6fbf275`; conditional BL-010 was closed as not justified. ADR-012 removed recruited-participant and consent requirements while preserving explicit non-participant evidence limits. BL-013 controlled production release is complete: the application-specific Supabase project and Vercel production deployment are live, with documented backup availability, recovery ownership/objective, application rollback, and forward-only data/schema correction. The live-data path is exercised by Docker-backed CI because this workstation has no compatible local runtime. See `docs/BL-013_PRODUCTION_RELEASE.md` for current evidence and limits.
 
 ## Objective and Level 1 boundary
 
