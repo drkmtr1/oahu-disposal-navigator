@@ -1,6 +1,6 @@
 # BL-012 resident-task evaluation
 
-- Status: Implementation candidate pending CI, review, and merge
+- Status: Complete; PR #10 squash-merged to `main` at `6fbf275`
 - Decision basis: [ADR-012](DECISIONS.md#adr-012--replace-recruited-participant-study-with-reproducible-resident-task-benchmark)
 
 ## Purpose and boundary
@@ -35,6 +35,8 @@ The dependency-free runner executes the same application evaluation path used by
 | Unsupported disposal claims | 0 | 0 | Pass |
 
 The complete selected-case IDs, expected states, critical flags, and source expectations are in [`data/evaluation/resident-task-cases.json`](../data/evaluation/resident-task-cases.json). Raw resolver outcomes remain reproducible from the runner and underlying frozen dataset rather than being manually transcribed.
+
+GitHub Actions run `34165136596` passed both Foundation and Docker-backed Database checks before merge.
 
 ## Browser and accessibility evidence
 

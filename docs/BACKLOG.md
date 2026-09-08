@@ -155,12 +155,13 @@ AC-V1-01 belongs to BL-012 and BL-014; AC-V1-02 belongs to BL-014. Every row mus
 
 ## BL-012 — Reproducible resident-task validation
 
-- Status/Priority/Complexity: In progress / P0 / M
+- Status/Priority/Complexity: Complete; squash-merged to `main` at `6fbf275` / P0 / M
 - Description: Run the approved frozen non-participant resident-task benchmark, report limitations/failures, and create a bounded corrective item only if a gate fails.
 - Requirements: FR-001, FR-006, FR-008, FR-009, FR-011, NFR-004, NFR-005, NFR-006, NFR-012
 - Acceptance criteria: AC-NFR-005-02 and AC-V1-01
 - Dependencies: BL-011
 - Testing: fixture validation, raw/aggregate metric verification, repeatability, safety/source-association gates, and claim-boundary review.
+- Evidence: [BL-012 resident-task evaluation](BL-012_RESIDENT_TASK_EVALUATION.md), frozen 20-case fixture, dependency-free validator/runner, focused repeatability and claim-boundary tests, and GitHub Actions run `34165136596`. Foundation and Docker-backed Database checks passed before PR #10 was squash-merged.
 
 ## BL-013 — Controlled Supabase and Vercel production release
 
