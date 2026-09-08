@@ -49,7 +49,7 @@ Accounts, authentication, profiles, saved history, personalization, maps, GPS, r
 
 ## Scope-change control
 
-Classify every proposal as Required for V1, Useful but defer, Future-level capability, or Unnecessary. A V1 change is legitimate only when supported by a defect, authoritative-source evidence, evaluation/user-test evidence, accessibility need, security/reliability need, or an existing requirement that cannot otherwise be met.
+Classify every proposal as Required for V1, Useful but defer, Future-level capability, or Unnecessary. A V1 change is legitimate only when supported by a defect, authoritative-source evidence, evaluation/resident-task benchmark evidence, accessibility need, security/reliability need, or an existing requirement that cannot otherwise be met.
 
 A scope change requires:
 

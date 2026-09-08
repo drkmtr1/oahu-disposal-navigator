@@ -41,4 +41,4 @@ IDs are stable after Stage 1. Change meaning through review; do not reuse or cas
 
 ## Threshold rationale
 
-Zero unsupported claims and perfect citation association are release gates because a fluent wrong instruction is the critical harm. The latency targets keep a one-step lookup feeling immediate while allowing a bounded external call. WCAG 2.2 AA and 44-pixel targets are broadly recognized, testable baselines. Comparative UX thresholds are defined and justified in EVALUATION_PLAN; they are pilot decision rules rather than population-level claims.
+Zero unsupported claims and perfect citation association are release gates because a fluent wrong instruction is the critical harm. The latency targets keep a one-step lookup feeling immediate while allowing a bounded external call. WCAG 2.2 AA and 44-pixel targets are broadly recognized, testable baselines. The frozen resident-task benchmark thresholds are defined and justified in EVALUATION_PLAN; they verify repeatable system behavior rather than population-level outcomes.

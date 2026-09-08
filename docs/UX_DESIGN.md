@@ -149,7 +149,7 @@ The following existing criteria provide the UX evidence:
 | Complete the one-input and four-state resident journey | FR-001, FR-006, FR-008, FR-009, FR-011, FR-012 and their mapped ACs |
 | Preserve 100% critical safe handling, 100% supported source association, and zero unsupported claims in the frozen benchmark | AC-V1-01 and EVALUATION_PLAN |
 
-Also record invalid-submission rate, ambiguity recovery, task errors, recovery failures, source-identification success, completion time, and observed accessibility barriers. The small user study is directional and may not be generalized to all Oʻahu residents.
+The frozen resident-task benchmark records expected state, safe handling, source association, and unsupported-claim outcomes. Automated and owner-reviewed accessibility evidence records keyboard, zoom, screen-reader, responsive, and recovery barriers. Neither source establishes observed resident comprehension, ease, completion time, or population outcomes.
 
 ## Design guardrails
 

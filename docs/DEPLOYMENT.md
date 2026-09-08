@@ -31,7 +31,7 @@ Preview uses non-production Supabase data/credentials. Production points only to
 
 ## Release sequence
 
-1. Confirm source/data version, ACs, security/access review, evaluation, and user-test gates.
+1. Confirm source/data version, ACs, security/access review, deterministic evaluation, the frozen non-participant resident-task benchmark, and applicable accessibility evidence.
 2. Freeze candidate commit and pass CI.
 3. Back up/confirm recovery and apply production migrations/data through the approved mechanism.
 4. Run database constraints, read, write-denial, and provenance smoke checks.
